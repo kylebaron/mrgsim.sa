@@ -25,4 +25,4 @@ mod %>%
   plot_sens(CP)
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-2-1.png)
+![](inst/img/README-unnamed-chunk-2-1.png)

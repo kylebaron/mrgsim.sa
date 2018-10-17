@@ -4,7 +4,8 @@ output: github_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, message = FALSE, comment = '.')
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, comment = '.', 
+                      fig.path = "inst/img/README-")
 ```
 
 ```{r}
