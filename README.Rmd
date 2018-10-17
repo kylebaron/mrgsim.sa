@@ -1,0 +1,27 @@
+---
+title: "parseq"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, comment = '.')
+```
+
+```{r}
+library(parseq)
+```
+
+
+
+```{r}
+mod <- mread("pk1", modlib(), end = 48, delta=0.1)
+
+param(mod)
+
+mod %>% 
+  ev(amt = 100) %>% 
+  parseq_factor(CL,V,.n=3) %>% 
+  sens_each() %>% 
+  plot_sens(CP)
+```
+
