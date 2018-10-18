@@ -32,9 +32,9 @@ plot_sens <- function(data, y, x = "time", col = split,
     if(nlev <=1) col <- FALSE
     
     if(nlev <= 16 & col) {
-      .data <- mutate(.data, sens_value = factor(signif(value,3)))
+      .data <- mutate(.data, sens_value = factor(signif(.data[["value"]],3)))
     } else {
-      .data <- mutate(.data, sens_value = value)  
+      .data <- mutate(.data, sens_value = .data[["value"]])  
     }
     
     p <- ggplot2::ggplot(.data) 

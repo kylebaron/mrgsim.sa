@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 LIBDIR=/Users/kyleb/Rlibs/lib
 PACKAGE=parseq
-VERSION=$(shell grep Version pkg/DESCRIPTION |awk '{print $$2}')
+VERSION=$(shell grep Version DESCRIPTION | awk '{print $$2}')
 TARBALL=${PACKAGE}_${VERSION}.tar.gz
 PKGDIR=.
 
@@ -33,5 +33,4 @@ install-build:
 check:
 	make doc
 	make build
-	R CMD CHECK ${TARBALL} -o ${CHKDIR}
-
+	R CMD CHECK ${TARBALL} 

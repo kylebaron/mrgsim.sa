@@ -3,13 +3,19 @@ Type: Package
 Title: What the Package Does in One 'Title Case' Line
 Version: 0.0.1
 Date: 2018-10-16
-Authors@R: c(
-    person("Kyle T", "Baron", "", "kyleb@metrumrg.com", c("aut", "cre"))
-    )
+Authors@R: c(person("Kyle T", "Baron", "", "kyleb@metrumrg.com", c("aut", "cre")))
 Maintainer: Kyle Baron <kyleb@metrumrg.com>
 Description: One paragraph description of what the package
        does as one or more full sentences.
 License: GPL (>= 2)
-Imports: Rcpp (>= 0.12.19), withr, purrr, dplyr, assertthat, rlang
+Imports: 
+  withr, 
+  purrr, 
+  dplyr, 
+  assertthat, 
+  rlang, 
+  ggplot2, 
+  tidyselect,
+  methods
 Depends: mrgsolve
 RoxygenNote: 6.0.1
