@@ -1,5 +1,5 @@
 ---
-title: "parseq"
+title: "parseq: sensitivity analyses on sequences of parameters for mrgsolve"
 output: github_document
 ---
 

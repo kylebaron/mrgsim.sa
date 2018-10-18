@@ -1,4 +1,4 @@
-parseq
+parseq: sensitivity analyses on sequences of parameters for mrgsolve
 ================
 
 ``` r
