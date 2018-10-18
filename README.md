@@ -77,6 +77,8 @@ mod %>%
 Simulate a grid
 ===============
 
+To this point, we have always used `sens_each` so that each value for each parameter is simulated one at a time. Now, simulate the grid or all combinations.
+
 ``` r
 library(ggplot2)
 
