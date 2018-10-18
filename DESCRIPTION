@@ -3,7 +3,9 @@ Type: Package
 Title: What the Package Does in One 'Title Case' Line
 Version: 0.0.1
 Date: 2018-10-16
-Author: Your Name
+Authors@R: c(
+    person("Kyle T", "Baron", "", "kyleb@metrumrg.com", c("aut", "cre"))
+    )
 Maintainer: Kyle Baron <kyleb@metrumrg.com>
 Description: One paragraph description of what the package
        does as one or more full sentences.

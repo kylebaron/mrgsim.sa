@@ -2,9 +2,8 @@
 
 S3method(select,mrgmod)
 export(even_seq)
-export(even_seq_)
+export(fct_seq)
 export(geo_seq)
-export(geo_seq_)
 export(parseq_factor)
 export(parseq_manual)
 export(parseq_range)
