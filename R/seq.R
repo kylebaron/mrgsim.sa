@@ -67,3 +67,21 @@ even_seq_ <- function(point,.n=5) {
     even_seq(x[1],x[2], .n)
   }) 
 }
+
+
+##' Generate a sequence based on coefficient of variation
+##' 
+##' @param point reference parameter value
+##' @param .cv coeficient of variation
+##' @param .n number of values to simulate in the sequence
+##' @param .nsig number of standard deviations defining the 
+##' range of simulated parameter values
+##' 
+##' @export 
+cv_seq <- function(point, .cv=30, .n=5, .nsig=2) {
+  std <- sqrt((.cv/100)^2)
+  from <- log(point) - .nsig*std
+  to <-   log(point) + .nsig*std
+  exp(seq(from, to, length.out = .n))
+}
+

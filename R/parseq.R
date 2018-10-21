@@ -34,6 +34,35 @@ parseq_factor <- function(mod, ..., .n = 5, .factor = 2, .geo = TRUE) {
   mod
 }
 
+##' Generate a sequence of parameters based on CV
+##' 
+##' @param mod a model object
+##' @param ... model parameter names
+##' @param .cv a coeficient of variation used to determine 
+##' range of test parameters
+##' @param .n number of parameters to simulate in the sequence
+##' @param .nsig number of standard deviations used to determine the range
+##' 
+##' @export
+parseq_cv <- function(mod, ..., .cv = 30, .n = 5, .nsig = 2) {
+  qpars <- quos(...)
+  
+  if(length(qpars) > 0) {
+    sel <- vars_select(names(param(mod)),!!!qpars) 
+  } else {
+    if(exists("select", mod@args)) {
+      sel <- mod@args[["select"]]      
+    } else {
+      stop("Parameter names must be passed or selected.")
+    }
+  }
+  point <- as.list(param(mod))[sel]
+  pars <- map(point, cv_seq, .n = .n, .cv = .cv, .nsig = .nsig)
+  mod@args[["sens_values"]] <- pars
+  mod
+}
+
+
 ##' Simulation helper to manually specify parameter sequences
 ##' 
 ##' @param mod mrgsolve model object
@@ -64,7 +93,7 @@ parseq_manual <- function(mod,...) {
 ##' 
 ##' 
 ##' @export
-parseq_range <- function(mod, ...,.n = 5, .geo = TRUE) {
+parseq_range <- function(mod, ..., .n = 5, .geo = TRUE) {
   pars <- list(...)
   l <- map_int(pars,length)
   if(!all(l==2)) {
