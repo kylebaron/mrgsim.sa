@@ -16,6 +16,7 @@ Imports:
   rlang, 
   ggplot2, 
   tidyselect,
+  tidyr,
   methods
 Depends: mrgsolve
 RoxygenNote: 6.0.1

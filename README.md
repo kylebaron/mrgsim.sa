@@ -25,9 +25,9 @@ The nominal (in model) parameter value is divided and multiplied by a factor, ge
 ``` r
 mod %>% 
   ev(amt = 100) %>% 
-  parseq_factor(CL,V,.n=7) %>% 
+  parseq_factor(CL,V,.n=8) %>% 
   sens_each() %>% 
-  plot_sens(CP)
+  sens_plot(CP)
 ```
 
 ![](inst/img/README-unnamed-chunk-3-1.png)
@@ -40,7 +40,7 @@ mod %>%
   ev(amt = 100) %>% 
   parseq_range(CL=c(1,2), V = c(10,30), .n =7) %>% 
   sens_each() %>% 
-  plot_sens(CP)
+  sens_plot(CP)
 ```
 
 ![](inst/img/README-unnamed-chunk-4-1.png)
@@ -56,7 +56,7 @@ mod %>%
     V = c(10,35,50)
   ) %>% 
   sens_each() %>% 
-  plot_sens(CP)
+  sens_plot(CP)
 ```
 
 ![](inst/img/README-unnamed-chunk-5-1.png)
@@ -65,11 +65,11 @@ mod %>%
 mod %>% 
   ev(amt = 100) %>% 
   parseq_manual(
-    CL = fct_seq(mod$CL, .n = 20), 
-    V = geo_seq(10, 50, .n = 10)
+    CL = fct_seq(mod$CL, .n = 7), 
+    V = geo_seq(10, 50, .n = 4)
   ) %>% 
   sens_each() %>% 
-  plot_sens(CP)
+  sens_plot(CP)
 ```
 
 ![](inst/img/README-unnamed-chunk-6-1.png)
@@ -85,11 +85,11 @@ library(ggplot2)
 mod %>% 
   ev(amt = 100) %>% 
   parseq_manual(
-    CL = fct_seq(mod$CL, .n = 8, .factor = 2), 
+    CL = fct_seq(mod$CL, .n = 5, .factor = 2), 
     V = c(20,25,30)
   ) %>% 
   sens_grid(end = 72) %>% 
-  plot_sens(CP) + facet_wrap(~V)
+  sens_plot(CP, ncol=2)
 ```
 
 ![](inst/img/README-unnamed-chunk-7-1.png)

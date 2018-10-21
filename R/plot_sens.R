@@ -1,16 +1,4 @@
-##' Plot the results of a sensitivity analysis
-##' 
-##' @param data simulated data
-##' @param y the column to use for the y-axis
-##' @param x the column to use for the x-axis
-##' @param col logical; if \code{TRUE} the plot will be colored by 
-##' the parameter values
-##' @param log if \code{TRUE}, the y-axis will be presented on log scale
-##' @param split if \code{TRUE}, a list of plots will be returned, one 
-##' for each parameter in the sensitivity analysis
-##' @param lwd passed to \code{\link[ggplot2]{geom_line}}
-##' 
-##' @export
+
 plot_sens <- function(data, y, x = "time", col = split, 
                       log = FALSE, split = FALSE, lwd = 0.75) {
   
@@ -26,6 +14,8 @@ plot_sens <- function(data, y, x = "time", col = split,
   }
   
   out <- lapply(sp, function(.data) {
+    
+    .data <- mutate(.data, ID = paste(.data[["ID"]], .data[[".parid"]]))
     
     nlev <- length(unique(.data$value))
     
@@ -60,10 +50,93 @@ plot_sens <- function(data, y, x = "time", col = split,
   })
   
   if(log) {
-    out <- purrr::map(out, .f = function(x) {
+    out <- map(out, .f = function(x) {
       x + ggplot2::scale_y_continuous(trans = "log10", breaks = 10^seq(-50,50))  
     })
   }
   if(length(out)==1) return(out[[1]])
   return(out)
+}
+
+
+
+sens_factor <- function(data, name, prefix = "sens_facet_", digits = 2) {
+  ux <- sort(unique(data[[name]]))
+  new_col <- paste0(prefix,name)
+  mutate(
+    data, 
+    !!new_col := factor(
+      .data[[name]],
+      ux,
+      paste0(name, " ", signif(ux,digits))
+    )
+  )
+}
+
+
+##' Plot sensitivity analysis results
+##' 
+##' @param data output from \code{\link{sens_each}} or 
+##' \code{\link{sens_grid}}
+##' @param ... arguments passed on to methods
+##' @param col output column name to plot
+##' @param log if \code{TRUE}, y-axis is transformed to log scale
+##' @param ncol passed to \code{\link[ggplot2]{facet_wrap}}
+##' @param digits used to format numbers on the strips
+##' 
+##' @export
+sens_plot <- function(data,...) UseMethod("sens_plot")
+
+##' @rdname sens_plot
+##' @export
+sens_plot.sens_each <- function(data, col, log = FALSE, ncol=NULL,...) {
+  pars <- unique(data[["name"]])
+  npar <- length(unique(pars))
+  data <- mutate(data,.case = seq(n()))
+  data <- unnest(data)
+  group <- sym("value")
+  x <- sym("time")
+  y <- enexpr(col)
+  p <- ggplot(data=data, aes(!!x,!!y,group=!!group))
+  p <- 
+    p + 
+    geom_line(lwd=0.8) + 
+    theme_bw() + 
+    facet_wrap(~name,scales = "free_y", ncol = ncol)
+  if(log) {
+    p <- p + scale_y_log10()  
+  }
+  p
+}
+
+##' @rdname sens_plot
+##' @export
+sens_plot.sens_grid <- function(data, col, digits = 2, ncol = NULL,...) {
+  npar <- ncol(data)-1
+  if(npar > 3) {
+    stop("More than 3 parameters not allowed in the plot method for this object.")  
+  }
+  data <- mutate(data,.case = seq(n()))
+  data <- unnest(data)
+  pars <- names(data)[seq(npar)]
+  group <- sym(pars[1])
+  tcol <- "time"
+  if(exists("TIME", data)) tcol <- "TIME"
+  x <- sym(tcol)
+  y <- enexpr(col)
+  formula <- NULL
+  if(npar==2) {
+    formula <- as.formula(paste0("~sens_facet_",pars[2]))
+    data <- sens_factor(data,pars[2], digits = digits) 
+  }
+  if(npar==3) {
+    formula <- as.formula(paste0("sens_facet_",pars[3],"~sens_facet_",pars[2]))
+    data <- sens_factor(data,pars[2],digits = digits)
+    data <- sens_factor(data,pars[3], digits = digits)
+  }
+  p <- ggplot(data = data, aes(!!x,!!y,group=!!group))  
+  p <- p + geom_line(lwd=0.8) + theme_bw() 
+  if(npar==2) p <- p + facet_wrap(formula,ncol=ncol)
+  if(npar==3) p <- p + facet_grid(formula)
+  p
 }
