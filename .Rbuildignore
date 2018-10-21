@@ -2,4 +2,9 @@ Makefile
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^test.R$
-^README.md$
+^README\.md$
+^README\.Rmd$
+^\.Rhistory$
+^.*\.tar\.gz$
+^parseq\.Rcheck$
+^\.gitignore$

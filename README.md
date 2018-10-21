@@ -53,7 +53,7 @@ mod %>%
   ev(amt = 100) %>% 
   parseq_manual(
     CL = c(0.8,1, 1.2,1.7,2.2), 
-    V = c(10,35,50)
+    V = c(20,25,32)
   ) %>% 
   sens_each() %>% 
   sens_plot(CP)

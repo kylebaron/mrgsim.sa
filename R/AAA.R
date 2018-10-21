@@ -1,4 +1,4 @@
-##' @importFrom tidyselect vars_select
+##' @importFrom tidyselect vars_select everything
 ##' @importFrom dplyr mutate left_join select data_frame 
 ##' @importFrom dplyr as_data_frame .data %>% n
 ##' @importFrom purrr map_int map imap map_df flatten

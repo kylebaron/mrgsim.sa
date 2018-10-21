@@ -92,8 +92,7 @@ sens_plot <- function(data,...) UseMethod("sens_plot")
 sens_plot.sens_each <- function(data, col, log = FALSE, ncol=NULL,...) {
   pars <- unique(data[["name"]])
   npar <- length(unique(pars))
-  data <- mutate(data,.case = seq(n()))
-  data <- unnest(data)
+  data <- as.data.frame(data) 
   group <- sym("value")
   x <- sym("time")
   y <- enexpr(col)
@@ -139,4 +138,12 @@ sens_plot.sens_grid <- function(data, col, digits = 2, ncol = NULL,...) {
   if(npar==2) p <- p + facet_wrap(formula,ncol=ncol)
   if(npar==3) p <- p + facet_grid(formula)
   p
+}
+
+##' @export
+sens_plot.sens_each_data <- function(data, ...) {
+  stop(
+"There is no plotting method for objects of this class.  
+Use `as_data_frame` to coerce to a data frame and then plot with ggplot2."
+  )
 }

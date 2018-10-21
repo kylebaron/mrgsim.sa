@@ -25,3 +25,7 @@ select.mrgmod <- function(mod, ...) {
   mod
 }
 
+split_id <- function(x) {
+  split(x,x$ID)  
+}
+
