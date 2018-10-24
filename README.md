@@ -1,6 +1,9 @@
 parseq: sensitivity analyses on sequences of parameters for mrgsolve
 ================
 
+A simple, clean workflow for simulating from a model across sequences of parameters.
+
+<hr>
 ``` r
 library(parseq)
 ```

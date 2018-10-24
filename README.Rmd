@@ -3,6 +3,11 @@ title: "parseq: sensitivity analyses on sequences of parameters for mrgsolve"
 output: github_document
 ---
 
+A simple, clean workflow for simulating from a model across 
+sequences of parameters.  
+
+<hr>
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, comment = '.', 
                       fig.path = "inst/img/README-")
