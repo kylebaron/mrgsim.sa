@@ -40,15 +40,15 @@ mod %>%
 HIV viral dynamic model
 -----------------------
 
-We look at the latent infected cell pool at different "burst" size, or the number of HIV particles released when one cell lyses.
+We look at latent infected cell pool development over ten years at different "burst" size, or the number of HIV particles released when one cell lyses.
 
 ``` r
 mod <- mread("hiv", "inst/example")
 
 mod %>% 
-  update(end = 365*20) %>%
+  update(end = 365*10) %>%
   parseq_range(N = c(900,1500), .n = 10) %>%
-  sens_each() %>% 
+  sens_each(tscale = 1/365) %>% 
   sens_plot(L)
 ```
 
