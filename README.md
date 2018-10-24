@@ -65,7 +65,7 @@ mod <- mread("inst/example/rifampicin.cpp") %>% update(delta = 0.1)
 mod %>% 
   ev(amt = 600) %>% 
   parseq_manual(
-    SFKp = fct_seq(mod$SFKp, .n = 20), 
+    SFKp = fct_seq(.$SFKp, .n = 20), 
     Kp_muscle = even_seq(0.001,0.1, .n = 6)
   ) %>% 
   sens_each() %>% 
