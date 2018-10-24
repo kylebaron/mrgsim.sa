@@ -20,7 +20,7 @@ mod <- mread("pk1", modlib(), end = 48, delta=0.1)
 param(mod)
 ```
 
-## Sensitivity analysis by factor
+## PK model sensitivity analysis by factor
 
 The nominal (in model) parameter value is divided 
 and multiplied by a factor, generating minimum and maximum 
@@ -34,39 +34,32 @@ mod %>%
   sens_plot(CP)
 ```
 
-## Sensitivity analysis on a range
+## HIV viral dynamic model
 
 ```{r}
-mod %>% 
-  ev(amt = 100) %>% 
-  parseq_range(CL=c(1,2), V = c(10,30), .n =7) %>% 
-  sens_each() %>% 
-  sens_plot(CP)
-```
+mod <- mread("hiv", "inst/example")
 
-## Sensitivity analyis on custom sequences
-
-```{r}
 mod %>% 
-  ev(amt = 100) %>% 
-  parseq_manual(
-    CL = c(0.8,1, 1.2,1.7,2.2), 
-    V = c(20,25,32)
-  ) %>% 
+  update(end = 365*20) %>%
+  parseq_range(N = c(900,1500), .n = 10) %>%
   sens_each() %>% 
-  sens_plot(CP)
+  sens_plot(L)
 ```
 
 
+## Sensitivity analysis on custom sequences
+
 ```{r}
+mod <- mread("inst/example/rifampicin.cpp") %>% update(delta = 0.1)
+
 mod %>% 
-  ev(amt = 100) %>% 
+  ev(amt = 600) %>% 
   parseq_manual(
-    CL = fct_seq(mod$CL, .n = 7), 
-    V = geo_seq(10, 50, .n = 4)
+    SFKp = fct_seq(mod$SFKp, .n = 20), 
+    Kp_muscle = even_seq(0.001,0.1, .n = 6)
   ) %>% 
   sens_each() %>% 
-  sens_plot(CP)
+  sens_plot(Ccentral)
 ```
 
 # Simulate a grid
@@ -75,16 +68,13 @@ To this point, we have always used `sens_each` so that each value for each
 parameter is simulated one at a time.  Now, simulate the grid or all 
 combinations.
 
-```{r}
+```{r, fig.height = 5}
 library(ggplot2)
 
 mod %>% 
-  ev(amt = 100) %>% 
-  parseq_manual(
-    CL = fct_seq(mod$CL, .n = 5, .factor = 2), 
-    V = c(20,25,30)
-  ) %>% 
-  sens_grid(end = 72) %>% 
-  sens_plot(CP, ncol=2)
+  ev(amt = 600) %>% 
+  parseq_cv(fBCLint_all_kg, SFKp, Kp_muscle, .n = 4, .cv = 50) %>% 
+  sens_grid() %>% 
+  sens_plot(Ccentral)
 ```
 

@@ -17,8 +17,8 @@ param(mod)
     .  CL   1     | V    20   
     .  KA   1     | .    .
 
-Sensitivity analysis by factor
-------------------------------
+PK model sensitivity analysis by factor
+---------------------------------------
 
 The nominal (in model) parameter value is divided and multiplied by a factor, generating minimum and maximum bounds for simulating a sequence of parameter values
 
@@ -32,47 +32,38 @@ mod %>%
 
 ![](inst/img/README-unnamed-chunk-3-1.png)
 
-Sensitivity analysis on a range
--------------------------------
+HIV viral dynamic model
+-----------------------
 
 ``` r
+mod <- mread("hiv", "inst/example")
+
 mod %>% 
-  ev(amt = 100) %>% 
-  parseq_range(CL=c(1,2), V = c(10,30), .n =7) %>% 
+  update(end = 365*20) %>%
+  parseq_range(N = c(900,1500), .n = 10) %>%
   sens_each() %>% 
-  sens_plot(CP)
+  sens_plot(L)
 ```
 
 ![](inst/img/README-unnamed-chunk-4-1.png)
 
-Sensitivity analyis on custom sequences
----------------------------------------
+Sensitivity analysis on custom sequences
+----------------------------------------
 
 ``` r
+mod <- mread("inst/example/rifampicin.cpp") %>% update(delta = 0.1)
+
 mod %>% 
-  ev(amt = 100) %>% 
+  ev(amt = 600) %>% 
   parseq_manual(
-    CL = c(0.8,1, 1.2,1.7,2.2), 
-    V = c(20,25,32)
+    SFKp = fct_seq(mod$SFKp, .n = 20), 
+    Kp_muscle = even_seq(0.001,0.1, .n = 6)
   ) %>% 
   sens_each() %>% 
-  sens_plot(CP)
+  sens_plot(Ccentral)
 ```
 
 ![](inst/img/README-unnamed-chunk-5-1.png)
-
-``` r
-mod %>% 
-  ev(amt = 100) %>% 
-  parseq_manual(
-    CL = fct_seq(mod$CL, .n = 7), 
-    V = geo_seq(10, 50, .n = 4)
-  ) %>% 
-  sens_each() %>% 
-  sens_plot(CP)
-```
-
-![](inst/img/README-unnamed-chunk-6-1.png)
 
 Simulate a grid
 ===============
@@ -83,13 +74,10 @@ To this point, we have always used `sens_each` so that each value for each param
 library(ggplot2)
 
 mod %>% 
-  ev(amt = 100) %>% 
-  parseq_manual(
-    CL = fct_seq(mod$CL, .n = 5, .factor = 2), 
-    V = c(20,25,30)
-  ) %>% 
-  sens_grid(end = 72) %>% 
-  sens_plot(CP, ncol=2)
+  ev(amt = 600) %>% 
+  parseq_cv(fBCLint_all_kg, SFKp, Kp_muscle, .n = 4, .cv = 50) %>% 
+  sens_grid() %>% 
+  sens_plot(Ccentral)
 ```
 
-![](inst/img/README-unnamed-chunk-7-1.png)
+![](inst/img/README-unnamed-chunk-6-1.png)
