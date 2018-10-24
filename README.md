@@ -79,6 +79,8 @@ Simulate a grid
 
 To this point, we have always used `sens_each` so that each value for each parameter is simulated one at a time. Now, simulate the grid or all combinations.
 
+We use `parseq_cv` here, which generates lower and upper bounds for the range using 50% coefficient of variation.
+
 ``` r
 library(ggplot2)
 
