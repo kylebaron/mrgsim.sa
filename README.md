@@ -11,7 +11,7 @@ library(parseq)
 ```
 
 ``` r
-mod <- mread("pk1", modlib(), end = 48, delta=0.1)
+mod <- mread("pk1", modlib(), end = 48, delta = 0.1)
 
 param(mod)
 ```
@@ -30,7 +30,7 @@ The nominal (in model) parameter value is divided and multiplied by a factor, ge
 ``` r
 mod %>% 
   ev(amt = 100) %>% 
-  parseq_factor(CL ,V, .n=8) %>% 
+  parseq_factor(CL, V, .n=8) %>% 
   sens_each() %>% 
   sens_plot(CP)
 ```
@@ -66,7 +66,7 @@ mod %>%
   ev(amt = 600) %>% 
   parseq_manual(
     SFKp = fct_seq(.$SFKp, .n = 20), 
-    Kp_muscle = even_seq(0.001,0.1, .n = 6)
+    Kp_muscle = even_seq(0.001, 0.1, .n = 6)
   ) %>% 
   sens_each() %>% 
   sens_plot(Ccentral, bw = TRUE)
