@@ -8,7 +8,8 @@
 \usage{
 sens_plot(data, ...)
 
-\method{sens_plot}{sens_each}(data, col, log = FALSE, ncol = NULL, ...)
+\method{sens_plot}{sens_each}(data, col, log = FALSE, ncol = NULL,
+  bw = FALSE, digits = 3, cowplot = TRUE, ...)
 
 \method{sens_plot}{sens_grid}(data, col, digits = 2, ncol = NULL, ...)
 }
@@ -24,7 +25,13 @@ sens_plot(data, ...)
 
 \item{ncol}{passed to \code{\link[ggplot2]{facet_wrap}}}
 
+\item{bw}{if \code{TRUE} a simple black and white plot will be generated
+when the \code{sens_each} method is used}
+
 \item{digits}{used to format numbers on the strips}
+
+\item{cowplot}{if \code{TRUE}, plots from the \code{sens_each} method
+will be passed through \code{cowplot::plot_grid()}}
 }
 \description{
 Plot sensitivity analysis results

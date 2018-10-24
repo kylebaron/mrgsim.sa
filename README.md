@@ -25,7 +25,7 @@ The nominal (in model) parameter value is divided and multiplied by a factor, ge
 ``` r
 mod %>% 
   ev(amt = 100) %>% 
-  parseq_factor(CL,V,.n=8) %>% 
+  parseq_factor(CL ,V, .n=8) %>% 
   sens_each() %>% 
   sens_plot(CP)
 ```
@@ -34,6 +34,8 @@ mod %>%
 
 HIV viral dynamic model
 -----------------------
+
+We look at the latent infected cell pool at different "burst" size, or the number of HIV particles released when one cell lyses.
 
 ``` r
 mod <- mread("hiv", "inst/example")
@@ -50,6 +52,8 @@ mod %>%
 Sensitivity analysis on custom sequences
 ----------------------------------------
 
+The model is rifampicin PBPK.
+
 ``` r
 mod <- mread("inst/example/rifampicin.cpp") %>% update(delta = 0.1)
 
@@ -60,7 +64,7 @@ mod %>%
     Kp_muscle = even_seq(0.001,0.1, .n = 6)
   ) %>% 
   sens_each() %>% 
-  sens_plot(Ccentral)
+  sens_plot(Ccentral, bw = TRUE)
 ```
 
 ![](inst/img/README-unnamed-chunk-5-1.png)

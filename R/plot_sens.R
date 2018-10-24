@@ -82,30 +82,64 @@ sens_factor <- function(data, name, prefix = "sens_facet_", digits = 2) {
 ##' @param col output column name to plot
 ##' @param log if \code{TRUE}, y-axis is transformed to log scale
 ##' @param ncol passed to \code{\link[ggplot2]{facet_wrap}}
+##' @param bw if \code{TRUE} a simple black and white plot will be generated
+##' when the \code{sens_each} method is used
 ##' @param digits used to format numbers on the strips
+##' @param cowplot if \code{TRUE}, plots from the \code{sens_each} method
+##' will be passed through \code{cowplot::plot_grid()}
 ##' 
 ##' @export
 sens_plot <- function(data,...) UseMethod("sens_plot")
 
 ##' @rdname sens_plot
 ##' @export
-sens_plot.sens_each <- function(data, col, log = FALSE, ncol=NULL,...) {
+sens_plot.sens_each <- function(data, col, log = FALSE, ncol=NULL, bw = FALSE, 
+                                digits = 3, cowplot = TRUE, ...) {
   pars <- unique(data[["name"]])
   npar <- length(unique(pars))
   data <- as.data.frame(data) 
   group <- sym("value")
   x <- sym("time")
   y <- enexpr(col)
-  p <- ggplot(data=data, aes(!!x,!!y,group=!!group))
-  p <- 
-    p + 
-    geom_line(lwd=0.8) + 
-    theme_bw() + 
-    facet_wrap(~name,scales = "free_y", ncol = ncol)
-  if(log) {
-    p <- p + scale_y_log10()  
+  
+  if(bw) {
+    p <- ggplot(data=data, aes(!!x,!!y,group=!!group))
+    p <- 
+      p + 
+      geom_line(lwd=0.8) + 
+      theme_bw() + 
+      facet_wrap(~name,scales = "free_y", ncol = ncol)
+    if(log) {
+      p <- p + scale_y_log10()  
+    }
+    return(p)
+  } ## Simple case
+  
+  sp <- split(data,data[["name"]])
+  
+  plots <- lapply(sp, function(chunk) {
+    chunk[["value"]] <- signif(chunk[["value"]],digits)
+    chunk[["value"]] <- factor(chunk[["value"]])
+    p <- ggplot(data=chunk, aes(!!x,!!y,group=!!group,col=!!group))
+    p <- 
+      p + 
+      geom_line(lwd=0.8) + 
+      theme_bw() + 
+      facet_wrap(~name,scales = "free_y", ncol = ncol) + 
+      theme(legend.position = "top") + 
+      scale_color_discrete(name = "")
+    if(log) {
+      p <- p + scale_y_log10()  
+    }
+    p 
+  })
+  if(cowplot) {
+    if(!requireNamespace("cowplot")) {
+      stop("Couldn't load cowplot namespace; please install this package from CRAN.")
+    }
+    return(cowplot::plot_grid(plotlist=plots,ncol=ncol))
   }
-  p
+  return(plots)
 }
 
 ##' @rdname sens_plot
@@ -124,6 +158,7 @@ sens_plot.sens_grid <- function(data, col, digits = 2, ncol = NULL,...) {
   x <- sym(tcol)
   y <- enexpr(col)
   formula <- NULL
+  data[[as_string(group)]] <- signif(data[[as_string(group)]],3)
   if(npar==2) {
     formula <- as.formula(paste0("~sens_facet_",pars[2]))
     data <- sens_factor(data,pars[2], digits = digits) 
@@ -133,8 +168,9 @@ sens_plot.sens_grid <- function(data, col, digits = 2, ncol = NULL,...) {
     data <- sens_factor(data,pars[2],digits = digits)
     data <- sens_factor(data,pars[3], digits = digits)
   }
-  p <- ggplot(data = data, aes(!!x,!!y,group=!!group))  
-  p <- p + geom_line(lwd=0.8) + theme_bw() 
+  p <- ggplot(data = data, aes(!!x,!!y,group=!!group,col=factor(!!group)))  
+  p <- p + geom_line(lwd=0.8) + theme_bw() + scale_color_discrete(name = as_string(group))
+  p <- p + theme(legend.position = "top")
   if(npar==2) p <- p + facet_wrap(formula,ncol=ncol)
   if(npar==3) p <- p + facet_grid(formula)
   p
@@ -143,7 +179,7 @@ sens_plot.sens_grid <- function(data, col, digits = 2, ncol = NULL,...) {
 ##' @export
 sens_plot.sens_each_data <- function(data, ...) {
   stop(
-"There is no plotting method for objects of this class.  
+    "There is no plotting method for objects of this class.  
 Use `as_data_frame` to coerce to a data frame and then plot with ggplot2."
   )
 }
