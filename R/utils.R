@@ -18,7 +18,7 @@ re_id <- function(x) {
   x
 }
 
-##' @export
+#' @export
 select.mrgmod <- function(mod, ...) {
   p <- vars_select(names(param(mod)),!!!quos(...))
   mod@args[["select"]] <- p

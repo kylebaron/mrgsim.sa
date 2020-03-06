@@ -74,25 +74,25 @@ sens_factor <- function(data, name, prefix = "sens_facet_", digits = 2) {
 }
 
 
-##' Plot sensitivity analysis results
-##' 
-##' @param data output from \code{\link{sens_each}} or 
-##' \code{\link{sens_grid}}
-##' @param ... arguments passed on to methods
-##' @param col output column name to plot
-##' @param log if \code{TRUE}, y-axis is transformed to log scale
-##' @param ncol passed to \code{\link[ggplot2]{facet_wrap}}
-##' @param bw if \code{TRUE} a simple black and white plot will be generated
-##' when the \code{sens_each} method is used
-##' @param digits used to format numbers on the strips
-##' @param cowplot if \code{TRUE}, plots from the \code{sens_each} method
-##' will be passed through \code{cowplot::plot_grid()}
-##' 
-##' @export
+#' Plot sensitivity analysis results
+#' 
+#' @param data output from \code{\link{sens_each}} or 
+#' \code{\link{sens_grid}}
+#' @param ... arguments passed on to methods
+#' @param col output column name to plot
+#' @param log if \code{TRUE}, y-axis is transformed to log scale
+#' @param ncol passed to \code{\link[ggplot2]{facet_wrap}}
+#' @param bw if \code{TRUE} a simple black and white plot will be generated
+#' when the \code{sens_each} method is used
+#' @param digits used to format numbers on the strips
+#' @param cowplot if \code{TRUE}, plots from the \code{sens_each} method
+#' will be passed through \code{cowplot::plot_grid()}
+#' 
+#' @export
 sens_plot <- function(data,...) UseMethod("sens_plot")
 
-##' @rdname sens_plot
-##' @export
+#' @rdname sens_plot
+#' @export
 sens_plot.sens_each <- function(data, col, log = FALSE, ncol=NULL, bw = FALSE, 
                                 digits = 3, cowplot = TRUE, ...) {
   pars <- unique(data[["name"]])
@@ -142,8 +142,8 @@ sens_plot.sens_each <- function(data, col, log = FALSE, ncol=NULL, bw = FALSE,
   return(plots)
 }
 
-##' @rdname sens_plot
-##' @export
+#' @rdname sens_plot
+#' @export
 sens_plot.sens_grid <- function(data, col, digits = 2, ncol = NULL,...) {
   npar <- ncol(data)-1
   if(npar > 3) {
@@ -176,7 +176,7 @@ sens_plot.sens_grid <- function(data, col, digits = 2, ncol = NULL,...) {
   p
 }
 
-##' @export
+#' @export
 sens_plot.sens_each_data <- function(data, ...) {
   stop(
     "There is no plotting method for objects of this class.  
