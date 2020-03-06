@@ -180,6 +180,6 @@ sens_plot.sens_grid <- function(data, col, digits = 2, ncol = NULL,...) {
 sens_plot.sens_each_data <- function(data, ...) {
   stop(
     "There is no plotting method for objects of this class.  
-Use `as_data_frame` to coerce to a data frame and then plot with ggplot2."
+Use 'as_tibble' to coerce to a data frame and then plot with ggplot2."
   )
 }

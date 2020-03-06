@@ -1,6 +1,6 @@
 
-##' @rdname sens_fun
-##' @export
+#' @rdname sens_fun
+#' @export
 sens_grid <- function(mod, idata = NULL, ...) {
   if(is.data.frame(mod@args[["data"]])) {
     return(sens_grid_data(mod, data = mod@args[["data"]], idata = NULL, ...))  
@@ -18,15 +18,15 @@ sens_grid <- function(mod, idata = NULL, ...) {
   pars <- do.call(expand.grid,pars) %>% mutate(ID = seq(n()))
   out <- mrgsim_df(mod, idata = pars, ...)
   out <- mutate(
-    as_data_frame(pars), 
+    as_tibble(pars), 
     data = split_id(out), 
     ID = NULL
   )  
   structure(out, class = c("sens_grid",class(out)))
 }
 
-##' @rdname sens_fun
-##' @export
+#' @rdname sens_fun
+#' @export
 sens_grid_data <- function(mod, data, idata = NULL, ...) {
   mod@args[["data"]] <- NULL
   if(!exists("sens_values", mod@args)) {
@@ -42,29 +42,29 @@ sens_grid_data <- function(mod, data, idata = NULL, ...) {
   idata <- do.call(expand.grid,parlist) %>% mutate(ID = seq(n()))
   pars <- split_id(idata)
   out <- mutate(
-    as_data_frame(idata), 
+    as_tibble(idata), 
     ID = NULL,
     data = d_mrgsim(mod, pars, data = data, ...) 
   )
   structure(out, class = c("sens_data",class(out)))
 }
 
-##' @export
+#' @export
 as.data.frame.sens_grid <- function(x, row.names = NULL, optional = FALSE, ...)  {
   unnest(mutate(x, .case = seq(n())),cols="data")
 }
 
-##' @export
+#' @export
 as.data.frame.sens_data <- function(x, row.names = NULL, optional = FALSE, ...)  {
   unnest(mutate(x, .case = seq(n())),cols="data")
 }
 
-##' @export
-as_data_frame.sens_grid <- function(x, row.names = NULL, optional = FALSE, ...)  {
+#' @export
+as_tibble.sens_grid <- function(x, row.names = NULL, optional = FALSE, ...)  {
   unnest(mutate(x, .case = seq(n())),cols="data")
 }
 
-##' @export
+#' @export
 as_tibble.sens_data <- function(x, row.names = NULL, optional = FALSE, ...)  {
   unnest(mutate(x, .case = seq(n())),cols="data")
 }
