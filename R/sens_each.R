@@ -1,24 +1,24 @@
 
-##' @rdname sens_fun
-##' @name sens_each
-##' @export
+#' @rdname sens_fun
+#' @name sens_each
+#' @export
 sens_each <- function(mod, idata = NULL, ...) {
   if(is.data.frame(mod@args[["data"]])) {
     return(sens_grid_data(mod, data = mod@args[["data"]], idata = NULL, ...))  
   }
   if(!exists("sens_values", mod@args)) {
-    stop("Parameter values must be selected first.")    
+    stop("parameter values must be selected first.")    
   }
   if(exists("idata_set", mod@args)) {
-    stop("idata_set use is not allowed with this workflow.")    
+    stop("'idata_set' use is not allowed with this workflow.")    
   }
   if(!is.null(idata)) {
-    stop("idata use is not allowed with this workflow.")
+    stop("'idata use' is not allowed with this workflow.")
   }
   parlist <- mod@args[["sens_values"]] 
-  pars <- parlist %>% list_2_idata()
+  pars <- list_2_idata(parlist)
   dims <- map_int(parlist,length)
-  out <- data_frame(
+  out <- tibble(
     name = rep(names(dims),dims),
     value = unlist(parlist,use.names = FALSE),
     data = p_mrgsim(mod, pars, ...)
@@ -39,27 +39,26 @@ p_mrgsim_ <- function(x,mod,...) {
 }
 
 
-
-##' @rdname sens_fun
-##' @name sens_each_data
-##' @export
+#' @rdname sens_fun
+#' @name sens_each_data
+#' @export
 sens_each_data <- function(mod, data, idata = NULL, ...) {
   mod@args[["data"]] <- NULL
   if(!exists("sens_values", mod@args)) {
     stop("Parameter values must be selected first.")    
   }
   if(exists("idata_set", mod@args)) {
-    stop("idata_set use is not allowed with this workflow.")    
+    stop("'idata_set' use is not allowed with this workflow.")    
   }
   if(!is.null(idata)) {
-    stop("idata use is not allowed with this workflow.")
+    stop("'idata' use is not allowed with this workflow.")
   }
   parlist <- mod@args[["sens_values"]] 
-  pars <- parlist %>% list_2_idata()
+  pars <-list_2_idata(parlist)
   pars <- map(pars,split_id) 
   dims <- map_int(pars,length)
   pars <- flatten(pars)
-  out <- data_frame(
+  out <- tibble(
     name = rep(names(dims),dims),
     value = unlist(parlist,use.names = FALSE),
     data = d_mrgsim(mod, pars, data = data, ...)
@@ -77,12 +76,12 @@ d_mrgsim_ <- function(x, mod, data,...) {
   mrgsim_df(mod, data = data,  ...) 
 }
 
-##' @export
+#' @export
 as.data.frame.sens_each <- function(x, row.names = NULL, optional = FALSE, ...)  {
-  unnest(mutate(x, .case = seq(n())))
+  unnest(mutate(x, .case = seq(n())),cols="data")
 }
 
-##' @export
-as_data_frame.sens_each <- function(x, row.names = NULL, optional = FALSE, ...)  {
-  unnest(mutate(x, .case = seq(n())))
+#' @export
+as_tibble.sens_each <- function(x, row.names = NULL, optional = FALSE, ...)  {
+  unnest(mutate(x, .case = seq(n())),cols="data")
 }

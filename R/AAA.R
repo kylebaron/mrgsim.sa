@@ -9,6 +9,7 @@
 ##' @importFrom ggplot2 facet_grid facet_wrap aes scale_color_discrete theme
 ##' @importFrom rlang quos sym set_names enexpr := as_string
 ##' @importFrom tidyr unnest nest
+##' @importFrom tibble tibble
 ##' @importMethodsFrom mrgsolve as.list param
 ##' @importFrom mrgsolve mrgsim_df
 ##' @importFrom stats as.formula

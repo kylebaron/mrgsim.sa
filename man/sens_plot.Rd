@@ -8,8 +8,16 @@
 \usage{
 sens_plot(data, ...)
 
-\method{sens_plot}{sens_each}(data, col, log = FALSE, ncol = NULL,
-  bw = FALSE, digits = 3, cowplot = TRUE, ...)
+\method{sens_plot}{sens_each}(
+  data,
+  col,
+  log = FALSE,
+  ncol = NULL,
+  bw = FALSE,
+  digits = 3,
+  cowplot = TRUE,
+  ...
+)
 
 \method{sens_plot}{sens_grid}(data, col, digits = 2, ncol = NULL, ...)
 }

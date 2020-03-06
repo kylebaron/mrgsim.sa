@@ -1,7 +1,7 @@
 
 list_2_idata <- function(x) {
   imap(x, function(value,name) {
-    data_frame(ID = seq(length(value)),!!sym(name) := value)
+    tibble(ID = seq(length(value)),!!sym(name) := value)
   }) %>% re_id()
 }
 

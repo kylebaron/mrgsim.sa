@@ -51,20 +51,20 @@ sens_grid_data <- function(mod, data, idata = NULL, ...) {
 
 ##' @export
 as.data.frame.sens_grid <- function(x, row.names = NULL, optional = FALSE, ...)  {
-  unnest(mutate(x, .case = seq(n())))
+  unnest(mutate(x, .case = seq(n())),cols="data")
 }
 
 ##' @export
 as.data.frame.sens_data <- function(x, row.names = NULL, optional = FALSE, ...)  {
-  unnest(mutate(x, .case = seq(n())))
+  unnest(mutate(x, .case = seq(n())),cols="data")
 }
 
 ##' @export
 as_data_frame.sens_grid <- function(x, row.names = NULL, optional = FALSE, ...)  {
-  unnest(mutate(x, .case = seq(n())))
+  unnest(mutate(x, .case = seq(n())),cols="data")
 }
 
 ##' @export
-as_data_frame.sens_data <- function(x, row.names = NULL, optional = FALSE, ...)  {
-  unnest(mutate(x, .case = seq(n())))
+as_tibble.sens_data <- function(x, row.names = NULL, optional = FALSE, ...)  {
+  unnest(mutate(x, .case = seq(n())),cols="data")
 }

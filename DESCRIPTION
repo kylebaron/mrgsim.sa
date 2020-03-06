@@ -18,6 +18,7 @@ Imports:
   ggplot2, 
   tidyselect,
   tidyr,
-  methods
+  methods,
+  tibble
 Depends: mrgsolve
-RoxygenNote: 6.0.1
+RoxygenNote: 7.0.2

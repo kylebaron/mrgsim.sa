@@ -1,21 +1,21 @@
 
-##' Generate a sequence of parameters
-##' 
-##' @param mod a model object
-##' @param ... unquoted parameter names
-##' @param .n number of parameters to simulate between the minimum
-##' and maximum parameter values
-##' @param .factor a numeric vector used to divide and multiply the 
-##' parameter value thus generating the minimum and maximum parameter values,
-##' respectively, for the sequence; if \code{.factor} is length 1 it will be 
-##' recycled to length 2; the first value is used to divide the nominal 
-##' value generating the minimum value; the second value is used to multiply
-##' the nominal value generating the maximum value
-##' @param .geo if \code{TRUE} a geometric sequence is generated (evenly
-##' spaced from min to max on log scale); otherwise, the sequence is 
-##' evenly spaced on cartesian scale
-##' 
-##' @export
+#' Generate a sequence of parameters
+#' 
+#' @param mod a model object
+#' @param ... unquoted parameter names
+#' @param .n number of parameters to simulate between the minimum
+#' and maximum parameter values
+#' @param .factor a numeric vector used to divide and multiply the 
+#' parameter value thus generating the minimum and maximum parameter values,
+#' respectively, for the sequence; if \code{.factor} is length 1 it will be 
+#' recycled to length 2; the first value is used to divide the nominal 
+#' value generating the minimum value; the second value is used to multiply
+#' the nominal value generating the maximum value
+#' @param .geo if \code{TRUE} a geometric sequence is generated (evenly
+#' spaced from min to max on log scale); otherwise, the sequence is 
+#' evenly spaced on cartesian scale
+#' 
+#' @export
 parseq_factor <- function(mod, ..., .n = 5, .factor = 2, .geo = TRUE) {
   qpars <- quos(...)
   
@@ -34,16 +34,16 @@ parseq_factor <- function(mod, ..., .n = 5, .factor = 2, .geo = TRUE) {
   mod
 }
 
-##' Generate a sequence of parameters based on CV
-##' 
-##' @param mod a model object
-##' @param ... model parameter names
-##' @param .cv a coeficient of variation used to determine 
-##' range of test parameters
-##' @param .n number of parameters to simulate in the sequence
-##' @param .nsig number of standard deviations used to determine the range
-##' 
-##' @export
+#' Generate a sequence of parameters based on CV
+#' 
+#' @param mod a model object
+#' @param ... model parameter names
+#' @param .cv a coeficient of variation used to determine 
+#' range of test parameters
+#' @param .n number of parameters to simulate in the sequence
+#' @param .nsig number of standard deviations used to determine the range
+#' 
+#' @export
 parseq_cv <- function(mod, ..., .cv = 30, .n = 5, .nsig = 2) {
   qpars <- quos(...)
   
@@ -63,14 +63,14 @@ parseq_cv <- function(mod, ..., .cv = 30, .n = 5, .nsig = 2) {
 }
 
 
-##' Simulation helper to manually specify parameter sequences
-##' 
-##' @param mod mrgsolve model object
-##' @param ... named numeric vectors of parameter values to 
-##' simulate; names must correspond to parameters in the model 
-##' object
-##' 
-##' @export
+#' Simulation helper to manually specify parameter sequences
+#' 
+#' @param mod mrgsolve model object
+#' @param ... named numeric vectors of parameter values to 
+#' simulate; names must correspond to parameters in the model 
+#' object
+#' 
+#' @export
 parseq_manual <- function(mod,...) {
   pars <- as.list(param(mod))
   values <- withr::with_environment(
@@ -83,16 +83,16 @@ parseq_manual <- function(mod,...) {
   mod
 }
 
-##' Simulation helper to generate a sequence of parameters from a range
-##' 
-##' @param mod mrgsolve model object
-##' @param ... unquoted parameter names, 
-##' @param .n number of values to simulate for each parameter sequence
-##' @param .geo if \code{TRUE} generate a geometric sequence; otherwise,
-##' generate a sequence evenly spaced on cartesian scale
-##' 
-##' 
-##' @export
+#' Simulation helper to generate a sequence of parameters from a range
+#' 
+#' @param mod mrgsolve model object
+#' @param ... unquoted parameter names, 
+#' @param .n number of values to simulate for each parameter sequence
+#' @param .geo if \code{TRUE} generate a geometric sequence; otherwise,
+#' generate a sequence evenly spaced on cartesian scale
+#' 
+#' 
+#' @export
 parseq_range <- function(mod, ..., .n = 5, .geo = TRUE) {
   pars <- list(...)
   l <- map_int(pars,length)
@@ -105,5 +105,19 @@ parseq_range <- function(mod, ..., .n = 5, .geo = TRUE) {
   mod@args[["sens_values"]] <- pars
   mod
 }
+
+#' Set reference values for each parameter
+#' 
+#' @export
+parseq_reference <- function(mod, ..., .ref = list(), .auto = TRUE) {
+  if(!exists("sens_values", mod@args)) {
+    stop("The test parameters and values must be specified first.")  
+  }
+  if(.auto) {
+    mod@args[["sens_reference"]] <- as.list(param(mod))  
+  }
+  mod
+}
+
 
 

@@ -150,7 +150,7 @@ sens_plot.sens_grid <- function(data, col, digits = 2, ncol = NULL,...) {
     stop("More than 3 parameters not allowed in the plot method for this object.")  
   }
   data <- mutate(data,.case = seq(n()))
-  data <- unnest(data)
+  data <- unnest(data,cols="data")
   pars <- names(data)[seq(npar)]
   group <- sym(pars[1])
   tcol <- "time"
