@@ -29,3 +29,14 @@ split_id <- function(x) {
   split(x,x$ID)  
 }
 
+cvec_cs <- function(x) {
+  if(is.null(x) | length(x)==0) return(character(0))
+  x <- unlist(strsplit(as.character(x),",",fixed=TRUE),use.names=FALSE)
+  x <- unlist(strsplit(x," ",fixed=TRUE),use.names=FALSE)
+  x <- x[x!=""]
+  if(length(x)==0) {
+    return(character(0))
+  } else {
+    return(x) 
+  }
+}

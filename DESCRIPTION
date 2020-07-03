@@ -22,3 +22,13 @@ Imports:
   tibble
 Depends: mrgsolve
 RoxygenNote: 7.0.2
+Collate: 
+    'AAA.R'
+    'mrgsens.R'
+    'utils.R'
+    'parseq.R'
+    'plot_sens.R'
+    'sens.R'
+    'sens_each.R'
+    'sens_grid.R'
+    'seq.R'

@@ -31,7 +31,8 @@ p_mrgsim <- function(mod, pars, ...) {
   pars %>% 
     map(p_mrgsim_, mod = mod, ...) %>% 
     map(split_id) %>% 
-    flatten()
+    flatten() %>% 
+    unname()
 }
 
 p_mrgsim_ <- function(x,mod,...) {
@@ -82,6 +83,23 @@ as.data.frame.sens_each <- function(x, row.names = NULL, optional = FALSE, ...) 
 }
 
 #' @export
-as_tibble.sens_each <- function(x, row.names = NULL, optional = FALSE, ...)  {
-  unnest(mutate(x, .case = seq(n())),cols="data")
+as_tibble.sens_each <- function(x, row.names = NULL, optional = FALSE,
+                                unnest = FALSE, ...)  {
+  cl <- class(x)
+  cl <- cl[cl!="sens_each"]
+  x <- structure(x, class = cl)
+  if(unnest) x <- denest(x)
+  x
+}
+
+#' @export
+denest <- function(x) {
+  x <- mutate(x,.case=seq(n()))
+  x <- select(x,.case,everything())
+  unnest(x,cols="data")  
+}
+
+#' @export
+print.sens_each <- function(x,...) {
+  print(as_tibble(x))
 }

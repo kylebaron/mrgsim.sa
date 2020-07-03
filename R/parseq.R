@@ -1,3 +1,5 @@
+#' @include utils.R
+NULL
 
 #' Generate a sequence of parameters
 #' 
