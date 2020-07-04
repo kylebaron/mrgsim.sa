@@ -8,7 +8,7 @@ plot_sens <- function(data, y, x = "time", col = split,
   x <- enexpr(x)
   
   if(split){
-    sp <- split(data, data$name)
+    sp <- split(data, data$.name)
   } else {
     sp <- split(data, rep(1,nrow(data)))  
   }
@@ -17,14 +17,14 @@ plot_sens <- function(data, y, x = "time", col = split,
     
     .data <- mutate(.data, ID = paste(.data[["ID"]], .data[[".parid"]]))
     
-    nlev <- length(unique(.data$value))
+    nlev <- length(unique(.data$.value))
     
     if(nlev <=1) col <- FALSE
     
     if(nlev <= 16 & col) {
-      .data <- mutate(.data, sens_value = factor(signif(.data[["value"]],3)))
+      .data <- mutate(.data, sens_value = factor(signif(.data[[".value"]],3)))
     } else {
-      .data <- mutate(.data, sens_value = .data[["value"]])  
+      .data <- mutate(.data, sens_value = .data[[".value"]])  
     }
     
     p <- ggplot2::ggplot(.data) 
@@ -43,7 +43,7 @@ plot_sens <- function(data, y, x = "time", col = split,
         )  
     }
     
-    p <- p + ggplot2::facet_wrap(~name) + ggplot2::labs(color = "")
+    p <- p + ggplot2::facet_wrap(~.name) + ggplot2::labs(color = "")
     
     p + ggplot2::theme_bw() + ggplot2::theme(legend.position = "top")
     
@@ -60,15 +60,15 @@ plot_sens <- function(data, y, x = "time", col = split,
 
 
 
-sens_factor <- function(data, name, prefix = "sens_facet_", digits = 2) {
-  ux <- sort(unique(data[[name]]))
-  new_col <- paste0(prefix,name)
+sens_factor <- function(data, .name, prefix = "sens_facet_", digits = 2) {
+  ux <- sort(unique(data[[.name]]))
+  new_col <- paste0(prefix,.name)
   mutate(
     data, 
     !!new_col := factor(
-      .data[[name]],
+      .data[[.name]],
       ux,
-      paste0(name, " ", signif(ux,digits))
+      paste0(.name, " ", signif(ux,digits))
     )
   )
 }
@@ -95,10 +95,10 @@ sens_plot <- function(data,...) UseMethod("sens_plot")
 #' @export
 sens_plot.sens_each <- function(data, col, logy = FALSE, ncol=NULL, bw = FALSE, 
                                 digits = 3, cowplot = TRUE, ...) {
-  pars <- unique(data[["name"]])
+  pars <- unique(data[[".name"]])
   npar <- length(unique(pars))
   data <- as.data.frame(data) 
-  group <- sym("value")
+  group <- sym(".value")
   x <- sym("time")
   y <- enexpr(col)
   
@@ -108,24 +108,24 @@ sens_plot.sens_each <- function(data, col, logy = FALSE, ncol=NULL, bw = FALSE,
       p + 
       geom_line(lwd=0.8) + 
       theme_bw() + 
-      facet_wrap(~name,scales = "free_y", ncol = ncol)
+      facet_wrap(~.name,scales = "free_y", ncol = ncol)
     if(logy) {
       p <- p + scale_y_log10()  
     }
     return(p)
   } ## Simple case
   
-  sp <- split(data,data[["name"]])
+  sp <- split(data,data[[".name"]])
   
   plots <- lapply(sp, function(chunk) {
-    chunk[["value"]] <- signif(chunk[["value"]],digits)
-    chunk[["value"]] <- factor(chunk[["value"]])
+    chunk[[".value"]] <- signif(chunk[[".value"]],digits)
+    chunk[[".value"]] <- factor(chunk[[".value"]])
     p <- ggplot(data=chunk, aes(!!x,!!y,group=!!group,col=!!group))
     p <- 
       p + 
       geom_line(lwd=0.8) + 
       theme_bw() + 
-      facet_wrap(~name,scales = "free_y", ncol = ncol) + 
+      facet_wrap(~.name,scales = "free_y", ncol = ncol) + 
       theme(legend.position = "top") + 
       scale_color_discrete(name = "")
     if(logy) {
