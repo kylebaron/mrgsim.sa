@@ -20,7 +20,7 @@ all:
 
 .PHONY: doc
 doc:
-	Rscript -e 'library(devtools); document("${PKGDIR}")'
+	Rscript -e 'devtools::document("${PKGDIR}")'
 
 build:
 	R CMD build --md5 $(PKGDIR)
@@ -41,3 +41,6 @@ readme:
 
 pkgdown:
 	Rscript -e "pkgdown::build_site()"
+
+spelling:
+	Rscript -e "spelling::spell_check_package()"

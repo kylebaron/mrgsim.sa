@@ -41,7 +41,7 @@ parseq_factor <- function(mod, ..., .n = 5, .factor = 2, .geo = TRUE) {
 #' 
 #' @param mod a model object
 #' @param ... model parameter names
-#' @param .cv a coeficient of variation used to determine 
+#' @param .cv a coefficient of variation used to determine 
 #' range of test parameters
 #' @param .n number of parameters to simulate in the sequence
 #' @param .nsig number of standard deviations used to determine the range

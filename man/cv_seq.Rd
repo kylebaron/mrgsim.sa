@@ -9,7 +9,7 @@ cv_seq(point, .cv = 30, .n = 5, .nsig = 2)
 \arguments{
 \item{point}{reference parameter value}
 
-\item{.cv}{coeficient of variation}
+\item{.cv}{coefficient of variation}
 
 \item{.n}{number of values to simulate in the sequence}
 

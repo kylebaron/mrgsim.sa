@@ -7,7 +7,13 @@
 \method{as.data.frame}{sens_each}(x, row.names = NULL, optional = FALSE, ...)
 }
 \arguments{
-\item{.case}{integer scenario number}
+\item{x}{a `sense_each` object}
+
+\item{row.names}{not used}
+
+\item{optional}{not used}
+
+\item{...}{not used}
 }
 \description{
 Coerce sens_each output to data frame

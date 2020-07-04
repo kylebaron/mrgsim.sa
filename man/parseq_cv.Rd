@@ -11,7 +11,7 @@ parseq_cv(mod, ..., .cv = 30, .n = 5, .nsig = 2)
 
 \item{...}{model parameter names}
 
-\item{.cv}{a coeficient of variation used to determine 
+\item{.cv}{a coefficient of variation used to determine 
 range of test parameters}
 
 \item{.n}{number of parameters to simulate in the sequence}
