@@ -1,6 +1,6 @@
 Sys.setenv("R_TESTS" = "")
 library(testthat)
-library(parset)
+library(parseq)
 
-test_check("parset", reporter="summary")
+test_check("parseq", reporter="summary")
 

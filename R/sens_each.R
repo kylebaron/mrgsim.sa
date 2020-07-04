@@ -77,9 +77,13 @@ d_mrgsim_ <- function(x, mod, data,...) {
   mrgsim_df(mod, data = data,  ...) 
 }
 
+#' Coerce sens_each output to data frame
+#' 
+#' @param .case integer scenario number
 #' @export
 as.data.frame.sens_each <- function(x, row.names = NULL, optional = FALSE, ...)  {
-  unnest(mutate(x, .case = seq(n())),cols="data")
+  ans <- unnest(mutate(x, .case = seq_len(n())),cols="data")
+  ans[,unique(c(".case", names(ans)))]
 }
 
 #' @export
@@ -92,6 +96,8 @@ as_tibble.sens_each <- function(x, row.names = NULL, optional = FALSE,
   x
 }
 
+#' Unnest a sens_each object
+#' @param x a sens_each object
 #' @export
 denest <- function(x) {
   x <- mutate(x,.case=seq(n()))

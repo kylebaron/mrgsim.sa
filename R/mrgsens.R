@@ -1,5 +1,11 @@
 #' Run ad-hoc parameter sensitivity analyses with mrgsolve
 #' 
+#' @param mod a mrgsolve model object
+#' @param par parameter names for sensitivity analysis
+#' @param method parameter sequence generation method
+#' @param type use `each` to vary one parameter at a time
+#' @param ... passed to [sens_each]
+#' 
 #' @export
 mrgsens <- function(mod, par, method = c("factor", "cv", "range", "manual"),
                     type = "each", ...) {

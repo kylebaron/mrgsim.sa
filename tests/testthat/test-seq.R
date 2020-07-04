@@ -1,4 +1,5 @@
 library(testthat)
+library(parseq)
 
 context("test-seq")
 

@@ -1,6 +1,6 @@
 
 plot_sens <- function(data, y, x = "time", col = split, 
-                      log = FALSE, split = FALSE, lwd = 0.75) {
+                      logy = FALSE, split = FALSE, lwd = 0.75) {
   
   assert_that(requireNamespace("ggplot2"))
   
@@ -49,7 +49,7 @@ plot_sens <- function(data, y, x = "time", col = split,
     
   })
   
-  if(log) {
+  if(logy) {
     out <- map(out, .f = function(x) {
       x + ggplot2::scale_y_continuous(trans = "log10", breaks = 10^seq(-50,50))  
     })
@@ -80,7 +80,7 @@ sens_factor <- function(data, name, prefix = "sens_facet_", digits = 2) {
 #' \code{\link{sens_grid}}
 #' @param ... arguments passed on to methods
 #' @param col output column name to plot
-#' @param log if \code{TRUE}, y-axis is transformed to log scale
+#' @param logy if \code{TRUE}, y-axis is transformed to log scale
 #' @param ncol passed to \code{\link[ggplot2]{facet_wrap}}
 #' @param bw if \code{TRUE} a simple black and white plot will be generated
 #' when the \code{sens_each} method is used
@@ -93,7 +93,7 @@ sens_plot <- function(data,...) UseMethod("sens_plot")
 
 #' @rdname sens_plot
 #' @export
-sens_plot.sens_each <- function(data, col, log = FALSE, ncol=NULL, bw = FALSE, 
+sens_plot.sens_each <- function(data, col, logy = FALSE, ncol=NULL, bw = FALSE, 
                                 digits = 3, cowplot = TRUE, ...) {
   pars <- unique(data[["name"]])
   npar <- length(unique(pars))
@@ -135,7 +135,7 @@ sens_plot.sens_each <- function(data, col, log = FALSE, ncol=NULL, bw = FALSE,
   })
   if(cowplot) {
     if(!requireNamespace("cowplot")) {
-      stop("Couldn't load cowplot namespace; please install this package from CRAN.")
+      stop("couldn't load cowplot namespace; please install this package from CRAN.")
     }
     return(cowplot::plot_grid(plotlist=plots,ncol=ncol))
   }
@@ -179,7 +179,7 @@ sens_plot.sens_grid <- function(data, col, digits = 2, ncol = NULL,...) {
 #' @export
 sens_plot.sens_each_data <- function(data, ...) {
   stop(
-    "There is no plotting method for objects of this class.  
+    "there is no plotting method for objects of this class.  
 Use 'as_tibble' to coerce to a data frame and then plot with ggplot2."
   )
 }

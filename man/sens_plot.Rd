@@ -11,7 +11,7 @@ sens_plot(data, ...)
 \method{sens_plot}{sens_each}(
   data,
   col,
-  log = FALSE,
+  logy = FALSE,
   ncol = NULL,
   bw = FALSE,
   digits = 3,
@@ -29,7 +29,7 @@ sens_plot(data, ...)
 
 \item{col}{output column name to plot}
 
-\item{log}{if \code{TRUE}, y-axis is transformed to log scale}
+\item{logy}{if \code{TRUE}, y-axis is transformed to log scale}
 
 \item{ncol}{passed to \code{\link[ggplot2]{facet_wrap}}}
 

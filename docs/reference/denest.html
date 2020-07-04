@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Generate a sequence of parameters — parseq_factor • parseq</title>
+<title>Unnest a sens_each object — denest • parseq</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Generate a sequence of parameters — parseq_factor" />
-<meta property="og:description" content="Generate a sequence of parameters" />
+<meta property="og:title" content="Unnest a sens_each object — denest" />
+<meta property="og:description" content="Unnest a sens_each object" />
 
 
 
@@ -103,47 +103,23 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Generate a sequence of parameters</h1>
+    <h1>Unnest a sens_each object</h1>
     
-    <div class="hidden name"><code>parseq_factor.Rd</code></div>
+    <div class="hidden name"><code>denest.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Generate a sequence of parameters</p>
+    <p>Unnest a sens_each object</p>
     </div>
 
-    <pre class="usage"><span class='fu'>parseq_factor</span>(<span class='no'>mod</span>, <span class='no'>...</span>, <span class='kw'>.n</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>.factor</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>.geo</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>denest</span>(<span class='no'>x</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>mod</th>
-      <td><p>a model object</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>unquoted parameter names</p></td>
-    </tr>
-    <tr>
-      <th>.n</th>
-      <td><p>number of parameters to simulate between the minimum
-and maximum parameter values</p></td>
-    </tr>
-    <tr>
-      <th>.factor</th>
-      <td><p>a numeric vector used to divide and multiply the 
-parameter value thus generating the minimum and maximum parameter values,
-respectively, for the sequence; if <code>.factor</code> is length 1 it will be 
-recycled to length 2; the first value is used to divide the nominal 
-value generating the minimum value; the second value is used to multiply
-the nominal value generating the maximum value</p></td>
-    </tr>
-    <tr>
-      <th>.geo</th>
-      <td><p>if <code>TRUE</code> a geometric sequence is generated (evenly
-spaced from min to max on log scale); otherwise, the sequence is 
-evenly spaced on cartesian scale</p></td>
+      <th>x</th>
+      <td><p>a sens_each object</p></td>
     </tr>
     </table>
 

@@ -5,6 +5,8 @@ VERSION=$(shell grep Version DESCRIPTION | awk '{print $$2}')
 TARBALL=${PACKAGE}_${VERSION}.tar.gz
 PKGDIR=.
 
+test: 
+	Rscript -e "testthat::test_dir('tests/testthat')"
 
 cran:
 	make doc
@@ -23,7 +25,6 @@ doc:
 build:
 	R CMD build --md5 $(PKGDIR)
 
-
 install:
 	R CMD INSTALL --install-tests ${TARBALL}
 
@@ -34,3 +35,6 @@ check:
 	make doc
 	make build
 	R CMD CHECK ${TARBALL} 
+
+pkgdown:
+	Rscript -e "pkgdown::build_site()"

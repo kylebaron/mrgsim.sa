@@ -11,7 +11,7 @@
 #' @importFrom tidyr unnest nest
 #' @importFrom tibble tibble as_tibble
 #' @importMethodsFrom mrgsolve as.list param
-#' @importFrom mrgsolve mrgsim_df
+#' @importFrom mrgsolve mrgsim_df ev
 #' @importFrom stats as.formula
 #' @import methods
 #' 

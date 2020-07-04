@@ -10,9 +10,12 @@ sequences of parameters.
 <hr>
 <BR>
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, message = FALSE, comment = '.', 
-                      fig.path = "inst/img/README-")
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  comment = ".",
+  fig.path = "man/figures/README-"
+)
+options(tibble.print_min = 5, tibble.print_max = 5)
 ```
 
 ```{r}

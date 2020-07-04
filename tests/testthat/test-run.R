@@ -1,8 +1,10 @@
 library(testthat)
+library(dplyr)
+library(parseq)
 
 context("test-utils")
-library(dplyr)
-mod <- mrgsolve:::house()
+
+mod <- mrgsolve::house()
 
 test_each <- function(object) {
   a <- identical(names(object),c("name", "value", "data"))
@@ -22,13 +24,12 @@ expect_each <- function(object, n) {
 }
 
 test_that("parseq factor", {
-  
+  mod <- mrgsolve::ev(mod, mrgsolve::ev(amt = 100))
   out <- 
     mod %>% 
-    ev(amt = 100) %>%
     parseq_factor(CL,VC) %>%
     sens_each() 
-  
+
   expect_each(out)
   
 })

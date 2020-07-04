@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Generate a sequence of parameters — parseq_factor • parseq</title>
+<title>Generate a sequence of parameters based on CV — parseq_cv • parseq</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Generate a sequence of parameters — parseq_factor" />
-<meta property="og:description" content="Generate a sequence of parameters" />
+<meta property="og:title" content="Generate a sequence of parameters based on CV — parseq_cv" />
+<meta property="og:description" content="Generate a sequence of parameters based on CV" />
 
 
 
@@ -103,16 +103,16 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Generate a sequence of parameters</h1>
+    <h1>Generate a sequence of parameters based on CV</h1>
     
-    <div class="hidden name"><code>parseq_factor.Rd</code></div>
+    <div class="hidden name"><code>parseq_cv.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Generate a sequence of parameters</p>
+    <p>Generate a sequence of parameters based on CV</p>
     </div>
 
-    <pre class="usage"><span class='fu'>parseq_factor</span>(<span class='no'>mod</span>, <span class='no'>...</span>, <span class='kw'>.n</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>.factor</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>.geo</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>parseq_cv</span>(<span class='no'>mod</span>, <span class='no'>...</span>, <span class='kw'>.cv</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>.n</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>.nsig</span> <span class='kw'>=</span> <span class='fl'>2</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -123,27 +123,20 @@
     </tr>
     <tr>
       <th>...</th>
-      <td><p>unquoted parameter names</p></td>
+      <td><p>model parameter names</p></td>
+    </tr>
+    <tr>
+      <th>.cv</th>
+      <td><p>a coeficient of variation used to determine 
+range of test parameters</p></td>
     </tr>
     <tr>
       <th>.n</th>
-      <td><p>number of parameters to simulate between the minimum
-and maximum parameter values</p></td>
+      <td><p>number of parameters to simulate in the sequence</p></td>
     </tr>
     <tr>
-      <th>.factor</th>
-      <td><p>a numeric vector used to divide and multiply the 
-parameter value thus generating the minimum and maximum parameter values,
-respectively, for the sequence; if <code>.factor</code> is length 1 it will be 
-recycled to length 2; the first value is used to divide the nominal 
-value generating the minimum value; the second value is used to multiply
-the nominal value generating the maximum value</p></td>
-    </tr>
-    <tr>
-      <th>.geo</th>
-      <td><p>if <code>TRUE</code> a geometric sequence is generated (evenly
-spaced from min to max on log scale); otherwise, the sequence is 
-evenly spaced on cartesian scale</p></td>
+      <th>.nsig</th>
+      <td><p>number of standard deviations used to determine the range</p></td>
     </tr>
     </table>
 

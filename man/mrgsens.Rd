@@ -12,6 +12,17 @@ mrgsens(
   ...
 )
 }
+\arguments{
+\item{mod}{a mrgsolve model object}
+
+\item{par}{parameter names for sensitivity analysis}
+
+\item{method}{parameter sequence generation method}
+
+\item{type}{use `each` to vary one parameter at a time}
+
+\item{...}{passed to [sens_each]}
+}
 \description{
 Run ad-hoc parameter sensitivity analyses with mrgsolve
 }

@@ -19,6 +19,7 @@ NULL
 #' 
 #' @export
 parseq_factor <- function(mod, ..., .n = 5, .factor = 2, .geo = TRUE) {
+  
   qpars <- quos(...)
   
   if(length(qpars) > 0) {
@@ -27,11 +28,11 @@ parseq_factor <- function(mod, ..., .n = 5, .factor = 2, .geo = TRUE) {
     if(exists("select", mod@args)) {
       sel <- mod@args[["select"]]      
     } else {
-      stop("Parameter names must be passed or selected.")
+      stop("parameter names must be passed or selected.", call.=FALSE)
     }
   }
   point <- as.list(param(mod))[sel]
-  pars <- map(point, fct_seq, .n = .n, .factor = .factor, .geo=.geo)
+  pars <- map(point, fct_seq, .n = .n, .factor = .factor, .geo = .geo)
   mod@args[["sens_values"]] <- pars
   mod
 }
@@ -113,13 +114,10 @@ parseq_range <- function(mod, ..., .n = 5, .geo = TRUE) {
 #' @export
 parseq_reference <- function(mod, ..., .ref = list(), .auto = TRUE) {
   if(!exists("sens_values", mod@args)) {
-    stop("The test parameters and values must be specified first.")  
+    stop("the test parameters and values must be specified first.")  
   }
   if(.auto) {
     mod@args[["sens_reference"]] <- as.list(param(mod))  
   }
   mod
 }
-
-
-

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Generate a sequence of parameters — parseq_factor • parseq</title>
+<title>Plot sensitivity analysis results — sens_plot • parseq</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Generate a sequence of parameters — parseq_factor" />
-<meta property="og:description" content="Generate a sequence of parameters" />
+<meta property="og:title" content="Plot sensitivity analysis results — sens_plot" />
+<meta property="og:description" content="Plot sensitivity analysis results" />
 
 
 
@@ -103,47 +103,69 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Generate a sequence of parameters</h1>
+    <h1>Plot sensitivity analysis results</h1>
     
-    <div class="hidden name"><code>parseq_factor.Rd</code></div>
+    <div class="hidden name"><code>sens_plot.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Generate a sequence of parameters</p>
+    <p>Plot sensitivity analysis results</p>
     </div>
 
-    <pre class="usage"><span class='fu'>parseq_factor</span>(<span class='no'>mod</span>, <span class='no'>...</span>, <span class='kw'>.n</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>.factor</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>.geo</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>sens_plot</span>(<span class='no'>data</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for sens_each</span>
+<span class='fu'>sens_plot</span>(
+  <span class='no'>data</span>,
+  <span class='no'>col</span>,
+  <span class='kw'>logy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>bw</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>3</span>,
+  <span class='kw'>cowplot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='no'>...</span>
+)
+
+<span class='co'># S3 method for sens_grid</span>
+<span class='fu'>sens_plot</span>(<span class='no'>data</span>, <span class='no'>col</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>mod</th>
-      <td><p>a model object</p></td>
+      <th>data</th>
+      <td><p>output from <code><a href='sens_fun.html'>sens_each</a></code> or 
+<code><a href='sens_fun.html'>sens_grid</a></code></p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>unquoted parameter names</p></td>
+      <td><p>arguments passed on to methods</p></td>
     </tr>
     <tr>
-      <th>.n</th>
-      <td><p>number of parameters to simulate between the minimum
-and maximum parameter values</p></td>
+      <th>col</th>
+      <td><p>output column name to plot</p></td>
     </tr>
     <tr>
-      <th>.factor</th>
-      <td><p>a numeric vector used to divide and multiply the 
-parameter value thus generating the minimum and maximum parameter values,
-respectively, for the sequence; if <code>.factor</code> is length 1 it will be 
-recycled to length 2; the first value is used to divide the nominal 
-value generating the minimum value; the second value is used to multiply
-the nominal value generating the maximum value</p></td>
+      <th>logy</th>
+      <td><p>if <code>TRUE</code>, y-axis is transformed to log scale</p></td>
     </tr>
     <tr>
-      <th>.geo</th>
-      <td><p>if <code>TRUE</code> a geometric sequence is generated (evenly
-spaced from min to max on log scale); otherwise, the sequence is 
-evenly spaced on cartesian scale</p></td>
+      <th>ncol</th>
+      <td><p>passed to <code><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></code></p></td>
+    </tr>
+    <tr>
+      <th>bw</th>
+      <td><p>if <code>TRUE</code> a simple black and white plot will be generated
+when the <code>sens_each</code> method is used</p></td>
+    </tr>
+    <tr>
+      <th>digits</th>
+      <td><p>used to format numbers on the strips</p></td>
+    </tr>
+    <tr>
+      <th>cowplot</th>
+      <td><p>if <code>TRUE</code>, plots from the <code>sens_each</code> method
+will be passed through <code><a href='https://rdrr.io/pkg/cowplot/man/plot_grid.html'>cowplot::plot_grid()</a></code></p></td>
     </tr>
     </table>
 
