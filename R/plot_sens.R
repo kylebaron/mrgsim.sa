@@ -109,7 +109,7 @@ sens_plot.sens_each <- function(data, col, logy = FALSE, ncol=NULL, bw = FALSE,
       geom_line(lwd=0.8) + 
       theme_bw() + 
       facet_wrap(~name,scales = "free_y", ncol = ncol)
-    if(log) {
+    if(logy) {
       p <- p + scale_y_log10()  
     }
     return(p)
@@ -128,7 +128,7 @@ sens_plot.sens_each <- function(data, col, logy = FALSE, ncol=NULL, bw = FALSE,
       facet_wrap(~name,scales = "free_y", ncol = ncol) + 
       theme(legend.position = "top") + 
       scale_color_discrete(name = "")
-    if(log) {
+    if(logy) {
       p <- p + scale_y_log10()  
     }
     p 

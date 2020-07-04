@@ -1,18 +1,33 @@
 parseq: sensitivity analyses on sequences of parameters for mrgsolve
 ================
 
-A simple, clean workflow for simulating from a model across sequences of parameters.
+A simple, clean workflow for simulating from a model across sequences of
+parameters.
 
 <hr>
+
 <BR>
 
 ``` r
 library(parseq)
 ```
 
+    . Loading required package: mrgsolve
+
+    . 
+    . Attaching package: 'mrgsolve'
+
+    . The following object is masked from 'package:stats':
+    . 
+    .     filter
+
 ``` r
 mod <- mread("pk1", modlib(), end = 48, delta = 0.1)
+```
 
+    . Building pk1 ... done.
+
+``` r
 param(mod)
 ```
 
@@ -22,10 +37,11 @@ param(mod)
     .  CL   1     | V    20   
     .  KA   1     | .    .
 
-PK model sensitivity analysis by factor
----------------------------------------
+## PK model sensitivity analysis by factor
 
-The nominal (in model) parameter value is divided and multiplied by a factor, generating minimum and maximum bounds for simulating a sequence of parameter values
+The nominal (in model) parameter value is divided and multiplied by a
+factor, generating minimum and maximum bounds for simulating a sequence
+of parameter values
 
 ``` r
 mod %>% 
@@ -35,16 +51,23 @@ mod %>%
   sens_plot(CP)
 ```
 
-![](inst/img/README-unnamed-chunk-3-1.png)
+    . Loading required namespace: cowplot
 
-HIV viral dynamic model
------------------------
+![](man/figures/README-unnamed-chunk-4-1.png)<!-- -->
 
-We look at latent infected cell pool development over ten years at different "burst" size, or the number of HIV particles released when one cell lyses.
+## HIV viral dynamic model
+
+We look at latent infected cell pool development over ten years at
+different “burst” size, or the number of HIV particles released when one
+cell lyses.
 
 ``` r
 mod <- mread("hiv", "inst/example")
+```
 
+    . Building hiv ... done.
+
+``` r
 mod %>% 
   update(end = 365*10) %>%
   parseq_range(N = c(900,1500), .n = 10) %>%
@@ -52,16 +75,19 @@ mod %>%
   sens_plot(L)
 ```
 
-![](inst/img/README-unnamed-chunk-4-1.png)
+![](man/figures/README-unnamed-chunk-5-1.png)<!-- -->
 
-Sensitivity analysis on custom sequences
-----------------------------------------
+## Sensitivity analysis on custom sequences
 
 The model is rifampicin PBPK.
 
 ``` r
 mod <- mread("inst/example/rifampicin.cpp") %>% update(delta = 0.1)
+```
 
+    . Building rifampicin_cpp ... done.
+
+``` r
 mod %>% 
   ev(amt = 600) %>% 
   parseq_manual(
@@ -72,14 +98,16 @@ mod %>%
   sens_plot(Ccentral, bw = TRUE)
 ```
 
-![](inst/img/README-unnamed-chunk-5-1.png)
+![](man/figures/README-unnamed-chunk-6-1.png)<!-- -->
 
-Simulate a grid
-===============
+# Simulate a grid
 
-To this point, we have always used `sens_each` so that each value for each parameter is simulated one at a time. Now, simulate the grid or all combinations.
+To this point, we have always used `sens_each` so that each value for
+each parameter is simulated one at a time. Now, simulate the grid or all
+combinations.
 
-We use `parseq_cv` here, which generates lower and upper bounds for the range using 50% coefficient of variation.
+We use `parseq_cv` here, which generates lower and upper bounds for the
+range using 50% coefficient of variation.
 
 ``` r
 library(ggplot2)
@@ -91,4 +119,4 @@ mod %>%
   sens_plot(Ccentral)
 ```
 
-![](inst/img/README-unnamed-chunk-6-1.png)
+![](man/figures/README-unnamed-chunk-7-1.png)<!-- -->

@@ -36,5 +36,8 @@ check:
 	make build
 	R CMD CHECK ${TARBALL} 
 
+readme:
+	Rscript -e "rmarkdown::render('README.Rmd')"
+
 pkgdown:
 	Rscript -e "pkgdown::build_site()"

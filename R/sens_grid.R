@@ -2,7 +2,7 @@
 # nocov-start
 
 #' @rdname sens_fun
-#' 
+#' @export
 sens_grid <- function(mod, idata = NULL, ...) {
   if(is.data.frame(mod@args[["data"]])) {
     return(sens_grid_data(mod, data = mod@args[["data"]], idata = NULL, ...))  
