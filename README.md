@@ -44,16 +44,34 @@ factor, generating minimum and maximum bounds for simulating a sequence
 of parameter values
 
 ``` r
-mod %>% 
+out <- 
+  mod %>% 
   ev(amt = 100) %>% 
   parseq_factor(CL, V, .n=8) %>% 
-  sens_each() %>% 
-  sens_plot("CP")
+  sens_each() 
+
+sens_plot(out, "CP")
 ```
 
     . Loading required namespace: cowplot
 
 ![](man/figures/README-unnamed-chunk-4-1.png)<!-- -->
+
+The simulated data is returned in a long format
+
+``` r
+out
+```
+
+    . # A tibble: 23,232 x 7
+    .    case  time p_name p_value dv_name dv_value ref_value
+    . * <int> <dbl> <chr>    <dbl> <chr>      <dbl>     <dbl>
+    . 1     1     0 CL         0.5 EV             0         0
+    . 2     1     0 CL         0.5 EV             0       100
+    . 3     1     0 CL         0.5 CENT           0         0
+    . 4     1     0 CL         0.5 CENT           0         0
+    . 5     1     0 CL         0.5 CP             0         0
+    . # … with 23,227 more rows
 
 ## HIV viral dynamic model
 
@@ -75,7 +93,7 @@ mod %>%
   sens_plot("L")
 ```
 
-![](man/figures/README-unnamed-chunk-5-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-6-1.png)<!-- -->
 
 ## Sensitivity analysis on custom sequences
 
@@ -98,7 +116,7 @@ mod %>%
   sens_plot("Ccentral")
 ```
 
-![](man/figures/README-unnamed-chunk-6-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-7-1.png)<!-- -->
 
 # Simulate a grid
 
@@ -119,4 +137,4 @@ mod %>%
   sens_plot(Ccentral)
 ```
 
-![](man/figures/README-unnamed-chunk-7-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-8-1.png)<!-- -->

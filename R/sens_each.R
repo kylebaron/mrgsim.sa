@@ -35,7 +35,7 @@ sens_each <- function(mod, idata = NULL, ...) {
   if(!is.null(idata)) {
     stop("'idata use' is not allowed with this workflow.")
   }
-  ref <- p_mrgsim_(NULL,mod)
+  ref <- p_mrgsim_(NULL,mod,...)
   ref <- mutate(
     ref, 
     ref_value = .data[["dv_value"]], 

@@ -37,12 +37,21 @@ and multiplied by a factor, generating minimum and maximum
 bounds for simulating a sequence of parameter values
 
 ```{r}
-mod %>% 
+out <- 
+  mod %>% 
   ev(amt = 100) %>% 
   parseq_factor(CL, V, .n=8) %>% 
-  sens_each() %>% 
-  sens_plot("CP")
+  sens_each() 
+
+sens_plot(out, "CP")
 ```
+
+The simulated data is returned in a long format
+```{r}
+out
+```
+
+
 
 ## HIV viral dynamic model
 
