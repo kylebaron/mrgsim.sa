@@ -144,7 +144,7 @@ sens_plot.sens_each <- function(data, dv_name, logy = FALSE, ncol=NULL,
     if(isTRUE(plot_ref)) {
       p <- p + geom_line(
           aes(.data[["time"]],.data[["ref_value"]]),
-          col="black", lty = 3, lwd = 1
+          col="black", lty = 2, lwd = 0.7
         )
     }
     p 
@@ -164,7 +164,7 @@ sens_plot.sens_each <- function(data, dv_name, logy = FALSE, ncol=NULL,
 sens_plot.sens_grid <- function(data, col, digits = 2, ncol = NULL,...) {
   npar <- ncol(data)-1
   if(npar > 3) {
-    stop("More than 3 parameters not allowed in the plot method for this object.")  
+    stop("more than 3 parameters not allowed in the plot method for this object.")  
   }
   data <- mutate(data,.case = seq(n()))
   data <- unnest(data,cols="data")
