@@ -144,7 +144,7 @@ sens_plot.sens_each <- function(data, dv_name, logy = FALSE, ncol=NULL,
     if(isTRUE(plot_ref)) {
       p <- p + geom_line(
           aes(.data[["time"]],.data[["ref_value"]]),
-          col="black", lty = 2, lwd = 1
+          col="black", lty = 3, lwd = 1
         )
     }
     p 
