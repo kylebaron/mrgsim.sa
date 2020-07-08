@@ -1,62 +1,62 @@
 
-plot_sens <- function(data, y, x = "time", col = split, 
-                      logy = FALSE, split = FALSE, lwd = 0.75) {
-  
-  assert_that(requireNamespace("ggplot2"))
-  
-  y <- enexpr(y)
-  x <- enexpr(x)
-  
-  if(split){
-    sp <- split(data, data$.name)
-  } else {
-    sp <- split(data, rep(1,nrow(data)))  
-  }
-  
-  out <- lapply(sp, function(.data) {
-    
-    .data <- mutate(.data, ID = paste(.data[["ID"]], .data[[".parid"]]))
-    
-    nlev <- length(unique(.data$.value))
-    
-    if(nlev <=1) col <- FALSE
-    
-    if(nlev <= 16 & col) {
-      .data <- mutate(.data, sens_value = factor(signif(.data[[".value"]],3)))
-    } else {
-      .data <- mutate(.data, sens_value = .data[[".value"]])  
-    }
-    
-    p <- ggplot2::ggplot(.data) 
-    if(col) {
-      p <- p + 
-        ggplot2::geom_line(
-          ggplot2::aes_string(x,y,group="ID",col="sens_value"),lwd = lwd
-        )  
-      if(nlev > 8 & nlev <= 16) {
-        p <- p + ggplot2::guides(color=ggplot2::guide_legend(ncol=6))
-      }
-    } else {
-      p <- p + 
-        ggplot2::geom_line(
-          ggplot2::aes_string(x,y,group="ID"), lwd = lwd
-        )  
-    }
-    
-    p <- p + ggplot2::facet_wrap(~.name) + ggplot2::labs(color = "")
-    
-    p + ggplot2::theme_bw() + ggplot2::theme(legend.position = "top")
-    
-  })
-  
-  if(logy) {
-    out <- map(out, .f = function(x) {
-      x + ggplot2::scale_y_continuous(trans = "log10", breaks = 10^seq(-50,50))  
-    })
-  }
-  if(length(out)==1) return(out[[1]])
-  return(out)
-}
+# plot_sens <- function(data, y, x = "time", col = split, 
+#                       logy = FALSE, split = FALSE, lwd = 0.75) {
+#   
+#   assert_that(requireNamespace("ggplot2"))
+#   
+#   y <- enexpr(y)
+#   x <- enexpr(x)
+#   
+#   if(split){
+#     sp <- split(data, data$.name)
+#   } else {
+#     sp <- split(data, rep(1,nrow(data)))  
+#   }
+#   
+#   out <- lapply(sp, function(.data) {
+#     
+#     .data <- mutate(.data, ID = paste(.data[["ID"]], .data[[".parid"]]))
+#     
+#     nlev <- length(unique(.data$.value))
+#     
+#     if(nlev <=1) col <- FALSE
+#     
+#     if(nlev <= 16 & col) {
+#       .data <- mutate(.data, sens_value = factor(signif(.data[[".value"]],3)))
+#     } else {
+#       .data <- mutate(.data, sens_value = .data[[".value"]])  
+#     }
+#     
+#     p <- ggplot2::ggplot(.data) 
+#     if(col) {
+#       p <- p + 
+#         ggplot2::geom_line(
+#           ggplot2::aes_string(x,y,group="ID",col="sens_value"),lwd = lwd
+#         )  
+#       if(nlev > 8 & nlev <= 16) {
+#         p <- p + ggplot2::guides(color=ggplot2::guide_legend(ncol=6))
+#       }
+#     } else {
+#       p <- p + 
+#         ggplot2::geom_line(
+#           ggplot2::aes_string(x,y,group="ID"), lwd = lwd
+#         )  
+#     }
+#     
+#     p <- p + ggplot2::facet_wrap(~.name) + ggplot2::labs(color = "")
+#     
+#     p + ggplot2::theme_bw() + ggplot2::theme(legend.position = "top")
+#     
+#   })
+#   
+#   if(logy) {
+#     out <- map(out, .f = function(x) {
+#       x + ggplot2::scale_y_continuous(trans = "log10", breaks = 10^seq(-50,50))  
+#     })
+#   }
+#   if(length(out)==1) return(out[[1]])
+#   return(out)
+# }
 
 
 
@@ -64,7 +64,7 @@ sens_factor <- function(data, .name, prefix = "sens_facet_", digits = 2) {
   ux <- sort(unique(data[[.name]]))
   new_col <- paste0(prefix,.name)
   mutate(
-    data, 
+    data,
     !!new_col := factor(
       .data[[.name]],
       ux,
@@ -79,28 +79,37 @@ sens_factor <- function(data, .name, prefix = "sens_facet_", digits = 2) {
 #' @param data output from \code{\link{sens_each}} or 
 #' \code{\link{sens_grid}}
 #' @param ... arguments passed on to methods
-#' @param col output column name to plot
+#' @param dv_name output column name to plot
 #' @param logy if \code{TRUE}, y-axis is transformed to log scale
 #' @param ncol passed to \code{\link[ggplot2]{facet_wrap}}
 #' @param bw if \code{TRUE} a simple black and white plot will be generated
 #' when the \code{sens_each} method is used
 #' @param digits used to format numbers on the strips
+#' @param plot_ref if `TRUE`, then the reference case will be plotted in a black
+#' dashed line
 #' @param cowplot if \code{TRUE}, plots from the \code{sens_each} method
 #' will be passed through \code{cowplot::plot_grid()}
 #' 
 #' @export
 sens_plot <- function(data,...) UseMethod("sens_plot")
 
+#' @param xlab x-axis title
+#' @param ylab y-axis title
 #' @rdname sens_plot
 #' @export
-sens_plot.sens_each <- function(data, col, logy = FALSE, ncol=NULL, bw = FALSE, 
-                                digits = 3, cowplot = TRUE, ...) {
-  pars <- unique(data[[".name"]])
+sens_plot.sens_each <- function(data, dv_name, logy = FALSE, ncol=NULL, 
+                                bw = FALSE, digits = 3, plot_ref = TRUE,
+                                xlab = "time", ylab = dv_name[1],
+                                cowplot = TRUE, ...) {
+  pars <- unique(data[["p_name"]])
   npar <- length(unique(pars))
-  data <- as.data.frame(data) 
-  group <- sym(".value")
+  
+  group <- sym("p_value")
   x <- sym("time")
-  y <- enexpr(col)
+  y <- enexpr(dv_name)
+  
+  data <- as_tibble(data)
+  data <- select_sens(data, dv_name = dv_name)
   
   if(bw) {
     p <- ggplot(data=data, aes(!!x,!!y,group=!!group))
@@ -108,28 +117,35 @@ sens_plot.sens_each <- function(data, col, logy = FALSE, ncol=NULL, bw = FALSE,
       p + 
       geom_line(lwd=0.8) + 
       theme_bw() + 
-      facet_wrap(~.name,scales = "free_y", ncol = ncol)
+      facet_wrap(~p_name,scales = "free_y", ncol = ncol) + 
+      xlab(xlab) + ylab(ylab)
     if(logy) {
       p <- p + scale_y_log10()  
     }
     return(p)
   } ## Simple case
   
-  sp <- split(data,data[[".name"]])
+  sp <- split(data,data[["p_name"]])
   
   plots <- lapply(sp, function(chunk) {
-    chunk[[".value"]] <- signif(chunk[[".value"]],digits)
-    chunk[[".value"]] <- factor(chunk[[".value"]])
-    p <- ggplot(data=chunk, aes(!!x,!!y,group=!!group,col=!!group))
+    chunk[["p_value"]] <- signif(chunk[["p_value"]],digits)
+    chunk[["p_value"]] <- factor(chunk[["p_value"]])
+    p <- ggplot(data=chunk, aes(!!x,!!sym(y),group=!!group,col=!!group))
     p <- 
       p + 
       geom_line(lwd=0.8) + 
-      theme_bw() + 
-      facet_wrap(~.name,scales = "free_y", ncol = ncol) + 
+      theme_bw() + xlab(xlab) + ylab(ylab) + 
+      facet_wrap(~p_name,scales = "free_y", ncol = ncol) + 
       theme(legend.position = "top") + 
       scale_color_discrete(name = "")
-    if(logy) {
+    if(isTRUE(logy)) {
       p <- p + scale_y_log10()  
+    }
+    if(isTRUE(plot_ref)) {
+      p <- p + geom_line(
+          aes(.data[["time"]],.data[["ref_value"]]),
+          col="black", lty = 2, lwd = 1
+        )
     }
     p 
   })
@@ -142,6 +158,7 @@ sens_plot.sens_each <- function(data, col, logy = FALSE, ncol=NULL, bw = FALSE,
   return(plots)
 }
 
+#' @param col outputs to plot
 #' @rdname sens_plot
 #' @export
 sens_plot.sens_grid <- function(data, col, digits = 2, ncol = NULL,...) {

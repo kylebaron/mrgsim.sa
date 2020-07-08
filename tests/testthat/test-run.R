@@ -7,7 +7,7 @@ context("test-utils")
 mod <- mrgsolve::house()
 
 test_each <- function(object) {
-  a <- identical(names(object),c(".name", ".value", "data"))
+  a <- identical(names(object),c("p_name", ".value", "data"))
   cl <- purrr::map_chr(object,class)
   b <- identical(cl,c(.name="character", .value="numeric", data="list"))
   c <- is.tbl(object)
@@ -29,6 +29,6 @@ test_that("parseq factor", {
     mod %>% 
     parseq_factor(CL,VC) %>%
     sens_each() 
-  expect_each(out)
+  expect_is(out, "sens_each")
 })
 

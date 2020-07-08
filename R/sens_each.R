@@ -1,3 +1,23 @@
+#' Select sensitivity runs from a sens_each object
+#' 
+#' @param x a sens_each object
+#' @param dv_name character names of dependent variables to select
+#' @param p_name character names of parameters to select
+#' 
+#' @export
+select_sens <- function(x,dv_name = NULL, p_name = NULL) {
+  x <- as_tibble(x)
+  if(!is.null(dv_name)) {
+    x <- filter(x, dv_name == .env[["dv_name"]])
+    x <- rename(x, !!dv_name := .data[["dv_value"]])
+    x[["dv_name"]] <-  NULL
+  }
+  if(!is.null(p_name)) {
+    x <- filter(x, .env[["p_name"]] %in% .data[["p_name"]]) 
+    x <- mutate(x, p_name = factor(.env[["p_name"]], levels = unique(.data[["p_name"]])))
+  }
+  x
+}
 
 #' @rdname sens_fun
 #' @name sens_each
@@ -15,18 +35,26 @@ sens_each <- function(mod, idata = NULL, ...) {
   if(!is.null(idata)) {
     stop("'idata use' is not allowed with this workflow.")
   }
+  ref <- p_mrgsim_(tibble(),mod)
+  ref <- mutate(
+    ref, 
+    ref_value = .data[["dv_value"]], 
+    dv_value = NULL, 
+    ID = NULL
+  )
   parlist <- mod@args[["sens_values"]] 
   pars <- list_2_idata(parlist)
   dims <- map_int(parlist,length)
   out <- tibble(
-    .name = rep(names(dims),dims),
-    .value = unlist(parlist,use.names = FALSE),
-    data = p_mrgsim(mod, pars, ...)
+    p_name = rep(names(dims),dims),
+    p_value = unlist(parlist,use.names = FALSE),
+    data = p_mrgsim(mod, pars,...)
   )
-  sim.ref <- mrgsim_df(mod, ...)
-  sim.ref$ID <- 0
-  ref <- tibble(.name = ".reference", .value = 0, data = list(sim.ref))
-  structure(out, class = c("sens_each",class(out)),ref = ref)
+  out <- denest(out)
+  out[["ID"]] <- NULL
+  out <- left_join(out,ref, by = c("time", "dv_name"))
+  out <- out[, unique(c("case", "time",names(out))),drop=FALSE]
+  structure(out, class = c("sens_each",class(out)))
 }
 
 p_mrgsim <- function(mod, pars, ...) {
@@ -38,8 +66,16 @@ p_mrgsim <- function(mod, pars, ...) {
     unname()
 }
 
-p_mrgsim_ <- function(x,mod,...) {
-  mrgsim_df(mod, idata = x, ...) 
+p_mrgsim_ <- function(x,mod, ...) {
+  ans <- mrgsim_df(mod, idata = x, ...) 
+  ans <- pivot_longer(
+    ans,
+    cols = seq(3,ncol(ans)), 
+    names_to = "dv_name", 
+    values_to = "dv_value"
+  )
+  names(ans)[2] <- "time"
+  ans
 }
 
 
@@ -63,8 +99,8 @@ sens_each_data <- function(mod, data, idata = NULL, ...) {
   dims <- map_int(pars,length)
   pars <- flatten(pars)
   out <- tibble(
-    .name = rep(names(dims),dims),
-    .value = unlist(parlist,use.names = FALSE),
+    p_name = rep(names(dims),dims),
+    p_value = unlist(parlist,use.names = FALSE),
     data = d_mrgsim(mod, pars, data = data, ...)
   )
   structure(out, class = c("sens_data",class(out)))
@@ -97,7 +133,6 @@ as_tibble.sens_each <- function(x, row.names = NULL, optional = FALSE,
   cl <- class(x)
   cl <- cl[cl!="sens_each"]
   x <- structure(x, class = cl)
-  if(unnest) x <- denest(x)
   x
 }
 
@@ -105,9 +140,10 @@ as_tibble.sens_each <- function(x, row.names = NULL, optional = FALSE,
 #' @param x a sens_each object
 #' @export
 denest <- function(x) {
-  x <- mutate(x,.case=seq_len(nrow(x)))
-  x <- x[,unique(c(".case", names(x))),drop=FALSE]
-  unnest(x,cols="data")  
+  x <- mutate(x,case=seq_len(nrow(x)))
+  x <- unnest(x,cols="data")  
+  x[["ID"]] <- NULL
+  x
 }
 
 #' @export

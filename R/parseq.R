@@ -111,12 +111,15 @@ parseq_range <- function(mod, ..., .n = 5, .geo = TRUE) {
 
 #' Set reference values for each parameter
 #' 
+#' @param mod a model object
+#' @param auto if `TRUE` then the model parameter list is used
+#' @md
 #' @export
-parseq_reference <- function(mod, ..., .ref = list(), .auto = TRUE) {
+parseq_reference <- function(mod,auto = TRUE) {
   if(!exists("sens_values", mod@args)) {
     stop("the test parameters and values must be specified first.")  
   }
-  if(.auto) {
+  if(auto) {
     mod@args[["sens_reference"]] <- as.list(param(mod))  
   }
   mod

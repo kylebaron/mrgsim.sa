@@ -4,7 +4,12 @@
 \alias{parseq_reference}
 \title{Set reference values for each parameter}
 \usage{
-parseq_reference(mod, ..., .ref = list(), .auto = TRUE)
+parseq_reference(mod, auto = TRUE)
+}
+\arguments{
+\item{mod}{a model object}
+
+\item{auto}{if \code{TRUE} then the model parameter list is used}
 }
 \description{
 Set reference values for each parameter

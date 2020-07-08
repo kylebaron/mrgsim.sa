@@ -19,9 +19,9 @@ mrgsens(
 
 \item{method}{parameter sequence generation method}
 
-\item{type}{use `each` to vary one parameter at a time}
+\item{type}{use \code{each} to vary one parameter at a time}
 
-\item{...}{passed to [sens_each]}
+\item{...}{passed to \link{sens_each}}
 }
 \description{
 Run ad-hoc parameter sensitivity analyses with mrgsolve

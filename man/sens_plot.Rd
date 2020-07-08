@@ -10,11 +10,14 @@ sens_plot(data, ...)
 
 \method{sens_plot}{sens_each}(
   data,
-  col,
+  dv_name,
   logy = FALSE,
   ncol = NULL,
   bw = FALSE,
   digits = 3,
+  plot_ref = TRUE,
+  xlab = "time",
+  ylab = dv_name[1],
   cowplot = TRUE,
   ...
 )
@@ -27,7 +30,7 @@ sens_plot(data, ...)
 
 \item{...}{arguments passed on to methods}
 
-\item{col}{output column name to plot}
+\item{dv_name}{output column name to plot}
 
 \item{logy}{if \code{TRUE}, y-axis is transformed to log scale}
 
@@ -38,8 +41,17 @@ when the \code{sens_each} method is used}
 
 \item{digits}{used to format numbers on the strips}
 
+\item{plot_ref}{if `TRUE`, then the reference case will be plotted in a black
+dashed line}
+
+\item{xlab}{x-axis title}
+
+\item{ylab}{y-axis title}
+
 \item{cowplot}{if \code{TRUE}, plots from the \code{sens_each} method
 will be passed through \code{cowplot::plot_grid()}}
+
+\item{col}{outputs to plot}
 }
 \description{
 Plot sensitivity analysis results
