@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plot sensitivity analysis results — sens_plot • parseq</title>
+<title>Select sensitivity runs from a sens_each object — select_sens • parseq</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Plot sensitivity analysis results — sens_plot" />
-<meta property="og:description" content="Plot sensitivity analysis results" />
+<meta property="og:title" content="Select sensitivity runs from a sens_each object — select_sens" />
+<meta property="og:description" content="Select sensitivity runs from a sens_each object" />
 
 
 
@@ -103,89 +103,31 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Plot sensitivity analysis results</h1>
+    <h1>Select sensitivity runs from a sens_each object</h1>
     
-    <div class="hidden name"><code>sens_plot.Rd</code></div>
+    <div class="hidden name"><code>select_sens.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Plot sensitivity analysis results</p>
+    <p>Select sensitivity runs from a sens_each object</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sens_plot</span>(<span class='no'>data</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for sens_each</span>
-<span class='fu'>sens_plot</span>(
-  <span class='no'>data</span>,
-  <span class='no'>dv_name</span>,
-  <span class='kw'>logy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>bw</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-  <span class='kw'>plot_ref</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>xlab</span> <span class='kw'>=</span> <span class='st'>"time"</span>,
-  <span class='kw'>ylab</span> <span class='kw'>=</span> <span class='no'>dv_name</span>[<span class='fl'>1</span>],
-  <span class='kw'>cowplot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='no'>...</span>
-)
-
-<span class='co'># S3 method for sens_grid</span>
-<span class='fu'>sens_plot</span>(<span class='no'>data</span>, <span class='no'>col</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>select_sens</span>(<span class='no'>x</span>, <span class='kw'>dv_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>p_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>data</th>
-      <td><p>output from <code><a href='sens_fun.html'>sens_each</a></code> or 
-<code><a href='sens_fun.html'>sens_grid</a></code></p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>arguments passed on to methods</p></td>
+      <th>x</th>
+      <td><p>a sens_each object</p></td>
     </tr>
     <tr>
       <th>dv_name</th>
-      <td><p>output column name to plot</p></td>
+      <td><p>character names of dependent variables to select</p></td>
     </tr>
     <tr>
-      <th>logy</th>
-      <td><p>if <code>TRUE</code>, y-axis is transformed to log scale</p></td>
-    </tr>
-    <tr>
-      <th>ncol</th>
-      <td><p>passed to <code><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></code></p></td>
-    </tr>
-    <tr>
-      <th>bw</th>
-      <td><p>if <code>TRUE</code> a simple black and white plot will be generated
-when the <code>sens_each</code> method is used</p></td>
-    </tr>
-    <tr>
-      <th>digits</th>
-      <td><p>used to format numbers on the strips</p></td>
-    </tr>
-    <tr>
-      <th>plot_ref</th>
-      <td><p>if `TRUE`, then the reference case will be plotted in a black
-dashed line</p></td>
-    </tr>
-    <tr>
-      <th>xlab</th>
-      <td><p>x-axis title</p></td>
-    </tr>
-    <tr>
-      <th>ylab</th>
-      <td><p>y-axis title</p></td>
-    </tr>
-    <tr>
-      <th>cowplot</th>
-      <td><p>if <code>TRUE</code>, plots from the <code>sens_each</code> method
-will be passed through <code><a href='https://rdrr.io/pkg/cowplot/man/plot_grid.html'>cowplot::plot_grid()</a></code></p></td>
-    </tr>
-    <tr>
-      <th>col</th>
-      <td><p>outputs to plot</p></td>
+      <th>p_name</th>
+      <td><p>character names of parameters to select</p></td>
     </tr>
     </table>
 

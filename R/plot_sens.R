@@ -106,7 +106,7 @@ sens_plot.sens_each <- function(data, dv_name, logy = FALSE, ncol=NULL,
   
   group <- sym("p_value")
   x <- sym("time")
-  y <- enexpr(dv_name)
+  y <- sym(dv_name)
   
   data <- as_tibble(data)
   data <- select_sens(data, dv_name = dv_name)

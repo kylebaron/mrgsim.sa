@@ -48,7 +48,7 @@ mod %>%
   ev(amt = 100) %>% 
   parseq_factor(CL, V, .n=8) %>% 
   sens_each() %>% 
-  sens_plot(CP)
+  sens_plot("CP")
 ```
 
     . Loading required namespace: cowplot
@@ -72,7 +72,7 @@ mod %>%
   update(end = 365*10) %>%
   parseq_range(N = c(900,1500), .n = 10) %>%
   sens_each(tscale = 1/365) %>% 
-  sens_plot(L)
+  sens_plot("L")
 ```
 
 ![](man/figures/README-unnamed-chunk-5-1.png)<!-- -->
@@ -95,7 +95,7 @@ mod %>%
     Kp_muscle = even_seq(0.001, 0.1, .n = 6)
   ) %>% 
   sens_each() %>% 
-  sens_plot(Ccentral, bw = TRUE)
+  sens_plot("Ccentral")
 ```
 
 ![](man/figures/README-unnamed-chunk-6-1.png)<!-- -->
