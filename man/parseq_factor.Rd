@@ -16,12 +16,12 @@ and maximum parameter values}
 
 \item{.factor}{a numeric vector used to divide and multiply the 
 parameter value thus generating the minimum and maximum parameter values,
-respectively, for the sequence; if \code{.factor} is length 1 it will be 
+respectively, for the sequence; if `.factor` is length 1 it will be 
 recycled to length 2; the first value is used to divide the nominal 
 value generating the minimum value; the second value is used to multiply
 the nominal value generating the maximum value}
 
-\item{.geo}{if \code{TRUE} a geometric sequence is generated (evenly
+\item{.geo}{if `TRUE` a geometric sequence is generated (evenly
 spaced from min to max on log scale); otherwise, the sequence is 
 evenly spaced on cartesian scale}
 }

@@ -1,8 +1,8 @@
 #' Generate a geometric sequence of parameter values
 #' 
-#' @param from passed to \code{\link{seq}} 
-#' @param to passed to \code{\link{seq}}
-#' @param .n passed to \code{\link{seq}} as \code{length.out}
+#' @param from passed to [base::seq()]
+#' @param to passed to [base::seq()]
+#' @param .n passed to [base::seq()] as `length.out`
 #' 
 #' @examples
 #' geo_seq(1,10,10)
@@ -25,11 +25,11 @@ geo_seq_ <- function(point,.n=5) {
 #' @param .n number of elements in the sequence
 #' @param .factor an integer vector of length 1 or 2; if length 1, 
 #' values will be recycled to length 2; the first number used to divide
-#' \code{point} to generate the minimum value in the sequence; the second 
-#' number is used to multiply \code{point} to generate the 
+#' `point` to generate the minimum value in the sequence; the second 
+#' number is used to multiply `point` to generate the 
 #' maximum value in the sequence
-#' @param .geo if \code{TRUE}, \code{\link{geo_seq}} is used to generate
-#' the sequence; otherwise, \code{\link{even_seq}} is used to generate 
+#' @param .geo if `TRUE`, [geo_seq()] is used to generate
+#' the sequence; otherwise, [even_seq()] is used to generate 
 #' the sequence
 #' 
 #' @examples
@@ -37,7 +37,7 @@ geo_seq_ <- function(point,.n=5) {
 #' fct_seq(10)
 #' 
 #' @export
-fct_seq <- function(point, .n = 5, .factor = c(3,3), .geo=TRUE) {
+fct_seq <- function(point, .n = 5, .factor = c(3,3), .geo = TRUE) {
   assert_that(length(point)==1)
   if(length(.factor)==1) .factor <- c(.factor, .factor)
   point <- c(point/.factor[1], point*.factor[2])
@@ -50,9 +50,9 @@ fct_seq <- function(point, .n = 5, .factor = c(3,3), .geo=TRUE) {
 
 #' Generate evenly spaced sequence
 #' 
-#' @param from passed to \code{\link{seq}} 
-#' @param to passed to \code{\link{seq}}
-#' @param .n passed to \code{\link{seq}} as \code{length.out}
+#' @param from passed to [base::seq()]
+#' @param to passed to [base::seq()]
+#' @param .n passed to [base::seq()] as `length.out`
 #' 
 #' @examples
 #' even_seq(1, 10, 4)
@@ -62,7 +62,7 @@ even_seq <- function(from, to, .n = 5) {
   seq(from, to, length.out=.n) 
 }
 
-even_seq_ <- function(point,.n=5) {
+even_seq_ <- function(point, .n = 5) {
   map(point, function(x) {
     even_seq(x[1],x[2], .n)
   }) 
@@ -74,14 +74,14 @@ even_seq_ <- function(point,.n=5) {
 #' @param point reference parameter value
 #' @param .cv coefficient of variation
 #' @param .n number of values to simulate in the sequence
-#' @param .nsig number of standard deviations defining the 
+#' @param .nsd number of standard deviations defining the 
 #' range of simulated parameter values
 #' 
 #' @export 
-cv_seq <- function(point, .cv=30, .n=5, .nsig=2) {
+cv_seq <- function(point, .cv = 30, .n = 5, .nsd = 2) {
   std <- sqrt((.cv/100)^2)
-  from <- log(point) - .nsig*std
-  to <-   log(point) + .nsig*std
+  from <- log(point) - .nsd*std
+  to <-   log(point) + .nsd*std
   exp(seq(from, to, length.out = .n))
 }
 

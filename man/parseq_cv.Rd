@@ -4,7 +4,7 @@
 \alias{parseq_cv}
 \title{Generate a sequence of parameters based on CV}
 \usage{
-parseq_cv(mod, ..., .cv = 30, .n = 5, .nsig = 2)
+parseq_cv(mod, ..., .cv = 30, .n = 5, .nsd = 2)
 }
 \arguments{
 \item{mod}{a model object}
@@ -16,7 +16,7 @@ range of test parameters}
 
 \item{.n}{number of parameters to simulate in the sequence}
 
-\item{.nsig}{number of standard deviations used to determine the range}
+\item{.nsd}{number of standard deviations used to determine the range}
 }
 \description{
 Generate a sequence of parameters based on CV

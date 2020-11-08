@@ -7,11 +7,11 @@
 geo_seq(from, to, .n = 5)
 }
 \arguments{
-\item{from}{passed to \code{\link{seq}}}
+\item{from}{passed to [base::seq()]}
 
-\item{to}{passed to \code{\link{seq}}}
+\item{to}{passed to [base::seq()]}
 
-\item{.n}{passed to \code{\link{seq}} as \code{length.out}}
+\item{.n}{passed to [base::seq()] as `length.out`}
 }
 \description{
 Generate a geometric sequence of parameter values

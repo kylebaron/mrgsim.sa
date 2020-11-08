@@ -1,6 +1,14 @@
 #' @include utils.R
 NULL
 
+save_sens_values <- function(mod, values) {
+  if(!is.list(mod@args[["sens_values"]])) {
+    mod@args[["sens_values"]] <- list()
+  }
+  mod@args[["sens_values"]] <- combine_list(mod@args[["sens_values"]], values)
+  mod
+}
+
 #' Generate a sequence of parameters
 #' 
 #' @param mod a model object
@@ -9,11 +17,11 @@ NULL
 #' and maximum parameter values
 #' @param .factor a numeric vector used to divide and multiply the 
 #' parameter value thus generating the minimum and maximum parameter values,
-#' respectively, for the sequence; if \code{.factor} is length 1 it will be 
+#' respectively, for the sequence; if `.factor` is length 1 it will be 
 #' recycled to length 2; the first value is used to divide the nominal 
 #' value generating the minimum value; the second value is used to multiply
 #' the nominal value generating the maximum value
-#' @param .geo if \code{TRUE} a geometric sequence is generated (evenly
+#' @param .geo if `TRUE` a geometric sequence is generated (evenly
 #' spaced from min to max on log scale); otherwise, the sequence is 
 #' evenly spaced on cartesian scale
 #' 
@@ -33,7 +41,7 @@ parseq_factor <- function(mod, ..., .n = 5, .factor = 2, .geo = TRUE) {
   }
   point <- as.list(param(mod))[sel]
   pars <- map(point, fct_seq, .n = .n, .factor = .factor, .geo = .geo)
-  mod@args[["sens_values"]] <- pars
+  mod <- save_sens_values(mod, pars)
   mod
 }
 
@@ -44,10 +52,10 @@ parseq_factor <- function(mod, ..., .n = 5, .factor = 2, .geo = TRUE) {
 #' @param .cv a coefficient of variation used to determine 
 #' range of test parameters
 #' @param .n number of parameters to simulate in the sequence
-#' @param .nsig number of standard deviations used to determine the range
+#' @param .nsd number of standard deviations used to determine the range
 #' 
 #' @export
-parseq_cv <- function(mod, ..., .cv = 30, .n = 5, .nsig = 2) {
+parseq_cv <- function(mod, ..., .cv = 30, .n = 5, .nsd = 2) {
   qpars <- quos(...)
   
   if(length(qpars) > 0) {
@@ -60,8 +68,8 @@ parseq_cv <- function(mod, ..., .cv = 30, .n = 5, .nsig = 2) {
     }
   }
   point <- as.list(param(mod))[sel]
-  pars <- map(point, cv_seq, .n = .n, .cv = .cv, .nsig = .nsig)
-  mod@args[["sens_values"]] <- pars
+  pars <- map(point, cv_seq, .n = .n, .cv = .cv, .nsd = .nsd)
+  mod <- save_sens_values(mod, pars)
   mod
 }
 
@@ -82,7 +90,7 @@ parseq_manual <- function(mod,...) {
   for(i in seq_along(values)) {
     values[[i]] <- eval(values[[i]], envir=c(values,pars))  
   }
-  mod@args[["sens_values"]] <- values
+  mod <- save_sens_values(mod, values)
   mod
 }
 
@@ -91,8 +99,8 @@ parseq_manual <- function(mod,...) {
 #' @param mod mrgsolve model object
 #' @param ... unquoted parameter names, 
 #' @param .n number of values to simulate for each parameter sequence
-#' @param .geo if \code{TRUE} generate a geometric sequence; otherwise,
-#' generate a sequence evenly spaced on cartesian scale
+#' @param .geo if `TRUE` generate a geometric sequence; otherwise,
+#' generate a sequence evenly spaced on Cartesian scale; see [geo_seq()]
 #' 
 #' 
 #' @export
@@ -100,12 +108,12 @@ parseq_range <- function(mod, ..., .n = 5, .geo = TRUE) {
   pars <- list(...)
   l <- map_int(pars,length)
   if(!all(l==2)) {
-    stop("All parameter entries must be length 2.")  
+    stop("all parameter entries must be length 2", call.=FALSE)  
   }
   pars <- map(pars,function(x) {
     geo_seq(x[1],x[2],.n)
   })
-  mod@args[["sens_values"]] <- pars
+  mod <- save_sens_values(mod, pars)
   mod
 }
 
@@ -117,7 +125,7 @@ parseq_range <- function(mod, ..., .n = 5, .geo = TRUE) {
 #' @export
 parseq_reference <- function(mod,auto = TRUE) {
   if(!exists("sens_values", mod@args)) {
-    stop("the test parameters and values must be specified first.")  
+    stop("the test parameters and values must be specified first", call.=FALSE)  
   }
   if(auto) {
     mod@args[["sens_reference"]] <- as.list(param(mod))  

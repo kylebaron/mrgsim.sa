@@ -4,7 +4,7 @@
 \alias{cv_seq}
 \title{Generate a sequence based on coefficient of variation}
 \usage{
-cv_seq(point, .cv = 30, .n = 5, .nsig = 2)
+cv_seq(point, .cv = 30, .n = 5, .nsd = 2)
 }
 \arguments{
 \item{point}{reference parameter value}
@@ -13,7 +13,7 @@ cv_seq(point, .cv = 30, .n = 5, .nsig = 2)
 
 \item{.n}{number of values to simulate in the sequence}
 
-\item{.nsig}{number of standard deviations defining the 
+\item{.nsd}{number of standard deviations defining the 
 range of simulated parameter values}
 }
 \description{
