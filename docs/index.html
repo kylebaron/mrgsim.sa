@@ -68,22 +68,22 @@
 <hr>
 <p><br></p>
 <div class="sourceCode" id="cb1"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">parseq</span>)</pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">. Loading required package<span class="op">:</span><span class="st"> </span>mrgsolve</a>
-<a class="sourceLine" id="cb2-2" title="2"></a>
-<a class="sourceLine" id="cb2-3" title="3">. </a>
-<a class="sourceLine" id="cb2-4" title="4">. Attaching package<span class="op">:</span><span class="st"> 'mrgsolve'</span></a>
-<a class="sourceLine" id="cb2-5" title="5"></a>
-<a class="sourceLine" id="cb2-6" title="6">. The following object is masked from <span class="st">'package:stats'</span><span class="op">:</span></a>
-<a class="sourceLine" id="cb2-7" title="7">. </a>
-<a class="sourceLine" id="cb2-8" title="8">.     filter</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>. Loading required package<span class="op">:</span><span class="st"> </span>mrgsolve</span>
+<span id="cb2-2"><a href="#cb2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3"></a>. </span>
+<span id="cb2-4"><a href="#cb2-4"></a>. Attaching package<span class="op">:</span><span class="st"> 'mrgsolve'</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a></span>
+<span id="cb2-6"><a href="#cb2-6"></a>. The following object is masked from <span class="st">'package:stats'</span><span class="op">:</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a>. </span>
+<span id="cb2-8"><a href="#cb2-8"></a>.     filter</span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="r"><span class="no">mod</span> <span class="kw">&lt;-</span> <span class="fu">mread</span>(<span class="st">"pk1"</span>, <span class="fu">modlib</span>(), <span class="kw">end</span> <span class="kw">=</span> <span class="fl">48</span>, <span class="kw">delta</span> <span class="kw">=</span> <span class="fl">0.1</span>)</pre></div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">. Building pk1 ... done.</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>. Building pk1 ... done.</span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="r"><span class="fu">param</span>(<span class="no">mod</span>)</pre></div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">. </a>
-<a class="sourceLine" id="cb6-2" title="2">.  Model <span class="kw">parameters</span> (<span class="dt">N=</span><span class="dv">3</span>)<span class="op">:</span></a>
-<a class="sourceLine" id="cb6-3" title="3">.  name value . name value</a>
-<a class="sourceLine" id="cb6-4" title="4">.  CL   <span class="dv">1</span>     <span class="op">|</span><span class="st"> </span>V    <span class="dv">20</span>   </a>
-<a class="sourceLine" id="cb6-5" title="5">.  KA   <span class="dv">1</span>     <span class="op">|</span><span class="st"> </span>.    .</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>. </span>
+<span id="cb6-2"><a href="#cb6-2"></a>.  Model <span class="kw">parameters</span> (<span class="dt">N=</span><span class="dv">3</span>)<span class="op">:</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a>.  name value . name value</span>
+<span id="cb6-4"><a href="#cb6-4"></a>.  CL   <span class="dv">1</span>     <span class="op">|</span><span class="st"> </span>V    <span class="dv">20</span>   </span>
+<span id="cb6-5"><a href="#cb6-5"></a>.  KA   <span class="dv">1</span>     <span class="op">|</span><span class="st"> </span>.    .</span></code></pre></div>
 <div id="pk-model-sensitivity-analysis-by-factor" class="section level2">
 <h2 class="hasAnchor">
 <a href="#pk-model-sensitivity-analysis-by-factor" class="anchor"></a>PK model sensitivity analysis by factor</h2>
@@ -95,26 +95,26 @@
   <span class="fu"><a href="reference/sens_fun.html">sens_each</a></span>()
 
 <span class="fu"><a href="reference/sens_plot.html">sens_plot</a></span>(<span class="no">out</span>, <span class="st">"CP"</span>)</pre></div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">. Loading required namespace<span class="op">:</span><span class="st"> </span>cowplot</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>. Loading required namespace<span class="op">:</span><span class="st"> </span>cowplot</span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-4-1.png"><!-- --></p>
 <p>The simulated data is returned in a long format</p>
 <div class="sourceCode" id="cb9"><pre class="r"><span class="no">out</span></pre></div>
-<div class="sourceCode" id="cb10"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">. <span class="co"># A tibble: 23,232 x 7</span></a>
-<a class="sourceLine" id="cb10-2" title="2">.    case  time p_name p_value dv_name dv_value ref_value</a>
-<a class="sourceLine" id="cb10-3" title="3">. <span class="op">*</span><span class="st"> </span><span class="er">&lt;</span>int<span class="op">&gt;</span><span class="st"> </span><span class="er">&lt;</span>dbl<span class="op">&gt;</span><span class="st"> </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st">    </span><span class="er">&lt;</span>dbl<span class="op">&gt;</span><span class="st"> </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st">      </span><span class="er">&lt;</span>dbl<span class="op">&gt;</span><span class="st">     </span><span class="er">&lt;</span>dbl<span class="op">&gt;</span></a>
-<a class="sourceLine" id="cb10-4" title="4">. <span class="dv">1</span>     <span class="dv">1</span>     <span class="dv">0</span> CL         <span class="fl">0.5</span> EV             <span class="dv">0</span>         <span class="dv">0</span></a>
-<a class="sourceLine" id="cb10-5" title="5">. <span class="dv">2</span>     <span class="dv">1</span>     <span class="dv">0</span> CL         <span class="fl">0.5</span> EV             <span class="dv">0</span>       <span class="dv">100</span></a>
-<a class="sourceLine" id="cb10-6" title="6">. <span class="dv">3</span>     <span class="dv">1</span>     <span class="dv">0</span> CL         <span class="fl">0.5</span> CENT           <span class="dv">0</span>         <span class="dv">0</span></a>
-<a class="sourceLine" id="cb10-7" title="7">. <span class="dv">4</span>     <span class="dv">1</span>     <span class="dv">0</span> CL         <span class="fl">0.5</span> CENT           <span class="dv">0</span>         <span class="dv">0</span></a>
-<a class="sourceLine" id="cb10-8" title="8">. <span class="dv">5</span>     <span class="dv">1</span>     <span class="dv">0</span> CL         <span class="fl">0.5</span> CP             <span class="dv">0</span>         <span class="dv">0</span></a>
-<a class="sourceLine" id="cb10-9" title="9">. <span class="co"># … with 23,227 more rows</span></a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>. <span class="co"># A tibble: 23,232 x 7</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a>.    case  time p_name p_value dv_name dv_value ref_value</span>
+<span id="cb10-3"><a href="#cb10-3"></a>. <span class="op">*</span><span class="st"> </span><span class="er">&lt;</span>int<span class="op">&gt;</span><span class="st"> </span><span class="er">&lt;</span>dbl<span class="op">&gt;</span><span class="st"> </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st">    </span><span class="er">&lt;</span>dbl<span class="op">&gt;</span><span class="st"> </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st">      </span><span class="er">&lt;</span>dbl<span class="op">&gt;</span><span class="st">     </span><span class="er">&lt;</span>dbl<span class="op">&gt;</span></span>
+<span id="cb10-4"><a href="#cb10-4"></a>. <span class="dv">1</span>     <span class="dv">1</span>     <span class="dv">0</span> CL         <span class="fl">0.5</span> EV             <span class="dv">0</span>         <span class="dv">0</span></span>
+<span id="cb10-5"><a href="#cb10-5"></a>. <span class="dv">2</span>     <span class="dv">1</span>     <span class="dv">0</span> CL         <span class="fl">0.5</span> EV             <span class="dv">0</span>       <span class="dv">100</span></span>
+<span id="cb10-6"><a href="#cb10-6"></a>. <span class="dv">3</span>     <span class="dv">1</span>     <span class="dv">0</span> CL         <span class="fl">0.5</span> CENT           <span class="dv">0</span>         <span class="dv">0</span></span>
+<span id="cb10-7"><a href="#cb10-7"></a>. <span class="dv">4</span>     <span class="dv">1</span>     <span class="dv">0</span> CL         <span class="fl">0.5</span> CENT           <span class="dv">0</span>         <span class="dv">0</span></span>
+<span id="cb10-8"><a href="#cb10-8"></a>. <span class="dv">5</span>     <span class="dv">1</span>     <span class="dv">0</span> CL         <span class="fl">0.5</span> CP             <span class="dv">0</span>         <span class="dv">0</span></span>
+<span id="cb10-9"><a href="#cb10-9"></a>. <span class="co"># … with 23,227 more rows</span></span></code></pre></div>
 </div>
 <div id="hiv-viral-dynamic-model" class="section level2">
 <h2 class="hasAnchor">
 <a href="#hiv-viral-dynamic-model" class="anchor"></a>HIV viral dynamic model</h2>
 <p>We look at latent infected cell pool development over ten years at different “burst” size, or the number of HIV particles released when one cell lyses.</p>
 <div class="sourceCode" id="cb11"><pre class="r"><span class="no">mod</span> <span class="kw">&lt;-</span> <span class="fu">mread</span>(<span class="st">"hiv"</span>, <span class="st">"inst/example"</span>)</pre></div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">. Building hiv ... done.</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>. Building hiv ... done.</span></code></pre></div>
 <div class="sourceCode" id="cb13"><pre class="r"><span class="no">mod</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/r/stats/update.html">update</a></span>(<span class="kw">end</span> <span class="kw">=</span> <span class="fl">365</span>*<span class="fl">10</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="reference/parseq_range.html">parseq_range</a></span>(<span class="kw">N</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">900</span>,<span class="fl">1500</span>), <span class="kw">.n</span> <span class="kw">=</span> <span class="fl">10</span>) <span class="kw">%&gt;%</span>
@@ -127,7 +127,7 @@
 <a href="#sensitivity-analysis-on-custom-sequences" class="anchor"></a>Sensitivity analysis on custom sequences</h2>
 <p>The model is rifampicin PBPK.</p>
 <div class="sourceCode" id="cb14"><pre class="r"><span class="no">mod</span> <span class="kw">&lt;-</span> <span class="fu">mread</span>(<span class="st">"inst/example/rifampicin.cpp"</span>) <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/stats/update.html">update</a></span>(<span class="kw">delta</span> <span class="kw">=</span> <span class="fl">0.1</span>)</pre></div>
-<div class="sourceCode" id="cb15"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">. Building rifampicin_cpp ... done.</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>. Building rifampicin_cpp ... done.</span></code></pre></div>
 <div class="sourceCode" id="cb16"><pre class="r"><span class="no">mod</span> <span class="kw">%&gt;%</span>
   <span class="fu">ev</span>(<span class="kw">amt</span> <span class="kw">=</span> <span class="fl">600</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="reference/parseq_manual.html">parseq_manual</a></span>(
