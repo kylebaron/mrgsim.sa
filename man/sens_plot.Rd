@@ -25,19 +25,19 @@ sens_plot(data, ...)
 \method{sens_plot}{sens_grid}(data, col, digits = 2, ncol = NULL, ...)
 }
 \arguments{
-\item{data}{output from \code{\link{sens_each}} or 
-\code{\link{sens_grid}}}
+\item{data}{output from [sens_each()] or 
+[sens_grid()]}
 
 \item{...}{arguments passed on to methods}
 
 \item{dv_name}{output column name to plot}
 
-\item{logy}{if \code{TRUE}, y-axis is transformed to log scale}
+\item{logy}{if `TRUE`, y-axis is transformed to log scale}
 
-\item{ncol}{passed to \code{\link[ggplot2]{facet_wrap}}}
+\item{ncol}{passed to [ggplot2::facet_wrap()]}
 
-\item{bw}{if \code{TRUE} a simple black and white plot will be generated
-when the \code{sens_each} method is used}
+\item{bw}{if `TRUE` a simple black and white plot will be generated
+when the [sens_each()] method is used}
 
 \item{digits}{used to format numbers on the strips}
 
@@ -48,8 +48,8 @@ dashed line}
 
 \item{ylab}{y-axis title}
 
-\item{cowplot}{if \code{TRUE}, plots from the \code{sens_each} method
-will be passed through \code{cowplot::plot_grid()}}
+\item{cowplot}{if `TRUE`, plots from the `sens_each` method
+will be passed through [cowplot::plot_grid()]}
 
 \item{col}{outputs to plot}
 }

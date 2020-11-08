@@ -21,7 +21,7 @@ mrgsens(
 
 \item{type}{use \code{each} to vary one parameter at a time}
 
-\item{...}{passed to \link{sens_each}}
+\item{...}{passed to \code{\link[=sens_each]{sens_each()}}}
 }
 \description{
 Run ad-hoc parameter sensitivity analyses with mrgsolve

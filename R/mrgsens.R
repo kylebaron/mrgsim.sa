@@ -4,7 +4,7 @@
 #' @param par parameter names for sensitivity analysis
 #' @param method parameter sequence generation method
 #' @param type use `each` to vary one parameter at a time
-#' @param ... passed to [sens_each]
+#' @param ... passed to [sens_each()]
 #' @md
 #' @export
 mrgsens <- function(mod, par, method = c("factor", "cv", "range", "manual"),

@@ -22,12 +22,12 @@ sens_grid_data(mod, data, idata = NULL, ...)
 \item{idata}{included only to prevent users from passing through; the 
 function will create an idata set if appropriate}
 
-\item{...}{passed to \code{\link[mrgsolve]{mrgsim_df}}}
+\item{...}{passed to [mrgsolve::mrgsim_d()]}
 
-\item{data}{a simulation input data set (see \code{\link[mrgsolve]{data_set}})}
+\item{data}{a simulation input data set (see [mrgsolve::data_set()])}
 }
 \description{
-Use \code{sens_each} to examine sequences of parameters one 
-at a time.  Use \code{sens_grid} to examine all combinations of 
+Use `sens_each` to examine sequences of parameters one 
+at a time.  Use `sens_grid` to examine all combinations of 
 sequences of parameters.
 }

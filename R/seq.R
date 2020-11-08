@@ -8,11 +8,11 @@
 #' geo_seq(1,10,10)
 #' 
 #' @export
-geo_seq <- function(from, to, .n=5) {
+geo_seq <- function(from, to, .n = 5) {
   exp(seq(log(from),log(to),length.out=.n))
 }
 
-geo_seq_ <- function(point,.n=5) {
+geo_seq_ <- function(point, .n = 5) {
   map(point, function(x) {
     geo_seq(x[1],x[2], .n)
   })

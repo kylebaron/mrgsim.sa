@@ -76,19 +76,19 @@ sens_factor <- function(data, .name, prefix = "sens_facet_", digits = 2) {
 
 #' Plot sensitivity analysis results
 #' 
-#' @param data output from \code{\link{sens_each}} or 
-#' \code{\link{sens_grid}}
+#' @param data output from [sens_each()] or 
+#' [sens_grid()]
 #' @param ... arguments passed on to methods
 #' @param dv_name output column name to plot
-#' @param logy if \code{TRUE}, y-axis is transformed to log scale
-#' @param ncol passed to \code{\link[ggplot2]{facet_wrap}}
-#' @param bw if \code{TRUE} a simple black and white plot will be generated
-#' when the \code{sens_each} method is used
+#' @param logy if `TRUE`, y-axis is transformed to log scale
+#' @param ncol passed to [ggplot2::facet_wrap()]
+#' @param bw if `TRUE` a simple black and white plot will be generated
+#' when the [sens_each()] method is used
 #' @param digits used to format numbers on the strips
 #' @param plot_ref if `TRUE`, then the reference case will be plotted in a black
 #' dashed line
-#' @param cowplot if \code{TRUE}, plots from the \code{sens_each} method
-#' will be passed through \code{cowplot::plot_grid()}
+#' @param cowplot if `TRUE`, plots from the `sens_each` method
+#' will be passed through [cowplot::plot_grid()]
 #' 
 #' @export
 sens_plot <- function(data,...) UseMethod("sens_plot")

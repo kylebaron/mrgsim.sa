@@ -5,7 +5,7 @@
 #' @param p_name character names of parameters to select
 #' 
 #' @export
-select_sens <- function(x,dv_name = NULL, p_name = NULL) {
+select_sens <- function(x, dv_name = NULL, p_name = NULL) {
   x <- as_tibble(x)
   if(!is.null(dv_name)) {
     x <- filter(x, dv_name == .env[["dv_name"]])
@@ -27,13 +27,13 @@ sens_each <- function(mod, idata = NULL, ...) {
     return(sens_grid_data(mod, data = mod@args[["data"]], idata = NULL, ...))  
   }
   if(!exists("sens_values", mod@args)) {
-    stop("parameter values must be selected first.")    
+    stop("parameter values must be selected first")    
   }
   if(exists("idata_set", mod@args)) {
-    stop("'idata_set' use is not allowed with this workflow.")    
+    stop("'idata_set' use is not allowed with this workflow")    
   }
   if(!is.null(idata)) {
-    stop("'idata use' is not allowed with this workflow.")
+    stop("'idata use' is not allowed with this workflow")
   }
   ref <- p_mrgsim_(NULL,mod,...)
   ref <- mutate(
@@ -137,6 +137,7 @@ as_tibble.sens_each <- function(x, row.names = NULL, optional = FALSE,
 }
 
 #' Unnest a sens_each object
+#' 
 #' @param x a sens_each object
 #' @export
 denest <- function(x) {
