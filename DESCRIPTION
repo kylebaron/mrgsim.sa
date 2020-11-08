@@ -1,6 +1,6 @@
-Package: parseq
+Package: mrgsim.sa
 Type: Package
-Title: What the Package Does in One 'Title Case' Line
+Title: Sensitivity analysis with 'mrgsolve'
 Version: 0.0.1
 Date: 2020-07-03
 Authors@R: c(person("Kyle T", "Baron", "", "kyleb@metrumrg.com", c("aut", "cre")))

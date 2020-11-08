@@ -1,5 +1,5 @@
 library(testthat)
-library(parseq)
+library(mrgsim.sa)
 
 context("test-utils")
 

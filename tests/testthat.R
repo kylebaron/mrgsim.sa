@@ -1,6 +1,6 @@
 Sys.setenv("R_TESTS" = "")
 library(testthat)
-library(parseq)
+library(mrgsim.sa)
 
 test_check("parseq", reporter="summary")
 

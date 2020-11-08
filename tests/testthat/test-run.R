@@ -1,6 +1,6 @@
 library(testthat)
 library(dplyr)
-library(parseq)
+library(mrgsim.sa)
 
 context("test-utils")
 
