@@ -4,14 +4,14 @@
 \alias{even_seq}
 \title{Generate evenly spaced sequence}
 \usage{
-even_seq(from, to, .n = 5)
+even_seq(from, to, n = 5)
 }
 \arguments{
 \item{from}{passed to [base::seq()]}
 
 \item{to}{passed to [base::seq()]}
 
-\item{.n}{passed to [base::seq()] as `length.out`}
+\item{n}{passed to [base::seq()] as `length.out`}
 }
 \description{
 Generate evenly spaced sequence

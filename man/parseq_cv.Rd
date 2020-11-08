@@ -21,3 +21,11 @@ range of test parameters}
 \description{
 Generate a sequence of parameters based on CV
 }
+\details{
+- `.cv`  is passed to [cv_seq()] as `cv`
+- `.n`   is passed to [cv_seq()] as `n`
+- `.nsd` is passed to [cv_seq()] as `nsd`
+}
+\seealso{
+[parseq_factor()], [parseq_range()], [parseq_manual()]
+}

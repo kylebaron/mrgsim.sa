@@ -26,9 +26,9 @@ Depends: mrgsolve
 AddRoxygen: list(markdown = TRUE) 
 RoxygenNote: 7.1.1
 Collate: 
+    'utils.R'
     'AAA.R'
     'mrgsens.R'
-    'utils.R'
     'parseq.R'
     'plot_sens.R'
     'sens.R'

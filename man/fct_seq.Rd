@@ -4,14 +4,14 @@
 \alias{fct_seq}
 \title{Generate a sequence by fold increase and decrease from a point}
 \usage{
-fct_seq(point, .n = 5, .factor = c(3, 3), .geo = TRUE)
+fct_seq(point, n = 5, factor = c(3, 3), geo = TRUE)
 }
 \arguments{
 \item{point}{a numeric vector of length 1}
 
-\item{.n}{number of elements in the sequence}
+\item{n}{number of elements in the sequence}
 
-\item{.factor}{an integer vector of length 1 or 2; if length 1, 
+\item{factor}{an integer vector of length 1 or 2; if length 1, 
 values will be recycled to length 2; the first number used to divide
 `point` to generate the minimum value in the sequence; the second 
 number is used to multiply `point` to generate the 

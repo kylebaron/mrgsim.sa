@@ -58,3 +58,4 @@ update_list <- function(left, right) {
   left
 }
 
+.stop <- function(...) stop(..., call. = FALSE)

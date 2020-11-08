@@ -4,14 +4,14 @@
 \alias{geo_seq}
 \title{Generate a geometric sequence of parameter values}
 \usage{
-geo_seq(from, to, .n = 5)
+geo_seq(from, to, n = 5)
 }
 \arguments{
 \item{from}{passed to [base::seq()]}
 
 \item{to}{passed to [base::seq()]}
 
-\item{.n}{passed to [base::seq()] as `length.out`}
+\item{n}{passed to [base::seq()] as `length.out`}
 }
 \description{
 Generate a geometric sequence of parameter values

@@ -19,3 +19,9 @@ generate a sequence evenly spaced on Cartesian scale; see [geo_seq()]}
 \description{
 Simulation helper to generate a sequence of parameters from a range
 }
+\details{
+- `.n`  is passed to [geo_seq()] as `n`
+}
+\seealso{
+[parseq_cv()], [parseq_factor()], [parseq_manual()]
+}

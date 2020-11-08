@@ -16,3 +16,6 @@ object}
 \description{
 Simulation helper to manually specify parameter sequences
 }
+\seealso{
+[parseq_cv()], [parseq_range()], [parseq_factor()]
+}

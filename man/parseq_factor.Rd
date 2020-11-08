@@ -23,8 +23,15 @@ the nominal value generating the maximum value}
 
 \item{.geo}{if `TRUE` a geometric sequence is generated (evenly
 spaced from min to max on log scale); otherwise, the sequence is 
-evenly spaced on cartesian scale}
+evenly spaced on Cartesian scale}
 }
 \description{
 Generate a sequence of parameters
+}
+\details{
+- `.n`       is passed to [fct_seq()] as `n`
+- `.factor`  is passed to [fct_seq()] as `factor`
+}
+\seealso{
+[parseq_cv()], [parseq_range()], [parseq_manual()]
 }

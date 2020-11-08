@@ -14,5 +14,10 @@
 #' @importFrom stats as.formula
 #' @import methods
 #' 
+#' @include utils.R
+#' @include sens.R
+#' @include parseq.R
+#' 
 #' 
 NULL
+
