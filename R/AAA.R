@@ -9,7 +9,7 @@
 #' @importFrom rlang quos sym set_names enexpr := as_string .env
 #' @importFrom tidyr unnest nest pivot_longer
 #' @importFrom tibble tibble as_tibble
-#' @importMethodsFrom mrgsolve as.list param
+#' @importMethodsFrom mrgsolve as.list param update
 #' @importFrom mrgsolve mrgsim_df ev
 #' @importFrom stats as.formula
 #' @import methods

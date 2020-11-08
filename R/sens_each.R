@@ -122,6 +122,7 @@ d_mrgsim_ <- function(x, mod, data,...) {
 #' @param row.names not used
 #' @param optional not used
 #' @param ... not used
+#' @method as.data.frame sens_each
 #' @export
 as.data.frame.sens_each <- function(x, row.names = NULL, optional = FALSE, ...)  {
   as.data.frame(as_tibble(x))
