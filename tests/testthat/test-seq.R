@@ -10,7 +10,7 @@ test_that("even_seq", {
 })
 
 test_that("cv_seq", {
-  a <- cv_seq(10,30,.n = 10)
+  a <- cv_seq(10,30,n = 10)
   
   sd <- sqrt((30/100)^2)
   from <- log(10)-2*sd
@@ -21,7 +21,7 @@ test_that("cv_seq", {
 
 
 test_that("cv_seq", {
-  a <- geo_seq(10,30,.n = 10)
+  a <- geo_seq(10,30,n = 10)
   b <- exp(seq(log(10), log(30),length.out = 10))
   expect_identical(a,b)
 })

@@ -28,7 +28,7 @@ geo_seq_ <- function(point, n = 5) {
 #' `point` to generate the minimum value in the sequence; the second 
 #' number is used to multiply `point` to generate the 
 #' maximum value in the sequence
-#' @param .geo if `TRUE`, [geo_seq()] is used to generate
+#' @param geo if `TRUE`, [geo_seq()] is used to generate
 #' the sequence; otherwise, [even_seq()] is used to generate 
 #' the sequence
 #' 

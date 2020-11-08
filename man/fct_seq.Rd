@@ -17,7 +17,7 @@ values will be recycled to length 2; the first number used to divide
 number is used to multiply `point` to generate the 
 maximum value in the sequence}
 
-\item{.geo}{if `TRUE`, [geo_seq()] is used to generate
+\item{geo}{if `TRUE`, [geo_seq()] is used to generate
 the sequence; otherwise, [even_seq()] is used to generate 
 the sequence}
 }

@@ -27,11 +27,11 @@ AddRoxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Collate: 
     'utils.R'
+    'parseq.R'
+    'sens.R'
     'AAA.R'
     'mrgsens.R'
-    'parseq.R'
     'plot_sens.R'
-    'sens.R'
     'sens_each.R'
     'sens_grid.R'
     'seq.R'
