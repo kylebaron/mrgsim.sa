@@ -1,12 +1,10 @@
 ---
-title: "parseq: sensitivity analyses on sequences of parameters for mrgsolve"
+title: "mrgsim.sa: sensitivity analysis with mrgsolve"
 output: github_document
 ---
 
 
-A simple, clean workflow for simulating from a model across 
-sequences of parameters.  
-
+A simple, clean workflow for sensitivity analysis with mrgsolve. 
 <hr>
 <BR>
 
@@ -19,7 +17,7 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 ```
 
 ```{r}
-library(parseq)
+library(mrgsim.sa)
 ```
 
 
@@ -80,8 +78,8 @@ mod <- mread("inst/example/rifampicin.cpp") %>% update(delta = 0.1)
 mod %>% 
   ev(amt = 600) %>% 
   parseq_manual(
-    SFKp = fct_seq(.$SFKp, .n = 20), 
-    Kp_muscle = even_seq(0.001, 0.1, .n = 6)
+    SFKp = fct_seq(.$SFKp, n = 20), 
+    Kp_muscle = even_seq(0.001, 0.1, n = 6)
   ) %>% 
   sens_each() %>% 
   sens_plot("Ccentral")
@@ -104,5 +102,17 @@ mod %>%
   parseq_cv(fBCLint_all_kg, SFKp, Kp_muscle, .n = 4, .cv = 50) %>% 
   sens_grid() %>% 
   sens_plot(Ccentral)
+```
+
+# Local sensitivity analysis
+
+```{r}
+mod <- modlib("pk2", delta = 0.1, end = 72)
+
+doses <- ev(amt = 100)
+
+out <- lsa(mod, var = "CP", par = "CL,V2,Q", events = doses)
+
+plot(out)
 ```
 

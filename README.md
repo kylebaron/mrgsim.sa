@@ -1,15 +1,14 @@
-parseq: sensitivity analyses on sequences of parameters for mrgsolve
+mrgsim.sa: sensitivity analysis with mrgsolve
 ================
 
-A simple, clean workflow for simulating from a model across sequences of
-parameters.
+A simple, clean workflow for sensitivity analysis with mrgsolve.
 
 <hr>
 
 <BR>
 
 ``` r
-library(parseq)
+library(mrgsim.sa)
 ```
 
     . Loading required package: mrgsolve
@@ -109,8 +108,8 @@ mod <- mread("inst/example/rifampicin.cpp") %>% update(delta = 0.1)
 mod %>% 
   ev(amt = 600) %>% 
   parseq_manual(
-    SFKp = fct_seq(.$SFKp, .n = 20), 
-    Kp_muscle = even_seq(0.001, 0.1, .n = 6)
+    SFKp = fct_seq(.$SFKp, n = 20), 
+    Kp_muscle = even_seq(0.001, 0.1, n = 6)
   ) %>% 
   sens_each() %>% 
   sens_plot("Ccentral")
@@ -138,3 +137,17 @@ mod %>%
 ```
 
 ![](man/figures/README-unnamed-chunk-8-1.png)<!-- -->
+
+# Local sensitivity analysis
+
+``` r
+mod <- modlib("pk2")
+```
+
+    . Building pk2 ... done.
+
+``` r
+doses <- ev(amt = 100)
+
+out <- lsa(mod, var = "CP", par = "CL,V2,Q", events = doses)
+```

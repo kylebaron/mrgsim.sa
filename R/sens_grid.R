@@ -17,7 +17,8 @@ sens_grid <- function(mod, idata = NULL, ...) {
     stop("idata use is not allowed with this workflow.")
   }
   pars <- mod@args[["sens_values"]] 
-  pars <- do.call(expand.grid,pars) %>% mutate(ID = seq(n()))
+  pars <- do.call(expand.grid,pars) 
+  pars <- mutate(pars, ID = seq(n()), case = ID)
   out <- mrgsim_df(mod, idata = pars, ...)
   out <- mutate(
     as_tibble(pars), 

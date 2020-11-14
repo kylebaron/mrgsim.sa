@@ -33,16 +33,14 @@ save_sens_values <- function(mod, values) {
 #' 
 #' @export
 parseq_factor <- function(mod, ..., .n = 5, .factor = 2, .geo = TRUE) {
-  
   qpars <- quos(...)
-  
   if(length(qpars) > 0) {
     sel <- vars_select(names(param(mod)),!!!qpars) 
   } else {
     if(exists("select", mod@args)) {
       sel <- mod@args[["select"]]      
     } else {
-      .stop("parameter names must be passed or selected.")
+      .stop("parameter names must be passed via `...` or selected")
     }
   }
   point <- as.list(param(mod))[sel]
@@ -70,7 +68,6 @@ parseq_factor <- function(mod, ..., .n = 5, .factor = 2, .geo = TRUE) {
 #' @export
 parseq_cv <- function(mod, ..., .cv = 30, .n = 5, .nsd = 2) {
   qpars <- quos(...)
-  
   if(length(qpars) > 0) {
     sel <- vars_select(names(param(mod)),!!!qpars) 
   } else {

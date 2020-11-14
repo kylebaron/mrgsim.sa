@@ -53,7 +53,7 @@ sens_each <- function(mod, idata = NULL, ...) {
   out <- denest(out)
   out[["ID"]] <- NULL
   out <- left_join(out,ref, by = c("time", "dv_name"))
-  out <- out[, unique(c("case", "time",names(out))),drop=FALSE]
+  out <- out[, unique(c("case", "time",names(out))), drop=FALSE]
   structure(out, class = c("sens_each",class(out)))
 }
 

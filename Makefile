@@ -8,6 +8,9 @@ PKGDIR=.
 test: 
 	Rscript -e "testthat::test_dir('tests/testthat')"
 
+covr:
+	Rscript inst/covr/covr.R
+
 cran:
 	make doc
 	make build

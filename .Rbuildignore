@@ -2,11 +2,11 @@ docs
 Makefile
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^test.R$
+^test\.R$
 ^README\.md$
 ^README\.Rmd$
 ^\.Rhistory$
 ^.*\.tar\.gz$
-^parseq\.Rcheck$
+^mrgsim\.sa\.Rcheck$
 ^\.gitignore$
 inst/covr
