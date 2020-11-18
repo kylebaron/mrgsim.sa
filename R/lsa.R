@@ -1,7 +1,3 @@
-#' @importFrom mrgsolve param mrgsim
-#' @importMethodsFrom mrgsolve as.data.frame
-#' @importFrom dplyr bind_rows as_tibble
-NULL
 
 make_long <- function(data,cols) {
   remain <- setdiff(names(data),cols)

@@ -1,5 +1,6 @@
 #' @importFrom tidyselect vars_select everything
 #' @importFrom dplyr mutate left_join select .data %>% n filter rename
+#' @importFrom dplyr bind_rows as_tibble
 #' @importFrom purrr map_int map imap map_df flatten
 #' @importFrom withr with_environment
 #' @importFrom assertthat assert_that
@@ -10,8 +11,8 @@
 #' @importFrom rlang quos sym set_names enexpr := as_string .env
 #' @importFrom tidyr unnest nest pivot_longer
 #' @importFrom tibble tibble as_tibble
-#' @importMethodsFrom mrgsolve as.list param update
-#' @importFrom mrgsolve mrgsim_df ev
+#' @importMethodsFrom mrgsolve as.list param update as.data.frame
+#' @importFrom mrgsolve mrgsim_df ev param mrgsim
 #' @importFrom stats as.formula
 #' @import methods
 #' 
@@ -21,4 +22,3 @@
 #' 
 #' 
 NULL
-
