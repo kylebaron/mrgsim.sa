@@ -12,7 +12,6 @@ test_that("sensitivity analysis on grid of values", {
     mod %>% 
     parseq_cv(CL,VC) %>%
     sens_grid() 
-  expect_equal(names(out), c("CL", "VC", "case", "data"))
   expect_is(out, "sens_grid")  
   expect_error(sens_grid(mod), msg = "parameter values must be selected")
   expect_error(
@@ -22,19 +21,55 @@ test_that("sensitivity analysis on grid of values", {
       sens_grid(), 
     msg = "idata_set use is not allowed"
   )
-  
+  expect_error(
+    mod %>% 
+      parseq_cv(CL) %>%
+      idata_set(tibble(a = 1)) %>% 
+      sens_grid(idata = tibble(a = 1)), 
+    msg = "idata_set use is not allowed"
+  )
 })
 
 test_that("sens_grid coerce output", {
   mod <- mrgsolve::ev(mod, mrgsolve::ev(amt = 100))
+  outx <- mrgsim(mod, end = -1)
   out <- 
     mod %>% 
     parseq_cv(CL,VC) %>%
     sens_grid() 
   tb <- dplyr::as_tibble(out)
   expect_is(tb, "tbl_df")  
+  expect_equal(
+    names(tb), 
+    c("case", "CL", "VC", names(outx)[-1])
+  )
   df <- as.data.frame(out)
   expect_is(df, "data.frame")
 })
 
+test_that("sens grid data", {
+  data <- mrgsolve:::expand.ev(amt = c(100,300))
+  out <- 
+    house() %>% 
+    parseq_cv(CL, VC) %>%
+    sens_grid_data(data)
+  expect_is(out, "sens_data")
+  
+})
 
+test_that("sens_data coerce output", {
+  data <- mrgsolve:::expand.ev(amt = c(100,300))
+  outx <- mrgsim(mod, end = -1)
+  out <- 
+    mod %>% 
+    parseq_cv(CL,VC) %>%
+    sens_grid_data(data) 
+  tb <- dplyr::as_tibble(out)
+  expect_is(tb, "tbl_df")  
+  expect_equal(
+    names(tb), 
+    c("case", "CL", "VC", names(outx))
+  )
+  df <- as.data.frame(out)
+  expect_is(df, "data.frame")
+})

@@ -111,7 +111,7 @@ d_mrgsim <- function(mod, pars, data, ...) {
   map(pars, d_mrgsim_, mod = mod,  data = data, ...)  
 }
 
-d_mrgsim_ <- function(x, mod, data,...) {
+d_mrgsim_ <- function(x, mod, data, ...) {
   mod <- param(mod,x)
   mrgsim_df(mod, data = data,  ...) 
 }
@@ -141,12 +141,12 @@ as_tibble.sens_each <- function(x, row.names = NULL, optional = FALSE,
 #' 
 #' @param x a sens_each object
 #' @export
-denest <- function(x) {
+denest <- function(x, keep_id = FALSE) {
   x <- structure(x, class = class(tibble()))
   x <- mutate(x,case=seq_len(nrow(x)))
   x <- unnest(x,cols="data")  
-  x[["ID"]] <- NULL
-  x
+  if(!isTRUE(keep_id)) x[["ID"]] <- NULL
+  x[,unique(c("case", names(x))),drop=FALSE]
 }
 
 #' @export

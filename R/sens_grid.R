@@ -22,52 +22,55 @@ sens_grid <- function(mod, idata = NULL, ...) {
     as_tibble(pars), 
     data = split_id(out), 
     ID = NULL
-  )  
+  ) 
+  out <- denest(out)
   structure(out, class = c("sens_grid",class(out)))
 }
 
 #' @rdname sens_fun
-#' 
+#' @export
 sens_grid_data <- function(mod, data, idata = NULL, ...) {
   mod@args[["data"]] <- NULL
   if(!exists("sens_values", mod@args)) {
-    stop("Parameter values must be selected first.")    
+    stop("parameter values must be selected first",call.=FALSE)    
   }
   if(exists("idata", mod@args)) {
-    stop("idata_set use is not allowed with this workflow.")    
+    stop("idata_set use is not allowed with this workflow",call.=FALSE)    
   }
   if(!is.null(idata)) {
-    stop("idata use is not allowed with this workflow.")
+    stop("idata use is not allowed with this workflow",call.=FALSE)
   }
   parlist <- mod@args[["sens_values"]] 
-  idata <- do.call(expand.grid,parlist) %>% mutate(ID = seq(n()))
+  idata <- do.call(expand.grid,parlist) 
+  idata <- mutate(idata, ID = seq(n()))
   pars <- split_id(idata)
   out <- mutate(
     as_tibble(idata), 
     ID = NULL,
     data = d_mrgsim(mod, pars, data = data, ...) 
   )
+  out <- denest(out, keep_id = TRUE)
   structure(out, class = c("sens_data", class(out)))
 }
 
 #' @method as.data.frame sens_grid
 #' @export
 as.data.frame.sens_grid <- function(x, row.names = NULL, optional = FALSE, ...)  {
-  as.data.frame(denest(x))
+  as.data.frame(structure(x, class = class(tibble())))
 }
 
 #' @method as.data.frame sens_data
 #' @export
 as.data.frame.sens_data <- function(x, row.names = NULL, optional = FALSE, ...)  {
-  unnest(mutate(x, .case = seq(n())),cols="data")
+  as.data.frame(structure(x, class = class(tibble())))
 }
 
 #' @export
 as_tibble.sens_grid <- function(x, row.names = NULL, optional = FALSE, ...)  {
-  denest(x)
+  x
 }
 
 #' @export
 as_tibble.sens_data <- function(x, row.names = NULL, optional = FALSE, ...)  {
-  unnest(mutate(x, .case = seq(n())),cols="data")
+  x
 }

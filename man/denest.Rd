@@ -4,7 +4,7 @@
 \alias{denest}
 \title{Unnest a sens_each object}
 \usage{
-denest(x)
+denest(x, keep_id = FALSE)
 }
 \arguments{
 \item{x}{a sens_each object}
