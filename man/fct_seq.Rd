@@ -11,14 +11,14 @@ fct_seq(point, n = 5, factor = c(3, 3), geo = TRUE)
 
 \item{n}{number of elements in the sequence}
 
-\item{factor}{an integer vector of length 1 or 2; if length 1, 
+\item{factor}{an integer vector of length 1 or 2; if length 1,
 values will be recycled to length 2; the first number used to divide
-`point` to generate the minimum value in the sequence; the second 
-number is used to multiply `point` to generate the 
+\code{point} to generate the minimum value in the sequence; the second
+number is used to multiply \code{point} to generate the
 maximum value in the sequence}
 
-\item{geo}{if `TRUE`, [geo_seq()] is used to generate
-the sequence; otherwise, [even_seq()] is used to generate 
+\item{geo}{if \code{TRUE}, \code{\link[=geo_seq]{geo_seq()}} is used to generate
+the sequence; otherwise, \code{\link[=even_seq]{even_seq()}} is used to generate
 the sequence}
 }
 \description{

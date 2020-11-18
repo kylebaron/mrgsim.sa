@@ -18,38 +18,38 @@ sens_plot(data, ...)
   plot_ref = TRUE,
   xlab = "time",
   ylab = dv_name[1],
-  cowplot = TRUE,
+  grid = TRUE,
   ...
 )
 
 \method{sens_plot}{sens_grid}(data, dv_name, digits = 2, ncol = NULL, logy = FALSE, ...)
 }
 \arguments{
-\item{data}{output from [sens_each()] or 
-[sens_grid()]}
+\item{data}{output from \code{\link[=sens_each]{sens_each()}} or
+\code{\link[=sens_grid]{sens_grid()}}}
 
 \item{...}{arguments passed on to methods}
 
 \item{dv_name}{output column name to plot}
 
-\item{logy}{if `TRUE`, y-axis is transformed to log scale}
+\item{logy}{if \code{TRUE}, y-axis is transformed to log scale}
 
-\item{ncol}{passed to [ggplot2::facet_wrap()]}
+\item{ncol}{passed to \code{\link[ggplot2:facet_wrap]{ggplot2::facet_wrap()}}}
 
-\item{bw}{if `TRUE` a simple black and white plot will be generated
-when the [sens_each()] method is used}
+\item{bw}{if \code{TRUE} a simple black and white plot will be generated
+when the \code{\link[=sens_each]{sens_each()}} method is used}
 
 \item{digits}{used to format numbers on the strips}
 
-\item{plot_ref}{if `TRUE`, then the reference case will be plotted in a black
+\item{plot_ref}{if \code{TRUE}, then the reference case will be plotted in a black
 dashed line}
 
 \item{xlab}{x-axis title}
 
 \item{ylab}{y-axis title}
 
-\item{cowplot}{if `TRUE`, plots from the `sens_each` method
-will be passed through [cowplot::plot_grid()]}
+\item{grid}{if \code{TRUE}, plots from the \code{sens_each} method
+will be passed through \code{\link[patchwork:wrap_plots]{patchwork::wrap_plots()}}}
 }
 \description{
 Plot sensitivity analysis results

@@ -7,7 +7,7 @@
 \method{plot}{lsa}(x, y = NULL, ...)
 }
 \arguments{
-\item{x}{output from [lsa]}
+\item{x}{output from \link{lsa}}
 
 \item{y}{not used}
 

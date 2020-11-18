@@ -26,8 +26,8 @@ sens_factor <- function(data, .name, prefix = "sens_facet_", digits = 2) {
 #' @param digits used to format numbers on the strips
 #' @param plot_ref if `TRUE`, then the reference case will be plotted in a black
 #' dashed line
-#' @param cowplot if `TRUE`, plots from the `sens_each` method
-#' will be passed through [cowplot::plot_grid()]
+#' @param grid if `TRUE`, plots from the `sens_each` method
+#' will be passed through [patchwork::wrap_plots()]
 #' 
 #' @export
 sens_plot <- function(data,...) UseMethod("sens_plot")
@@ -39,7 +39,7 @@ sens_plot <- function(data,...) UseMethod("sens_plot")
 sens_plot.sens_each <- function(data, dv_name, logy = FALSE, ncol=NULL, 
                                 bw = FALSE, digits = 3, plot_ref = TRUE,
                                 xlab = "time", ylab = dv_name[1],
-                                cowplot = TRUE, ...) {
+                                grid = TRUE, ...) {
   pars <- unique(data[["p_name"]])
   npar <- length(unique(pars))
   
@@ -88,11 +88,9 @@ sens_plot.sens_each <- function(data, dv_name, logy = FALSE, ncol=NULL,
     }
     p 
   })
-  if(cowplot) {
-    if(!requireNamespace("cowplot")) {
-      stop("couldn't load cowplot namespace; please install this package from CRAN.")
-    }
-    return(cowplot::plot_grid(plotlist=plots,ncol=ncol))
+  if(isTRUE(grid)) {
+    plots$ncol <- ncol
+    return(do.call(wrap_plots, plots))
   }
   return(plots)
 }

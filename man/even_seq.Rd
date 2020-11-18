@@ -7,11 +7,11 @@
 even_seq(from, to, n = 5)
 }
 \arguments{
-\item{from}{passed to [base::seq()]}
+\item{from}{passed to \code{\link[base:seq]{base::seq()}}}
 
-\item{to}{passed to [base::seq()]}
+\item{to}{passed to \code{\link[base:seq]{base::seq()}}}
 
-\item{n}{passed to [base::seq()] as `length.out`}
+\item{n}{passed to \code{\link[base:seq]{base::seq()}} as \code{length.out}}
 }
 \description{
 Generate evenly spaced sequence

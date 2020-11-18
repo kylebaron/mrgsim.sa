@@ -9,13 +9,13 @@ parseq_manual(mod, ...)
 \arguments{
 \item{mod}{mrgsolve model object}
 
-\item{...}{named numeric vectors of parameter values to 
-simulate; names must correspond to parameters in the model 
+\item{...}{named numeric vectors of parameter values to
+simulate; names must correspond to parameters in the model
 object}
 }
 \description{
 Simulation helper to manually specify parameter sequences
 }
 \seealso{
-[parseq_cv()], [parseq_range()], [parseq_factor()]
+\code{\link[=parseq_cv]{parseq_cv()}}, \code{\link[=parseq_range]{parseq_range()}}, \code{\link[=parseq_factor]{parseq_factor()}}
 }

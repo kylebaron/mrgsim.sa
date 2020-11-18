@@ -7,7 +7,7 @@
 \method{as.data.frame}{sens_each}(x, row.names = NULL, optional = FALSE, ...)
 }
 \arguments{
-\item{x}{a `sense_each` object}
+\item{x}{a \code{sense_each} object}
 
 \item{row.names}{not used}
 

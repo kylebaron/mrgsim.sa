@@ -11,7 +11,7 @@ parseq_cv(mod, ..., .cv = 30, .n = 5, .nsd = 2)
 
 \item{...}{model parameter names}
 
-\item{.cv}{a coefficient of variation used to determine 
+\item{.cv}{a coefficient of variation used to determine
 range of test parameters}
 
 \item{.n}{number of parameters to simulate in the sequence}
@@ -22,10 +22,12 @@ range of test parameters}
 Generate a sequence of parameters based on CV
 }
 \details{
-- `.cv`  is passed to [cv_seq()] as `cv`
-- `.n`   is passed to [cv_seq()] as `n`
-- `.nsd` is passed to [cv_seq()] as `nsd`
+\itemize{
+\item \code{.cv}  is passed to \code{\link[=cv_seq]{cv_seq()}} as \code{cv}
+\item \code{.n}   is passed to \code{\link[=cv_seq]{cv_seq()}} as \code{n}
+\item \code{.nsd} is passed to \code{\link[=cv_seq]{cv_seq()}} as \code{nsd}
+}
 }
 \seealso{
-[parseq_factor()], [parseq_range()], [parseq_manual()]
+\code{\link[=parseq_factor]{parseq_factor()}}, \code{\link[=parseq_range]{parseq_range()}}, \code{\link[=parseq_manual]{parseq_manual()}}
 }

@@ -14,24 +14,26 @@ parseq_factor(mod, ..., .n = 5, .factor = 2, .geo = TRUE)
 \item{.n}{number of parameters to simulate between the minimum
 and maximum parameter values}
 
-\item{.factor}{a numeric vector used to divide and multiply the 
+\item{.factor}{a numeric vector used to divide and multiply the
 parameter value thus generating the minimum and maximum parameter values,
-respectively, for the sequence; if `.factor` is length 1 it will be 
-recycled to length 2; the first value is used to divide the nominal 
+respectively, for the sequence; if \code{.factor} is length 1 it will be
+recycled to length 2; the first value is used to divide the nominal
 value generating the minimum value; the second value is used to multiply
 the nominal value generating the maximum value}
 
-\item{.geo}{if `TRUE` a geometric sequence is generated (evenly
-spaced from min to max on log scale); otherwise, the sequence is 
+\item{.geo}{if \code{TRUE} a geometric sequence is generated (evenly
+spaced from min to max on log scale); otherwise, the sequence is
 evenly spaced on Cartesian scale}
 }
 \description{
 Generate a sequence of parameters
 }
 \details{
-- `.n`       is passed to [fct_seq()] as `n`
-- `.factor`  is passed to [fct_seq()] as `factor`
+\itemize{
+\item \code{.n}       is passed to \code{\link[=fct_seq]{fct_seq()}} as \code{n}
+\item \code{.factor}  is passed to \code{\link[=fct_seq]{fct_seq()}} as \code{factor}
+}
 }
 \seealso{
-[parseq_cv()], [parseq_range()], [parseq_manual()]
+\code{\link[=parseq_cv]{parseq_cv()}}, \code{\link[=parseq_range]{parseq_range()}}, \code{\link[=parseq_manual]{parseq_manual()}}
 }

@@ -19,15 +19,15 @@ sens_grid_data(mod, data, idata = NULL, ...)
 \arguments{
 \item{mod}{a model object}
 
-\item{idata}{included only to prevent users from passing through; the 
+\item{idata}{included only to prevent users from passing through; the
 function will create an idata set if appropriate}
 
-\item{...}{passed to [mrgsolve::mrgsim_d()]}
+\item{...}{passed to \code{\link[mrgsolve:mrgsim_variants]{mrgsolve::mrgsim_d()}}}
 
-\item{data}{a simulation input data set (see [mrgsolve::data_set()])}
+\item{data}{a simulation input data set (see \code{\link[mrgsolve:data_set]{mrgsolve::data_set()}})}
 }
 \description{
-Use [sens_each()] to examine sequences of parameters one 
-at a time.  Use [sens_grid()] to examine all combinations of 
+Use \code{\link[=sens_each]{sens_each()}} to examine sequences of parameters one
+at a time.  Use \code{\link[=sens_grid]{sens_grid()}} to examine all combinations of
 sequences of parameters.
 }

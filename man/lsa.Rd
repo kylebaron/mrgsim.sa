@@ -18,10 +18,10 @@ or comma-separated string}
 
 \item{eps}{parameter change value for sensitivity analysis}
 
-\item{...}{arguments passed to `fun`}
+\item{...}{arguments passed to \code{fun}}
 }
 \value{
-A tibble with class `lsa`.
+A tibble with class \code{lsa}.
 }
 \description{
 Perform local sensitivity analysis
