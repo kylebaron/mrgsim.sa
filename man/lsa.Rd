@@ -2,9 +2,12 @@
 % Please edit documentation in R/lsa.R
 \name{lsa}
 \alias{lsa}
+\alias{lsa_plot}
 \title{Perform local sensitivity analysis}
 \usage{
 lsa(mod, par, var, fun = .lsa_fun, eps = 1e-08, ...)
+
+lsa_plot(x, ...)
 }
 \arguments{
 \item{mod}{a mrgsolve model object}
@@ -18,7 +21,9 @@ or comma-separated string}
 
 \item{eps}{parameter change value for sensitivity analysis}
 
-\item{...}{arguments passed to \code{fun}}
+\item{...}{passed to \code{\link[=plot.lsa]{plot.lsa()}}}
+
+\item{x}{output from \code{lsa()}}
 }
 \value{
 A tibble with class \code{lsa}.

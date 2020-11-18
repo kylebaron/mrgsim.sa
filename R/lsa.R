@@ -107,13 +107,23 @@ lsa <- function(mod, par, var, fun = .lsa_fun, eps = 1E-8, ...) {
   structure(ans, class=c("lsa", class(ans)))
 }
 
+#' @param x output from `lsa()`
+#' @param ... passed to [plot.lsa()]
+#' @rdname lsa
+#' @export
+lsa_plot <- function(x, ...) {
+  assert_that(inherits(x, "lsa"))
+  plot(x,...)    
+}
+
 #' Plot a lsa object
 #'
-#' @param x output from [lsa]
+#' @param x output from [lsa()]
 #' @param y not used
 #' @param ... not used
 #'
 #' @method plot lsa
+#' @keywords internal
 #' @export
 plot.lsa <- function(x,y=NULL,...) {
   stopifnot(requireNamespace("ggplot2"))

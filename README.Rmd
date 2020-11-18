@@ -113,6 +113,6 @@ doses <- ev(amt = 100)
 
 out <- lsa(mod, var = "CP", par = "CL,V2,Q", events = doses)
 
-plot(out)
+lsa_plot(out)
 ```
 

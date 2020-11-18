@@ -7,7 +7,7 @@
 \method{plot}{lsa}(x, y = NULL, ...)
 }
 \arguments{
-\item{x}{output from \link{lsa}}
+\item{x}{output from \code{\link[=lsa]{lsa()}}}
 
 \item{y}{not used}
 
@@ -16,3 +16,4 @@
 \description{
 Plot a lsa object
 }
+\keyword{internal}
