@@ -76,4 +76,11 @@ test_that("plot parseq output", {
   expect_is(out, "gg")
 })
 
-
+test_that("sens each data", {
+  data <- mrgsolve:::expand.ev(amt = c(100,300))
+  out <- 
+    house() %>% 
+    parseq_cv(CL, VC) %>%
+    sens_each_data(data)
+  expect_is(out, "sens_data")
+})
