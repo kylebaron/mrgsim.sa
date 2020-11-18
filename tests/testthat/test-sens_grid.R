@@ -52,7 +52,8 @@ test_that("sens grid data", {
   out <- 
     house() %>% 
     parseq_cv(CL, VC) %>%
-    sens_grid_data(data)
+    data_set(data) %>%
+    sens_grid()
   expect_is(out, "sens_data")
   
 })

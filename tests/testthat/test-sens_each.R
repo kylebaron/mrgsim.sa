@@ -81,6 +81,7 @@ test_that("sens each data", {
   out <- 
     house() %>% 
     parseq_cv(CL, VC) %>%
-    sens_each_data(data)
+    data_set(data) %>%
+    sens_each()
   expect_is(out, "sens_data")
 })
