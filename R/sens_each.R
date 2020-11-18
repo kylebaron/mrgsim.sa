@@ -124,11 +124,13 @@ d_mrgsim_ <- function(x, mod, data, ...) {
 #' @param optional not used
 #' @param ... not used
 #' @method as.data.frame sens_each
+#' @keywords internal
 #' @export
 as.data.frame.sens_each <- function(x, row.names = NULL, optional = FALSE, ...)  {
   as.data.frame(as_tibble(x))
 }
 
+#' @keywords internal
 #' @export
 as_tibble.sens_each <- function(x, row.names = NULL, optional = FALSE,
                                 unnest = TRUE, ...)  {
@@ -153,6 +155,7 @@ denest <- function(x, keep_id = FALSE) {
   x[,unique(c("case", names(x))),drop=FALSE]
 }
 
+#' @keywords internal
 #' @export
 print.sens_each <- function(x,...) {
   print(as_tibble(x,unnest=FALSE))

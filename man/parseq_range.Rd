@@ -14,14 +14,14 @@ parseq_range(mod, ..., .n = 5, .geo = TRUE)
 \item{.n}{number of values to simulate for each parameter sequence}
 
 \item{.geo}{if \code{TRUE} generate a geometric sequence; otherwise,
-generate a sequence evenly spaced on Cartesian scale; see \code{\link[=geo_seq]{geo_seq()}}}
+generate a sequence evenly spaced on Cartesian scale; see \code{\link[=seq_geo]{seq_geo()}}}
 }
 \description{
 Simulation helper to generate a sequence of parameters from a range
 }
 \details{
 \itemize{
-\item \code{.n}  is passed to \code{\link[=geo_seq]{geo_seq()}} as \code{n}
+\item \code{.n}  is passed to \code{\link[=seq_geo]{seq_geo()}} as \code{n}
 }
 }
 \seealso{

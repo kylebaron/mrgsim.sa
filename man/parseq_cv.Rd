@@ -23,9 +23,9 @@ Generate a sequence of parameters based on CV
 }
 \details{
 \itemize{
-\item \code{.cv}  is passed to \code{\link[=cv_seq]{cv_seq()}} as \code{cv}
-\item \code{.n}   is passed to \code{\link[=cv_seq]{cv_seq()}} as \code{n}
-\item \code{.nsd} is passed to \code{\link[=cv_seq]{cv_seq()}} as \code{nsd}
+\item \code{.cv}  is passed to \code{\link[=seq_cv]{seq_cv()}} as \code{cv}
+\item \code{.n}   is passed to \code{\link[=seq_cv]{seq_cv()}} as \code{n}
+\item \code{.nsd} is passed to \code{\link[=seq_cv]{seq_cv()}} as \code{nsd}
 }
 }
 \seealso{

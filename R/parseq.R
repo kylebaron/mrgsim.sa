@@ -26,8 +26,8 @@ save_sens_values <- function(mod, values) {
 #' evenly spaced on Cartesian scale
 #' 
 #' @details
-#' - `.n`       is passed to [fct_seq()] as `n`
-#' - `.factor`  is passed to [fct_seq()] as `factor`
+#' - `.n`       is passed to [seq_fct()] as `n`
+#' - `.factor`  is passed to [seq_fct()] as `factor`
 #' 
 #' @seealso [parseq_cv()], [parseq_range()], [parseq_manual()]
 #' 
@@ -44,7 +44,7 @@ parseq_factor <- function(mod, ..., .n = 5, .factor = 2, .geo = TRUE) {
     }
   }
   point <- as.list(param(mod))[sel]
-  pars <- map(point, fct_seq, n = .n, factor = .factor, geo = .geo)
+  pars <- map(point, seq_fct, n = .n, factor = .factor, geo = .geo)
   mod <- save_sens_values(mod, pars)
   mod
 }
@@ -59,9 +59,9 @@ parseq_factor <- function(mod, ..., .n = 5, .factor = 2, .geo = TRUE) {
 #' @param .nsd number of standard deviations used to determine the range
 #' 
 #' @details
-#' - `.cv`  is passed to [cv_seq()] as `cv`
-#' - `.n`   is passed to [cv_seq()] as `n`
-#' - `.nsd` is passed to [cv_seq()] as `nsd`
+#' - `.cv`  is passed to [seq_cv()] as `cv`
+#' - `.n`   is passed to [seq_cv()] as `n`
+#' - `.nsd` is passed to [seq_cv()] as `nsd`
 #' 
 #' @seealso [parseq_factor()], [parseq_range()], [parseq_manual()]
 #' 
@@ -74,11 +74,11 @@ parseq_cv <- function(mod, ..., .cv = 30, .n = 5, .nsd = 2) {
     if(exists("select", mod@args)) {
       sel <- mod@args[["select"]]      
     } else {
-      .stop("Parameter names must be passed or selected")
+      .stop("parameter names must be passed or selected")
     }
   }
   point <- as.list(param(mod))[sel]
-  pars <- map(point, cv_seq, n = .n, cv = .cv, nsd = .nsd)
+  pars <- map(point, seq_cv, n = .n, cv = .cv, nsd = .nsd)
   mod <- save_sens_values(mod, pars)
   mod
 }
@@ -100,7 +100,7 @@ parseq_manual <- function(mod, ...) {
     list2env(pars), list(...)
   )
   for(i in seq_along(values)) {
-    values[[i]] <- eval(values[[i]], envir=c(values,pars))  
+    values[[i]] <- eval(values[[i]], envir = c(values,pars))  
   }
   mod <- save_sens_values(mod, values)
   mod
@@ -112,10 +112,10 @@ parseq_manual <- function(mod, ...) {
 #' @param ... unquoted parameter names, 
 #' @param .n number of values to simulate for each parameter sequence
 #' @param .geo if `TRUE` generate a geometric sequence; otherwise,
-#' generate a sequence evenly spaced on Cartesian scale; see [geo_seq()]
+#' generate a sequence evenly spaced on Cartesian scale; see [seq_geo()]
 #' 
 #' @details
-#' - `.n`  is passed to [geo_seq()] as `n`
+#' - `.n`  is passed to [seq_geo()] as `n`
 #' 
 #' @seealso [parseq_cv()], [parseq_factor()], [parseq_manual()]
 #' 
@@ -127,7 +127,7 @@ parseq_range <- function(mod, ..., .n = 5, .geo = TRUE) {
     .stop("all parameter entries must be length 2")  
   }
   pars <- map(pars, function(x) {
-    geo_seq(x[1], x[2], n = .n)
+    seq_geo(x[1], x[2], n = .n)
   })
   mod <- save_sens_values(mod, pars)
   mod

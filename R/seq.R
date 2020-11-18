@@ -5,16 +5,16 @@
 #' @param n passed to [base::seq()] as `length.out`
 #' 
 #' @examples
-#' geo_seq(1,10,10)
+#' seq_geo(1,10,10)
 #' 
 #' @export
-geo_seq <- function(from, to, n = 5) {
+seq_geo <- function(from, to, n = 5) {
   exp(seq(log(from),log(to), length.out = n))
 }
 
 geo_seq_ <- function(point, n = 5) {
   map(point, function(x) {
-    geo_seq(x[1], x[2], n)
+    seq_geo(x[1], x[2], n)
   })
 }
 
@@ -28,23 +28,23 @@ geo_seq_ <- function(point, n = 5) {
 #' `point` to generate the minimum value in the sequence; the second 
 #' number is used to multiply `point` to generate the 
 #' maximum value in the sequence
-#' @param geo if `TRUE`, [geo_seq()] is used to generate
-#' the sequence; otherwise, [even_seq()] is used to generate 
+#' @param geo if `TRUE`, [seq_geo()] is used to generate
+#' the sequence; otherwise, [seq_even()] is used to generate 
 #' the sequence
 #' 
 #' @examples
 #' 
-#' fct_seq(10)
+#' seq_fct(10)
 #' 
 #' @export
-fct_seq <- function(point, n = 5, factor = c(3,3), geo = TRUE) {
+seq_fct <- function(point, n = 5, factor = c(3,3), geo = TRUE) {
   assert_that(length(point)==1)
   if(length(factor)==1) factor <- c(factor, factor)
   point <- c(point / factor[1], point * factor[2])
   if(geo) {
-    return(geo_seq(point[1], point[2], n = n))
+    return(seq_geo(point[1], point[2], n = n))
   } else {
-    return(even_seq(point[1], point[2], n = n))
+    return(seq_even(point[1], point[2], n = n))
   }
 }
 
@@ -55,16 +55,16 @@ fct_seq <- function(point, n = 5, factor = c(3,3), geo = TRUE) {
 #' @param n passed to [base::seq()] as `length.out`
 #' 
 #' @examples
-#' even_seq(1, 10, 4)
+#' seq_even(1, 10, 4)
 #' 
 #' @export
-even_seq <- function(from, to, n = 5) {
+seq_even <- function(from, to, n = 5) {
   seq(from, to, length.out = n) 
 }
 
 even_seq_ <- function(point, n = 5) {
   map(point, function(x) {
-    even_seq(x[1], x[2], n)
+    seq_even(x[1], x[2], n)
   }) 
 }
 
@@ -78,7 +78,7 @@ even_seq_ <- function(point, n = 5) {
 #' range of simulated parameter values
 #' 
 #' @export 
-cv_seq <- function(point, cv = 30, n = 5, nsd = 2) {
+seq_cv <- function(point, cv = 30, n = 5, nsd = 2) {
   std <- sqrt((cv/100)^2)
   from <- log(point) - nsd * std
   to <-   log(point) + nsd * std

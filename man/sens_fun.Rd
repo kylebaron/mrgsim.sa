@@ -6,7 +6,7 @@
 \alias{sens_each_data}
 \alias{sens_grid}
 \alias{sens_grid_data}
-\title{Run a sensitivity analysis}
+\title{Run an ad-hoc sensitivity analysis}
 \usage{
 sens_each(mod, idata = NULL, ...)
 
@@ -17,7 +17,8 @@ sens_grid(mod, idata = NULL, ...)
 sens_grid_data(mod, data, idata = NULL, ...)
 }
 \arguments{
-\item{mod}{a model object}
+\item{mod}{an mrgsolve model object (usually read in with
+\code{\link[mrgsolve:mread]{mrgsolve::mread()}})}
 
 \item{idata}{included only to prevent users from passing through; the
 function will create an idata set if appropriate}
@@ -26,8 +27,27 @@ function will create an idata set if appropriate}
 
 \item{data}{a simulation input data set (see \code{\link[mrgsolve:data_set]{mrgsolve::data_set()}})}
 }
+\value{
+A tibble-like object with class \code{sens_each} or \code{sens_grid}, depending on the
+vary method that was used.  These objects will look just like a tibble, but
+they can be plotted with \code{\link[=sens_plot]{sens_plot()}}.
+}
 \description{
-Use \code{\link[=sens_each]{sens_each()}} to examine sequences of parameters one
-at a time.  Use \code{\link[=sens_grid]{sens_grid()}} to examine all combinations of
-sequences of parameters.
+Use \code{sens_each()} to examine sequences of parameters one
+at a time.  Use \code{sens_grid()} to examine all combinations of
+sequences of parameters. The \code{sens_each_data()} and \code{sens_grid_data()}
+variants allow you to pass in a data set to simulate from.
+}
+\examples{
+mod <- mrgsolve::house()
+
+dose <- mrgsolve::ev(amt = 100)
+
+out_each <- parseq_cv(mod, CL, VC) \%>\% sens_each()
+
+out_grid <- parseq_cv(mod, CL, VC) \%>\% sens_grid()
+
+}
+\seealso{
+\code{\link[=sens_plot]{sens_plot()}}
 }

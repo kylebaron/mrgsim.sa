@@ -78,8 +78,8 @@ mod <- mread("inst/example/rifampicin.cpp") %>% update(delta = 0.1)
 mod %>% 
   ev(amt = 600) %>% 
   parseq_manual(
-    SFKp = fct_seq(.$SFKp, n = 20), 
-    Kp_muscle = even_seq(0.001, 0.1, n = 6)
+    SFKp = seq_fct(.$SFKp, n = 20), 
+    Kp_muscle = seq_even(0.001, 0.1, n = 6)
   ) %>% 
   sens_each() %>% 
   sens_plot("Ccentral")

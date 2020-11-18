@@ -18,3 +18,4 @@
 \description{
 Coerce sens_each output to data frame
 }
+\keyword{internal}

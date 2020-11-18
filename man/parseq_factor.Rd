@@ -30,8 +30,8 @@ Generate a sequence of parameters
 }
 \details{
 \itemize{
-\item \code{.n}       is passed to \code{\link[=fct_seq]{fct_seq()}} as \code{n}
-\item \code{.factor}  is passed to \code{\link[=fct_seq]{fct_seq()}} as \code{factor}
+\item \code{.n}       is passed to \code{\link[=seq_fct]{seq_fct()}} as \code{n}
+\item \code{.factor}  is passed to \code{\link[=seq_fct]{seq_fct()}} as \code{factor}
 }
 }
 \seealso{

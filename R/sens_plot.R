@@ -35,6 +35,7 @@ sens_plot <- function(data,...) UseMethod("sens_plot")
 #' @param xlab x-axis title
 #' @param ylab y-axis title
 #' @rdname sens_plot
+#' @keywords internal
 #' @export
 sens_plot.sens_each <- function(data, dv_name, logy = FALSE, ncol=NULL, 
                                 bw = FALSE, digits = 3, plot_ref = TRUE,
@@ -95,6 +96,7 @@ sens_plot.sens_each <- function(data, dv_name, logy = FALSE, ncol=NULL,
   return(plots)
 }
 
+#' @keywords internal
 #' @rdname sens_plot
 #' @export
 sens_plot.sens_grid <- function(data, dv_name, digits = 2, ncol = NULL,
