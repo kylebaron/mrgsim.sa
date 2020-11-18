@@ -101,7 +101,7 @@ mod %>%
   ev(amt = 600) %>% 
   parseq_cv(fBCLint_all_kg, SFKp, Kp_muscle, .n = 4, .cv = 50) %>% 
   sens_grid() %>% 
-  sens_plot(Ccentral)
+  sens_plot("Ccentral")
 ```
 
 # Local sensitivity analysis

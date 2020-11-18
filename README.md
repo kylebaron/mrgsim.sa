@@ -133,7 +133,7 @@ mod %>%
   ev(amt = 600) %>% 
   parseq_cv(fBCLint_all_kg, SFKp, Kp_muscle, .n = 4, .cv = 50) %>% 
   sens_grid() %>% 
-  sens_plot(Ccentral)
+  sens_plot("Ccentral")
 ```
 
 ![](man/figures/README-unnamed-chunk-8-1.png)<!-- -->
@@ -141,7 +141,7 @@ mod %>%
 # Local sensitivity analysis
 
 ``` r
-mod <- modlib("pk2")
+mod <- modlib("pk2", delta = 0.1, end = 72)
 ```
 
     . Building pk2 ... done.
@@ -150,4 +150,8 @@ mod <- modlib("pk2")
 doses <- ev(amt = 100)
 
 out <- lsa(mod, var = "CP", par = "CL,V2,Q", events = doses)
+
+plot(out)
 ```
+
+![](man/figures/README-unnamed-chunk-9-1.png)<!-- -->
