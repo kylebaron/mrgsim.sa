@@ -20,7 +20,7 @@
 #' 
 #' dose <- mrgsolve::ev(amt = 100)
 #' 
-#' mrgsens(
+#' sens_run(
 #'   mod, 
 #'   par = "CL,VC", 
 #'   method = "cv", 
@@ -30,11 +30,11 @@
 #' 
 #' @md
 #' @export
-mrgsens <- function(mod, 
-                    par = NULL, 
-                    var = NULL,
-                    method = c("factor", "cv", "range", "manual"),
-                    vary = c("each", "grid"), ..., sargs = list()) {
+sens_run <- function(mod, 
+                     par = NULL, 
+                     var = NULL,
+                     method = c("factor", "cv", "range", "manual"),
+                     vary = c("each", "grid"), ..., sargs = list()) {
   method <- match.arg(method)
   method <- paste0("parseq_", method)
   meth <- get(method, mode = "function")

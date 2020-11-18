@@ -17,3 +17,4 @@ denest(x, keep_id = FALSE)
 \description{
 Unnest a sens_each object
 }
+\keyword{internal}

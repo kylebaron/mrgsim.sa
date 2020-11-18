@@ -14,6 +14,7 @@
 #' @importMethodsFrom mrgsolve as.list param update as.data.frame
 #' @importFrom mrgsolve mrgsim_df ev param mrgsim
 #' @importFrom stats as.formula
+#' @importFrom graphics plot
 #' @import methods
 #' 
 #' @include utils.R
