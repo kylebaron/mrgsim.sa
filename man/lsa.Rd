@@ -20,6 +20,9 @@ or comma-separated string}
 
 \item{...}{arguments passed to `fun`}
 }
+\value{
+A tibble with class `lsa`.
+}
 \description{
 Perform local sensitivity analysis
 }

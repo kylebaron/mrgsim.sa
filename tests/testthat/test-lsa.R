@@ -6,7 +6,6 @@ context("test-lsa")
 
 mod <- mrgsolve::house()
 
-
 test_that("lsa", {
   mod <- mrgsolve::ev(mod, mrgsolve::ev(amt = 100))
   out <- lsa(mod, par = "CL,VC", var = "CP")

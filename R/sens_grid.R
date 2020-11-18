@@ -1,6 +1,4 @@
 
-# nocov-start
-
 #' @rdname sens_fun
 #' @export
 sens_grid <- function(mod, idata = NULL, ...) {
@@ -8,13 +6,13 @@ sens_grid <- function(mod, idata = NULL, ...) {
     return(sens_grid_data(mod, data = mod@args[["data"]], idata = NULL, ...))  
   }
   if(!exists("sens_values", mod@args)) {
-    stop("Parameter values must be selected first.")    
+    stop("parameter values must be selected first.", call.=FALSE)    
   }
   if(exists("idata", mod@args)) {
-    stop("idata_set use is not allowed with this workflow.")    
+    stop("idata_set use is not allowed with this workflow.", call.=FALSE)    
   }
   if(!is.null(idata)) {
-    stop("idata use is not allowed with this workflow.")
+    stop("idata use is not allowed with this workflow.", call.=FALSE)
   }
   pars <- mod@args[["sens_values"]] 
   pars <- do.call(expand.grid,pars) 
@@ -49,23 +47,27 @@ sens_grid_data <- function(mod, data, idata = NULL, ...) {
     ID = NULL,
     data = d_mrgsim(mod, pars, data = data, ...) 
   )
-  structure(out, class = c("sens_data",class(out)))
+  structure(out, class = c("sens_data", class(out)))
 }
 
+#' @method as.data.frame sens_grid
+#' @export
 as.data.frame.sens_grid <- function(x, row.names = NULL, optional = FALSE, ...)  {
-  unnest(mutate(x, .case = seq(n())),cols="data")
+  as.data.frame(denest(x))
 }
 
+#' @method as.data.frame sens_data
+#' @export
 as.data.frame.sens_data <- function(x, row.names = NULL, optional = FALSE, ...)  {
   unnest(mutate(x, .case = seq(n())),cols="data")
 }
 
+#' @export
 as_tibble.sens_grid <- function(x, row.names = NULL, optional = FALSE, ...)  {
-  unnest(mutate(x, .case = seq(n())),cols="data")
+  denest(x)
 }
 
+#' @export
 as_tibble.sens_data <- function(x, row.names = NULL, optional = FALSE, ...)  {
   unnest(mutate(x, .case = seq(n())),cols="data")
 }
-
-# nocov-end

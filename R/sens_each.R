@@ -142,6 +142,7 @@ as_tibble.sens_each <- function(x, row.names = NULL, optional = FALSE,
 #' @param x a sens_each object
 #' @export
 denest <- function(x) {
+  x <- structure(x, class = class(tibble()))
   x <- mutate(x,case=seq_len(nrow(x)))
   x <- unnest(x,cols="data")  
   x[["ID"]] <- NULL

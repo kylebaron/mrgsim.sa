@@ -26,6 +26,10 @@ dvalue <- function(sim,ref,scale) {
 #' or comma-separated string
 #' @param eps parameter change value for sensitivity analysis
 #' @param ... arguments passed to `fun`
+#' 
+#' @return 
+#' A tibble with class `lsa`. 
+#' 
 #'
 #' @examples
 #' mod <- mrgsolve::house(delta=0.1)
