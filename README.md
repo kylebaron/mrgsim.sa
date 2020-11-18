@@ -52,8 +52,6 @@ out <-
 sens_plot(out, "CP")
 ```
 
-    . Loading required namespace: cowplot
-
 ![](man/figures/README-unnamed-chunk-4-1.png)<!-- -->
 
 The simulated data is returned in a long format
