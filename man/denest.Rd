@@ -8,6 +8,11 @@ denest(x, keep_id = FALSE)
 }
 \arguments{
 \item{x}{a sens_each object}
+
+\item{keep_id}{if `FALSE` then the `ID` column is removed}
+}
+\value{
+`x` is returned after unnesting and possible modification
 }
 \description{
 Unnest a sens_each object

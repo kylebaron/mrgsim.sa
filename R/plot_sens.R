@@ -58,7 +58,7 @@ sens_plot.sens_each <- function(data, dv_name, logy = FALSE, ncol=NULL,
       theme_bw() + 
       facet_wrap(~p_name,scales = "free_y", ncol = ncol) + 
       xlab(xlab) + ylab(ylab)
-    if(logy) {
+    if(isTRUE(logy)) {
       p <- p + scale_y_log10()  
     }
     return(p)
@@ -74,17 +74,17 @@ sens_plot.sens_each <- function(data, dv_name, logy = FALSE, ncol=NULL,
       p + 
       geom_line(lwd=0.8) + 
       theme_bw() + xlab(xlab) + ylab(ylab) + 
-      facet_wrap(~p_name,scales = "free_y", ncol = ncol) + 
+      facet_wrap(~ p_name, scales = "free_y", ncol = ncol) + 
       theme(legend.position = "top") + 
-      scale_color_discrete(name = "")
+      scale_color_discrete(name = "value")
     if(isTRUE(logy)) {
       p <- p + scale_y_log10()  
     }
     if(isTRUE(plot_ref)) {
       p <- p + geom_line(
-          aes(.data[["time"]],.data[["ref_value"]]),
-          col="black", lty = 2, lwd = 0.7
-        )
+        aes(.data[["time"]],.data[["ref_value"]]),
+        col="black", lty = 2, lwd = 0.7
+      )
     }
     p 
   })
@@ -97,38 +97,43 @@ sens_plot.sens_each <- function(data, dv_name, logy = FALSE, ncol=NULL,
   return(plots)
 }
 
-#' @param col outputs to plot
 #' @rdname sens_plot
 #' @export
-sens_plot.sens_grid <- function(data, col, digits = 2, ncol = NULL,...) { #nocov start
-  npar <- ncol(data)-1
+sens_plot.sens_grid <- function(data, dv_name, digits = 2, ncol = NULL,
+                                logy = FALSE, ...) { #nocov start
+  pars <- names(attr(data, "pars"))
+  npar <- length(pars)
   if(npar > 3) {
-    stop("more than 3 parameters not allowed in the plot method for this object.")  
+    stop(
+      "found more than 3 parameters in this `sens_grid` object; ",
+      "please construct your own `ggplot` call to plot these data ",
+      "or select 3 or fewer parameters for sensitivity analysis",
+      call. = FALSE
+    )  
   }
-  data <- mutate(data,.case = seq(n()))
-  data <- unnest(data,cols="data")
-  pars <- names(data)[seq(npar)]
+  force(dv_name)
   group <- sym(pars[1])
   tcol <- "time"
   if(exists("TIME", data)) tcol <- "TIME"
   x <- sym(tcol)
-  y <- enexpr(col)
+  y <- sym(dv_name)
   formula <- NULL
   data[[as_string(group)]] <- signif(data[[as_string(group)]],3)
   if(npar==2) {
     formula <- as.formula(paste0("~sens_facet_",pars[2]))
-    data <- sens_factor(data,pars[2], digits = digits) 
+    data <- sens_factor(data, pars[2], digits = digits) 
   }
   if(npar==3) {
-    formula <- as.formula(paste0("sens_facet_",pars[3],"~sens_facet_",pars[2]))
-    data <- sens_factor(data,pars[2],digits = digits)
-    data <- sens_factor(data,pars[3], digits = digits)
+    formula <- as.formula(paste0("sens_facet_", pars[3], "~sens_facet_", pars[2]))
+    data <- sens_factor(data, pars[2], digits = digits)
+    data <- sens_factor(data, pars[3], digits = digits)
   }
-  p <- ggplot(data = data, aes(!!x,!!y,group=!!group,col=factor(!!group)))  
-  p <- p + geom_line(lwd=0.8) + theme_bw() + scale_color_discrete(name = as_string(group))
-  p <- p + theme(legend.position = "top")
-  if(npar==2) p <- p + facet_wrap(formula,ncol=ncol)
+  p <- ggplot(data = data, aes(!!x, !!y, group=!!group, col=factor(!!group)))  
+  p <- p + geom_line(lwd=0.8) + scale_color_discrete(name = pars[1])
+  p <- p + theme_bw() + theme(legend.position = "top")
+  if(npar==2) p <- p + facet_wrap(formula, ncol = ncol)
   if(npar==3) p <- p + facet_grid(formula)
+  if(isTRUE(logy)) p <- p + scale_y_log10()
   p
 } # nocov end
 

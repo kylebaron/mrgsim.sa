@@ -27,7 +27,7 @@ function will create an idata set if appropriate}
 \item{data}{a simulation input data set (see [mrgsolve::data_set()])}
 }
 \description{
-Use `sens_each` to examine sequences of parameters one 
-at a time.  Use `sens_grid` to examine all combinations of 
+Use [sens_each()] to examine sequences of parameters one 
+at a time.  Use [sens_grid()] to examine all combinations of 
 sequences of parameters.
 }

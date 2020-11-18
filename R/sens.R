@@ -1,7 +1,7 @@
 #' Run a sensitivity analysis
 #' 
-#' Use `sens_each` to examine sequences of parameters one 
-#' at a time.  Use `sens_grid` to examine all combinations of 
+#' Use [sens_each()] to examine sequences of parameters one 
+#' at a time.  Use [sens_grid()] to examine all combinations of 
 #' sequences of parameters. 
 #' 
 #' @param mod a model object 

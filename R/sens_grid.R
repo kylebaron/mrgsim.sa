@@ -15,16 +15,16 @@ sens_grid <- function(mod, idata = NULL, ...) {
     stop("idata use is not allowed with this workflow.", call.=FALSE)
   }
   pars <- mod@args[["sens_values"]] 
-  pars <- do.call(expand.grid,pars) 
-  pars <- mutate(pars, ID = seq(n()), case = ID)
-  out <- mrgsim_df(mod, idata = pars, ...)
+  parsdf <- do.call(expand.grid,pars) 
+  parsdf <- mutate(parsdf, ID = seq(n()), case = .data[["ID"]])
+  out <- mrgsim_df(mod, idata = parsdf, ...)
   out <- mutate(
-    as_tibble(pars), 
+    as_tibble(parsdf), 
     data = split_id(out), 
     ID = NULL
   ) 
   out <- denest(out)
-  structure(out, class = c("sens_grid",class(out)))
+  structure(out, class = c("sens_grid",class(out)), pars = pars)
 }
 
 #' @rdname sens_fun

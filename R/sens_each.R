@@ -141,11 +141,14 @@ as_tibble.sens_each <- function(x, row.names = NULL, optional = FALSE,
 #' Unnest a sens_each object
 #' 
 #' @param x a sens_each object
+#' @param keep_id if `FALSE` then the `ID` column is removed 
+#' @return
+#' `x` is returned after unnesting and possible modification
 #' @export
 denest <- function(x, keep_id = FALSE) {
   x <- structure(x, class = class(tibble()))
-  x <- mutate(x,case=seq_len(nrow(x)))
-  x <- unnest(x,cols="data")  
+  x <- mutate(x, case = seq_len(nrow(x)))
+  x <- unnest(x, cols = "data")  
   if(!isTRUE(keep_id)) x[["ID"]] <- NULL
   x[,unique(c("case", names(x))),drop=FALSE]
 }

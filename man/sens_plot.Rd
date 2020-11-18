@@ -22,7 +22,7 @@ sens_plot(data, ...)
   ...
 )
 
-\method{sens_plot}{sens_grid}(data, col, digits = 2, ncol = NULL, ...)
+\method{sens_plot}{sens_grid}(data, dv_name, digits = 2, ncol = NULL, logy = FALSE, ...)
 }
 \arguments{
 \item{data}{output from [sens_each()] or 
@@ -50,8 +50,6 @@ dashed line}
 
 \item{cowplot}{if `TRUE`, plots from the `sens_each` method
 will be passed through [cowplot::plot_grid()]}
-
-\item{col}{outputs to plot}
 }
 \description{
 Plot sensitivity analysis results
