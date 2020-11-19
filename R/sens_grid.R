@@ -56,11 +56,22 @@ sens_grid_data <- function(mod, data, idata = NULL, ...) {
   if(!is.null(idata)) {
     stop("idata use is not allowed with this workflow",call.=FALSE)
   }
+  vars <- flatten_chr(outvars(mod))
+  assert_that(is.data.frame(data))
   mod@args[["carry_out"]] <- NULL
   parlist <- mod@args[["sens_values"]] 
   idata <- do.call(expand.grid,parlist) 
   idata <- mutate(idata, ID = seq(n()))
   pars <- split_id(idata)
+  ref <- mrgsim_df(mod, data = data, ...)
+  ref <- pivot_longer(
+    ref, 
+    all_of(vars), 
+    names_to = "dv_name", 
+    values_to = "ref_value"
+  )
+  ref <- select(ref, "ID", "time", "dv_name", "ref_value")
+  ref <- mutate(ref, .N = seq(n()))
   out <- mutate(
     as_tibble(idata), 
     ID = NULL,
@@ -69,10 +80,13 @@ sens_grid_data <- function(mod, data, idata = NULL, ...) {
   out <- denest(out, keep_id = TRUE)
   out <- pivot_longer(
     out, 
-    seq(4+length(parlist),ncol(out)), 
+    all_of(vars),
     names_to = "dv_name", 
     values_to = "dv_value"
   )
+  out <- mutate(out, .N = rep(ref$.N, length(pars)))
+  out <- left_join(out, ref, by = c(".N", "ID", "dv_name", "time"))
+  out$.N <- NULL
   structure(out, class = c("sens_data", class(out)))
 }
 
@@ -90,10 +104,10 @@ as.data.frame.sens_data <- function(x, row.names = NULL, optional = FALSE, ...) 
 
 #' @export
 as_tibble.sens_grid <- function(x, row.names = NULL, optional = FALSE, ...)  {
-  x
+  structure(x, class = class(tibble()))
 }
 
 #' @export
 as_tibble.sens_data <- function(x, row.names = NULL, optional = FALSE, ...)  {
-  x
+  structure(x, class = class(tibble()))
 }
