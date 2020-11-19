@@ -40,7 +40,7 @@ sens_run <- function(mod,
   meth <- get(method, mode = "function")
   if(is.character(par)) {
     par <- cvec_cs(par)
-    mod <-  select(mod,par)
+    mod <-  select_par(mod,par)
   }
   if(is.character(var)) {
     var <- cvec_cs(var)

@@ -42,7 +42,7 @@ dvalue <- function(sim,ref,scale) {
 #'
 #' head(out)
 #'
-#' plot(out)
+#' lsa_plot(out)
 #'
 #' @export
 lsa <- function(mod, par, var, fun = .lsa_fun, eps = 1E-8, ...) {

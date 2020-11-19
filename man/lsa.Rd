@@ -46,6 +46,6 @@ out <- lsa(mod, par, var, fun)
 
 head(out)
 
-plot(out)
+lsa_plot(out)
 
 }

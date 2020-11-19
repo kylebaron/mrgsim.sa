@@ -17,6 +17,14 @@ sens_grid <- function(mod, idata = NULL, ...) {
   pars <- mod@args[["sens_values"]] 
   parsdf <- do.call(expand.grid,pars) 
   parsdf <- mutate(parsdf, ID = seq(n()), case = .data[["ID"]])
+  ref <- mrgsim_df(mod, ...)
+  ref <- pivot_longer(
+    ref, 
+    seq(3,ncol(ref)), 
+    names_to = "dv_name", 
+    values_to = "ref_value"
+  )
+  ref <- mutate(ref, ID = NULL)
   out <- mrgsim_df(mod, idata = parsdf, ...)
   out <- mutate(
     as_tibble(parsdf), 
@@ -24,6 +32,13 @@ sens_grid <- function(mod, idata = NULL, ...) {
     ID = NULL
   ) 
   out <- denest(out)
+  out <- pivot_longer(
+    out, 
+    seq(3+length(pars),ncol(out)), 
+    names_to = "dv_name", 
+    values_to = "dv_value"
+  )
+  out <- left_join(out, ref, by = c("time", "dv_name"))
   structure(out, class = c("sens_grid",class(out)), pars = pars)
 }
 
@@ -50,6 +65,12 @@ sens_grid_data <- function(mod, data, idata = NULL, ...) {
     data = d_mrgsim(mod, pars, data = data, ...) 
   )
   out <- denest(out, keep_id = TRUE)
+  out <- pivot_longer(
+    out, 
+    seq(4+length(pars),ncol(out)), 
+    names_to = "dv_name", 
+    values_to = "dv_value"
+  )
   structure(out, class = c("sens_data", class(out)))
 }
 

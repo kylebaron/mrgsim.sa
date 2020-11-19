@@ -29,13 +29,18 @@ sens_factor <- function(data, .name, prefix = "sens_facet_", digits = 2) {
 #' @param grid if `TRUE`, plots from the `sens_each` method
 #' will be passed through [patchwork::wrap_plots()]
 #' 
+#' @examples
+#' mod <- mrgsolve::house()
+#' dose <- mrgsolve::ev(amt = 100)
+#' out <- sens_run(mod, sargs = list(events = dose),  par = "CL,VC") 
+#' sens_plot(out, dv_name = "CP")
+#' 
 #' @export
 sens_plot <- function(data,...) UseMethod("sens_plot")
 
 #' @param xlab x-axis title
 #' @param ylab y-axis title
 #' @rdname sens_plot
-#' @keywords internal
 #' @export
 sens_plot.sens_each <- function(data, dv_name, logy = FALSE, ncol=NULL, 
                                 bw = FALSE, digits = 3, plot_ref = TRUE,
@@ -96,11 +101,10 @@ sens_plot.sens_each <- function(data, dv_name, logy = FALSE, ncol=NULL,
   return(plots)
 }
 
-#' @keywords internal
 #' @rdname sens_plot
 #' @export
 sens_plot.sens_grid <- function(data, dv_name, digits = 2, ncol = NULL,
-                                logy = FALSE, ...) { #nocov start
+                                logy = FALSE, ref_plot = TRUE, ...) { #nocov start
   pars <- names(attr(data, "pars"))
   npar <- length(pars)
   if(npar > 3) {
@@ -111,7 +115,7 @@ sens_plot.sens_grid <- function(data, dv_name, digits = 2, ncol = NULL,
       call. = FALSE
     )  
   }
-  force(dv_name)
+  data <- select_sens(data, dv_name = dv_name)
   group <- sym(pars[1])
   tcol <- "time"
   if(exists("TIME", data)) tcol <- "TIME"
@@ -134,6 +138,12 @@ sens_plot.sens_grid <- function(data, dv_name, digits = 2, ncol = NULL,
   if(npar==2) p <- p + facet_wrap(formula, ncol = ncol)
   if(npar==3) p <- p + facet_grid(formula)
   if(isTRUE(logy)) p <- p + scale_y_log10()
+  if(isTRUE(ref_plot)) {
+    p <- p + geom_line(
+      aes(.data[["time"]],.data[["ref_value"]]),
+      col = "black", lty = 2, lwd = 0.7
+    )
+  }
   p
 } # nocov end
 

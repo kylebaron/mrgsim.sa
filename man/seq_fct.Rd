@@ -25,7 +25,6 @@ the sequence}
 Generate a sequence by fold increase and decrease from a point
 }
 \examples{
-
 seq_fct(10)
 
 }

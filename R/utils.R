@@ -18,8 +18,17 @@ re_id <- function(x) {
   x
 }
 
+#' Identify parameters in a model for sensitivity analysis
+#' @param mod an mrgsolve model object
+#' @param ... unquoted parameter names
+#' 
+#' @examples
+#' mod <- mrgsolve::house()
+#' select_par(mod, CL, VC)
+#' 
 #' @export
-select.mrgmod <- function(mod, ...) {
+select_par <- function(mod, ...) {
+  assert_that(inherits(mod, "mrgmod"))
   p <- vars_select(names(param(mod)),!!!quos(...))
   mod@args[["select"]] <- p
   mod

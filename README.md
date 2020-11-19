@@ -46,7 +46,8 @@ of parameter values
 out <- 
   mod %>% 
   ev(amt = 100) %>% 
-  parseq_factor(CL, V, .n=8) %>% 
+  select_par(CL, V) %>% 
+  parseq_factor(.n=8) %>% 
   sens_each() 
 
 sens_plot(out, "CP")
@@ -149,7 +150,7 @@ doses <- ev(amt = 100)
 
 out <- lsa(mod, var = "CP", par = "CL,V2,Q", events = doses)
 
-plot(out)
+lsa_plot(out)
 ```
 
 ![](man/figures/README-unnamed-chunk-9-1.png)<!-- -->

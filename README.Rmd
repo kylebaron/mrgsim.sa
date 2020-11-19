@@ -38,7 +38,8 @@ bounds for simulating a sequence of parameter values
 out <- 
   mod %>% 
   ev(amt = 100) %>% 
-  parseq_factor(CL, V, .n=8) %>% 
+  select_par(CL, V) %>% 
+  parseq_factor(.n=8) %>% 
   sens_each() 
 
 sens_plot(out, "CP")

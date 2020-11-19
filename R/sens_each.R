@@ -4,6 +4,15 @@
 #' @param dv_name character names of dependent variables to select
 #' @param p_name character names of parameters to select
 #' 
+#' @examples
+#' library(dplyr)
+#' 
+#' mod <- mrgsolve::house()
+#' 
+#' out1 <- mod %>% parseq_factor(CL,VC) %>% sens_each()
+#' 
+#' out2 <- select_sens(out1, dv_name = "CP", p_name = "CV")
+#' 
 #' @export
 select_sens <- function(x, dv_name = NULL, p_name = NULL) {
   x <- as_tibble(x)
@@ -52,7 +61,7 @@ sens_each <- function(mod, idata = NULL, ...) {
   )
   out <- denest(out)
   out[["ID"]] <- NULL
-  out <- left_join(out,ref, by = c("time", "dv_name"))
+  out <- left_join(out, ref, by = c("time", "dv_name"))
   out <- out[, unique(c("case", "time",names(out))), drop=FALSE]
   structure(out, class = c("sens_each",class(out)))
 }

@@ -16,3 +16,13 @@ select_sens(x, dv_name = NULL, p_name = NULL)
 \description{
 Select sensitivity runs from a sens_each object
 }
+\examples{
+library(dplyr)
+
+mod <- mrgsolve::house()
+
+out1 <- mod \%>\% parseq_factor(CL,VC) \%>\% sens_each()
+
+out2 <- select_sens(out1, dv_name = "CP", p_name = "CV")
+
+}

@@ -22,7 +22,15 @@ sens_plot(data, ...)
   ...
 )
 
-\method{sens_plot}{sens_grid}(data, dv_name, digits = 2, ncol = NULL, logy = FALSE, ...)
+\method{sens_plot}{sens_grid}(
+  data,
+  dv_name,
+  digits = 2,
+  ncol = NULL,
+  logy = FALSE,
+  ref_plot = TRUE,
+  ...
+)
 }
 \arguments{
 \item{data}{output from \code{\link[=sens_each]{sens_each()}} or
@@ -54,4 +62,10 @@ will be passed through \code{\link[patchwork:wrap_plots]{patchwork::wrap_plots()
 \description{
 Plot sensitivity analysis results
 }
-\keyword{internal}
+\examples{
+mod <- mrgsolve::house()
+dose <- mrgsolve::ev(amt = 100)
+out <- sens_run(mod, sargs = list(events = dose),  par = "CL,VC") 
+sens_plot(out, dv_name = "CP")
+
+}

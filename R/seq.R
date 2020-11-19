@@ -33,7 +33,6 @@ geo_seq_ <- function(point, n = 5) {
 #' the sequence
 #' 
 #' @examples
-#' 
 #' seq_fct(10)
 #' 
 #' @export
@@ -76,6 +75,9 @@ even_seq_ <- function(point, n = 5) {
 #' @param n number of values to simulate in the sequence
 #' @param nsd number of standard deviations defining the 
 #' range of simulated parameter values
+#' 
+#' @examples
+#' seq_cv(10)
 #' 
 #' @export 
 seq_cv <- function(point, cv = 30, n = 5, nsd = 2) {
