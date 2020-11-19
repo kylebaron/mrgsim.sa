@@ -14,6 +14,7 @@ sens_grid <- function(mod, idata = NULL, ...) {
   if(!is.null(idata)) {
     stop("idata use is not allowed with this workflow.", call.=FALSE)
   }
+  mod@args[["carry_out"]] <- NULL
   pars <- mod@args[["sens_values"]] 
   parsdf <- do.call(expand.grid,pars) 
   parsdf <- mutate(parsdf, ID = seq(n()), case = .data[["ID"]])
@@ -55,6 +56,7 @@ sens_grid_data <- function(mod, data, idata = NULL, ...) {
   if(!is.null(idata)) {
     stop("idata use is not allowed with this workflow",call.=FALSE)
   }
+  mod@args[["carry_out"]] <- NULL
   parlist <- mod@args[["sens_values"]] 
   idata <- do.call(expand.grid,parlist) 
   idata <- mutate(idata, ID = seq(n()))
@@ -67,7 +69,7 @@ sens_grid_data <- function(mod, data, idata = NULL, ...) {
   out <- denest(out, keep_id = TRUE)
   out <- pivot_longer(
     out, 
-    seq(4+length(pars),ncol(out)), 
+    seq(4+length(parlist),ncol(out)), 
     names_to = "dv_name", 
     values_to = "dv_value"
   )

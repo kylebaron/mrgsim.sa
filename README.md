@@ -130,7 +130,7 @@ library(ggplot2)
 
 mod %>% 
   ev(amt = 600) %>% 
-  parseq_cv(fBCLint_all_kg, SFKp, Kp_muscle, .n = 4, .cv = 50) %>% 
+  parseq_cv(fBCLint_all_kg, SFKp, Kp_muscle, .n = 3, .cv = 50) %>% 
   sens_grid() %>% 
   sens_plot("Ccentral")
 ```

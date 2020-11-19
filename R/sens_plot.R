@@ -104,7 +104,7 @@ sens_plot.sens_each <- function(data, dv_name, logy = FALSE, ncol=NULL,
 #' @rdname sens_plot
 #' @export
 sens_plot.sens_grid <- function(data, dv_name, digits = 2, ncol = NULL,
-                                logy = FALSE, ref_plot = TRUE, ...) { #nocov start
+                                logy = FALSE, plot_ref = TRUE, ...) { #nocov start
   pars <- names(attr(data, "pars"))
   npar <- length(pars)
   if(npar > 3) {
@@ -138,7 +138,7 @@ sens_plot.sens_grid <- function(data, dv_name, digits = 2, ncol = NULL,
   if(npar==2) p <- p + facet_wrap(formula, ncol = ncol)
   if(npar==3) p <- p + facet_grid(formula)
   if(isTRUE(logy)) p <- p + scale_y_log10()
-  if(isTRUE(ref_plot)) {
+  if(isTRUE(plot_ref)) {
     p <- p + geom_line(
       aes(.data[["time"]],.data[["ref_value"]]),
       col = "black", lty = 2, lwd = 0.7
@@ -150,7 +150,7 @@ sens_plot.sens_grid <- function(data, dv_name, digits = 2, ncol = NULL,
 #' @export
 sens_plot.sens_each_data <- function(data, ...) {
   stop(
-    "there is no plotting method for objects of this class.  
-Use 'as_tibble' to coerce to a data frame and then plot with ggplot2."
+    "there is no plotting method for objects of this class. ", 
+    "Use 'as_tibble' to coerce to a data frame and then plot with ggplot2."
   )
 }

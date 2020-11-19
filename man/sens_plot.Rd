@@ -28,7 +28,7 @@ sens_plot(data, ...)
   digits = 2,
   ncol = NULL,
   logy = FALSE,
-  ref_plot = TRUE,
+  plot_ref = TRUE,
   ...
 )
 }
