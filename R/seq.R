@@ -16,11 +16,11 @@ seq_geo <- function(from, to, n = 5, digits = NULL) {
   ans
 }
 
-geo_seq_ <- function(point, n = 5) {
+geo_seq_ <- function(point, n = 5) { #nocov start
   map(point, function(x) {
     seq_geo(x[1], x[2], n)
   })
-}
+} # nocov end
 
 
 #' Generate a sequence by fold increase and decrease from a point
@@ -71,11 +71,11 @@ seq_even <- function(from, to, n = 5, digits = NULL) {
   ans
 }
 
-even_seq_ <- function(point, n = 5) {
+even_seq_ <- function(point, n = 5) { #nocov start
   map(point, function(x) {
     seq_even(x[1], x[2], n)
   }) 
-}
+} # nocov end
 
 
 #' Generate a sequence based on coefficient of variation
