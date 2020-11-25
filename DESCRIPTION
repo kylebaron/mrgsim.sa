@@ -3,8 +3,8 @@ Type: Package
 Title: Sensitivity Analysis with 'mrgsolve'
 Version: 0.0.1.9000
 Date: 2020-11-18
-Authors@R: c(person("Kyle T", "Baron", "", "kyleb@metrumrg.com", c("aut", "cre")))
-Maintainer: Kyle Baron <kylebtwin@imap.cc>
+Authors@R: c(person("Kyle T", "Baron", "", "kylebtwin@imap.cc", c("aut", "cre")))
+Maintainer: Kyle T Baron <kylebtwin@imap.cc>
 Description: Perform local sensitivity analysis on ordinary differential 
     equation based models, including ad-hoc graphical analyses based on 
     sequences of parameters as well as local sensitivity analysis. Functions 

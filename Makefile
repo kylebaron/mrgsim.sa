@@ -14,7 +14,7 @@ covr:
 cran:
 	make doc
 	make build
-	R CMD CHECK --as-cran ${TARBALL} -o ${CHKDIR}
+	R CMD CHECK --as-cran ${TARBALL} 
 
 all:
 	make doc

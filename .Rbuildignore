@@ -5,8 +5,10 @@ Makefile
 ^test\.R$
 ^README\.md$
 ^README\.Rmd$
+^README\.html$
 ^\.Rhistory$
 ^.*\.tar\.gz$
 ^mrgsim\.sa\.Rcheck$
 ^\.gitignore$
 inst/covr
+
