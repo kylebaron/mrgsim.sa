@@ -67,7 +67,7 @@ lsa <- function(mod, par, var, fun = .lsa_fun, eps = 1E-8, ...) {
   base <- as.data.frame(fun(mod, ..., .p = parm))
   if(!any(exists(c("time", "TIME"),base))) {
     stop(
-      "output from fun must contain a column of time or TIME.",
+      "output from `fun` must contain a column of time or TIME",
       call.=FALSE
     )
   }

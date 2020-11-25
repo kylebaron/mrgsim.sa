@@ -15,3 +15,26 @@ test_that("lsa", {
   expect_equal(unique(out$var), "CP")
   expect_equal(unique(out$par), c("CL", "VC"))
 })
+
+test_that("lsa input and output errors", {
+  expect_error(lsa(mod, par = "a,b,c"), regex = "invalid parameter") 
+  expect_error(
+    lsa(mod, par = "CL", var = "a,b,c"), 
+    regex = "invalid output name"
+  ) 
+  fun <- function(p, ...) {
+    out <- mrgsim_df(mod)
+    out$time <- NULL
+    out
+  }
+  expect_error(
+    lsa(mod, par = "CL", var = "CP", fun = fun), 
+    regex = "output from `fun` must contain"
+  )
+})
+
+test_that("lsa plot", {
+  out <- lsa(mod, par = "CL", var = "CP")
+  ans <- lsa_plot(out)
+  expect_is(ans, "gg")
+})
