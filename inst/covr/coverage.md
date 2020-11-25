@@ -1,12 +1,12 @@
-# coverage: 70.98%
+# coverage: 73.07%
 
 |file          | coverage|
 |:-------------|--------:|
-|R/vera.R      |    53.75|
-|R/seq.R       |    61.11|
+|R/lsa.R       |    52.44|
+|R/seq.R       |    57.69|
 |R/sens_each.R |    69.77|
-|R/utils.R     |    71.88|
-|R/plot_sens.R |    72.13|
-|R/parseq.R    |    82.61|
-|R/mrgsens.R   |    86.67|
-|R/sens_grid.R |    90.24|
+|R/utils.R     |    72.73|
+|R/sens_plot.R |    73.33|
+|R/parseq.R    |    82.98|
+|R/sens_run.R  |    86.67|
+|R/sens_grid.R |    94.87|
