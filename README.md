@@ -11,15 +11,6 @@ A simple, clean workflow for sensitivity analysis with mrgsolve.
 library(mrgsim.sa)
 ```
 
-    . Loading required package: mrgsolve
-
-    . 
-    . Attaching package: 'mrgsolve'
-
-    . The following object is masked from 'package:stats':
-    . 
-    .     filter
-
 ``` r
 mod <- mread("pk1", modlib(), end = 48, delta = 0.1)
 ```
