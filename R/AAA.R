@@ -1,7 +1,7 @@
-#' @importFrom tidyselect vars_select everything
+#' @importFrom tidyselect vars_select everything all_of
 #' @importFrom dplyr mutate left_join select .data %>% n filter rename
 #' @importFrom dplyr bind_rows as_tibble
-#' @importFrom purrr map_int map imap map_df flatten
+#' @importFrom purrr map_int map imap map_df flatten flatten_chr
 #' @importFrom withr with_environment
 #' @importFrom assertthat assert_that
 #' @importFrom ggplot2 geom_line geom_point ggplot aes_string xlab ylab
@@ -12,7 +12,7 @@
 #' @importFrom tidyr unnest nest pivot_longer
 #' @importFrom tibble tibble as_tibble
 #' @importMethodsFrom mrgsolve as.list param update as.data.frame
-#' @importFrom mrgsolve mrgsim_df ev param mrgsim
+#' @importFrom mrgsolve mrgsim_df ev param mrgsim outvars
 #' @importFrom stats as.formula
 #' @importFrom graphics plot
 #' @import methods

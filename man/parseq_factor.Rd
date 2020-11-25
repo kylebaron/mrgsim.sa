@@ -4,7 +4,7 @@
 \alias{parseq_factor}
 \title{Generate a sequence of parameters}
 \usage{
-parseq_factor(mod, ..., .n = 5, .factor = 2, .geo = TRUE)
+parseq_factor(mod, ..., .n = 5, .factor = 2, .geo = TRUE, .digits = NULL)
 }
 \arguments{
 \item{mod}{a model object}
@@ -24,6 +24,9 @@ the nominal value generating the maximum value}
 \item{.geo}{if \code{TRUE} a geometric sequence is generated (evenly
 spaced from min to max on log scale); otherwise, the sequence is
 evenly spaced on Cartesian scale}
+
+\item{.digits}{if \code{numeric}, the number of significant digits in the
+parameter sensitivity values are set using \code{\link[=signif]{signif()}}}
 }
 \description{
 Generate a sequence of parameters

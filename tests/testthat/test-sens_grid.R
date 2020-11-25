@@ -69,7 +69,7 @@ test_that("sens_data coerce output", {
   expect_is(tb, "tbl_df")  
   expect_equal(
     names(tb), 
-    c("case", "CL", "VC","ID", "time", "dv_name", "dv_value")
+    c("case", "CL", "VC","ID", "time", "dv_name", "dv_value", "ref_value")
   )
   df <- as.data.frame(out)
   expect_is(df, "data.frame")

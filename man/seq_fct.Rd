@@ -4,7 +4,7 @@
 \alias{seq_fct}
 \title{Generate a sequence by fold increase and decrease from a point}
 \usage{
-seq_fct(point, n = 5, factor = c(3, 3), geo = TRUE)
+seq_fct(point, n = 5, factor = c(3, 3), geo = TRUE, digits = NULL)
 }
 \arguments{
 \item{point}{a numeric vector of length 1}
@@ -20,6 +20,9 @@ maximum value in the sequence}
 \item{geo}{if \code{TRUE}, \code{\link[=seq_geo]{seq_geo()}} is used to generate
 the sequence; otherwise, \code{\link[=seq_even]{seq_even()}} is used to generate
 the sequence}
+
+\item{digits}{number of significant digits in the answer; if \code{NULL} (the
+default) all digits are retained}
 }
 \description{
 Generate a sequence by fold increase and decrease from a point

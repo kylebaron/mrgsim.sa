@@ -4,7 +4,7 @@
 \alias{parseq_range}
 \title{Simulation helper to generate a sequence of parameters from a range}
 \usage{
-parseq_range(mod, ..., .n = 5, .geo = TRUE)
+parseq_range(mod, ..., .n = 5, .geo = TRUE, .digits = NULL)
 }
 \arguments{
 \item{mod}{mrgsolve model object}
@@ -15,6 +15,9 @@ parseq_range(mod, ..., .n = 5, .geo = TRUE)
 
 \item{.geo}{if \code{TRUE} generate a geometric sequence; otherwise,
 generate a sequence evenly spaced on Cartesian scale; see \code{\link[=seq_geo]{seq_geo()}}}
+
+\item{.digits}{if \code{numeric}, the number of significant digits in the
+parameter sensitivity values are set using \code{\link[=signif]{signif()}}}
 }
 \description{
 Simulation helper to generate a sequence of parameters from a range
