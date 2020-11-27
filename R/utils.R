@@ -19,6 +19,7 @@ re_id <- function(x) {
 }
 
 #' Identify parameters in a model for sensitivity analysis
+#' 
 #' @param mod an mrgsolve model object
 #' @param ... unquoted parameter names
 #' 

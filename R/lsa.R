@@ -3,14 +3,14 @@ make_long <- function(data,cols) {
   remain <- setdiff(names(data),cols)
   remain_data <- data[,remain,drop=FALSE]
   dplyr::bind_rows(lapply(cols, function(col_name) {
-    remain_data[["var"]] <- col_name
-    remain_data[["value"]] <- data[,col_name]
+    remain_data[["dv_name"]] <- col_name
+    remain_data[["dv_value"]] <- data[,col_name]
     remain_data
   }))
 }
 
 dvalue <- function(sim,ref,scale) {
-  (sim[["value"]] - ref[["value"]])/scale
+  (sim[["dv_value"]] - ref[["dv_value"]])/scale
 }
 
 #' Perform local sensitivity analysis
@@ -88,7 +88,7 @@ lsa <- function(mod, par, var, fun = .lsa_fun, eps = 1E-8, ...) {
   cols_keep <- intersect(cols_keep,names(base))
   base <- base[,cols_keep]
   base_long <- make_long(base,var)
-  scale <- base_long[["value"]]
+  scale <- base_long[["dv_value"]]
   scale[scale==0] <- eps*1E-20
   tosim <- lapply(seq_along(new_p), function(i) {
     base_par[i] <- new_p[i]
@@ -100,7 +100,7 @@ lsa <- function(mod, par, var, fun = .lsa_fun, eps = 1E-8, ...) {
   out <- lapply(out, function(x) x[,cols_keep])
   out <- lapply(out, make_long, cols = var)
   for(i in seq_along(tosim)) {
-    out[[i]][["par"]] <- par_sens[i]
+    out[[i]][["p_name"]] <- par_sens[i]
     out[[i]][["sens"]] <- dvalue(out[[i]],base_long,scale)*dpar[i]
   }
   ans <- dplyr::as_tibble(dplyr::bind_rows(out))
@@ -133,19 +133,19 @@ plot.lsa <- function(x,y=NULL,pal=NULL,...) {
   if("TIME" %in% names(x)) tcol <- "TIME"
   if(!exists(tcol,x)) stop("couldn't find time column", call.=FALSE)
   x[["vera__plot__time"]] <- x[[tcol]]
-  x[["var"]] <- factor(x[["var"]], levels = unique(x[["var"]]))
-  x[["par"]] <- factor(x[["par"]], levels = unique(x[["par"]]))
+  x[["dv_name"]] <- factor(x[["dv_name"]], levels = unique(x[["dv_name"]]))
+  x[["parameter"]] <- factor(x[["p_name"]], levels = unique(x[["p_name"]]))
   ans <- 
-    ggplot2::ggplot(x,ggplot2::aes_string("vera__plot__time","sens",col="par")) +
-    ggplot2::geom_line(lwd=1) +
-    ggplot2::theme_bw() +
-    ggplot2::theme(legend.position="top") +
-    ggplot2::xlab("Time") +
-    ggplot2::ylab("Sensitivity") +
-    ggplot2::facet_wrap(~var)
+    ggplot(x,aes_string("vera__plot__time","sens",col="parameter")) +
+    geom_line(lwd=1) +
+    theme_bw() +
+    theme(legend.position="top") +
+    xlab("Time") +
+    ylab("Sensitivity") +
+    facet_wrap(~dv_name)
   if(is.character(pal)) {
-    ans <- ans + ggplot2::scale_color_brewer(palette = pal)  
-  }
+    ans <- ans + scale_color_brewer(palette = pal)  
+  } 
   ans
 }
 

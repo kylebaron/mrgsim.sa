@@ -125,12 +125,29 @@ We use `parseq_cv` here, which generates lower and upper bounds for the
 range using 50% coefficient of variation.
 
 ``` r
-mod %>% 
+out <- 
+  mod %>% 
+  update(outvars = "Ccentral") %>%
   ev(amt = 600) %>% 
   parseq_cv(fBCLint_all_kg, .n = 7) %>% 
   parseq_cv(SFKp, Kp_muscle, .n = 3) %>% 
-  sens_grid() %>% 
-  sens_plot("Ccentral")
+  sens_grid(recsort = 3) 
+
+out
+```
+
+    . # A tibble: 15,372 x 8
+    .    case fBCLint_all_kg  SFKp Kp_muscle  time dv_name  dv_value ref_value
+    . * <int>          <dbl> <dbl>     <dbl> <dbl> <chr>       <dbl>     <dbl>
+    . 1     1          0.138  3.65    0.0520   0   Ccentral     0         0   
+    . 2     1          0.138  3.65    0.0520   0   Ccentral     0         0   
+    . 3     1          0.138  3.65    0.0520   0   Ccentral     0         0   
+    . 4     1          0.138  3.65    0.0520   0   Ccentral     0         0   
+    . 5     1          0.138  3.65    0.0520   0.1 Ccentral     3.66      3.14
+    . # … with 15,367 more rows
+
+``` r
+out %>% sens_plot("Ccentral")
 ```
 
 ![](man/figures/README-unnamed-chunk-9-1.png)<!-- -->
@@ -148,6 +165,20 @@ doses <- ev(amt = 100)
 
 out <- lsa(mod, var = "CP", par = "CL,V2,Q", events = doses)
 
+out
+```
+
+    . # A tibble: 2,166 x 5
+    .    time var   value par       sens
+    . * <dbl> <chr> <dbl> <chr>    <dbl>
+    . 1   0   CP    0     CL     0      
+    . 2   0   CP    0     CL     0      
+    . 3   0.1 CP    0.472 CL    -0.00254
+    . 4   0.2 CP    0.893 CL    -0.00514
+    . 5   0.3 CP    1.27  CL    -0.00782
+    . # … with 2,161 more rows
+
+``` r
 lsa_plot(out, pal = NULL)
 ```
 

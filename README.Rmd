@@ -103,12 +103,17 @@ for the range using 50% coefficient of variation.
 
 ```{r, fig.height = 7}
 
-mod %>% 
+out <- 
+  mod %>% 
+  update(outvars = "Ccentral") %>%
   ev(amt = 600) %>% 
   parseq_cv(fBCLint_all_kg, .n = 7) %>% 
   parseq_cv(SFKp, Kp_muscle, .n = 3) %>% 
-  sens_grid() %>% 
-  sens_plot("Ccentral")
+  sens_grid(recsort = 3) 
+
+out
+
+out %>% sens_plot("Ccentral")
 ```
 
 # Local sensitivity analysis
@@ -119,6 +124,8 @@ mod <- modlib("pk2", delta = 0.1, end = 72)
 doses <- ev(amt = 100)
 
 out <- lsa(mod, var = "CP", par = "CL,V2,Q", events = doses)
+
+out
 
 lsa_plot(out, pal = NULL)
 ```

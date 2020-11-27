@@ -11,9 +11,9 @@ test_that("lsa", {
   out <- lsa(mod, par = "CL,VC", var = "CP")
   expect_is(out, "lsa")
   expect_is(out, "tbl_df")
-  expect_equal(names(out), c("time", "var", "value", "par", "sens"))
-  expect_equal(unique(out$var), "CP")
-  expect_equal(unique(out$par), c("CL", "VC"))
+  expect_equal(names(out), c("time", "dv_name", "dv_value", "p_name", "sens"))
+  expect_equal(unique(out$dv_name), "CP")
+  expect_equal(unique(out$p_name), c("CL", "VC"))
 })
 
 test_that("lsa input and output errors", {
