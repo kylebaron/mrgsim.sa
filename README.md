@@ -125,11 +125,10 @@ We use `parseq_cv` here, which generates lower and upper bounds for the
 range using 50% coefficient of variation.
 
 ``` r
-library(ggplot2)
-
 mod %>% 
   ev(amt = 600) %>% 
-  parseq_cv(fBCLint_all_kg, SFKp, Kp_muscle, .n = 3, .cv = 50) %>% 
+  parseq_cv(fBCLint_all_kg, .n = 7) %>% 
+  parseq_cv(SFKp, Kp_muscle, .n = 3, .cv = 50) %>% 
   sens_grid() %>% 
   sens_plot("Ccentral")
 ```
