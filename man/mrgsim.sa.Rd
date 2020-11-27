@@ -21,7 +21,7 @@ For help and resources, visit:
 \item Parameter sequence generation:
 \itemize{
 \item In a pipeline: \code{\link[=parseq_cv]{parseq_cv()}}, \code{\link[=parseq_fct]{parseq_fct()}}, \code{\link[=parseq_range]{parseq_range()}}, \code{\link[=parseq_manual]{parseq_manual()}}
-\item Stand alone: \code{\link[=seq_cv]{seq_cv()}}, \code{\link[=seq_fct]{seq_fct()}}, \code{\link[=seq_geo]{seq_geo()}}
+\item Stand alone: \code{\link[=seq_cv]{seq_cv()}}, \code{\link[=seq_fct]{seq_fct()}}, \code{\link[=seq_geo]{seq_geo()}}, \code{\link[=seq_even]{seq_even()}}
 }
 }
 }

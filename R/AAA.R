@@ -41,7 +41,7 @@ NULL
 #'   - Use [sens_each_data()] and [sens_grid_data()] to pass in data sets
 #' - Parameter sequence generation: 
 #'   - In a pipeline: [parseq_cv()], [parseq_fct()], [parseq_range()], [parseq_manual()]
-#'   - Stand alone: [seq_cv()], [seq_fct()], [seq_geo()]
+#'   - Stand alone: [seq_cv()], [seq_fct()], [seq_geo()], [seq_even()]
 #' 
 #' @rdname mrgsim.sa
 #' @name mrgsim.sa
