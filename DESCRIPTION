@@ -1,7 +1,7 @@
 Package: mrgsim.sa
 Type: Package
 Title: Sensitivity Analysis with 'mrgsolve'
-Version: 0.0.1.9000
+Version: 0.0.1.9100
 Date: 2020-11-18
 Authors@R: c(person("Kyle T", "Baron", "", "kylebtwin@imap.cc", c("aut", "cre")))
 Maintainer: Kyle T Baron <kylebtwin@imap.cc>
@@ -42,4 +42,3 @@ Collate:
     'sens_plot.R'
     'sens_run.R'
     'seq.R'
-VignetteBuilder: knitr
