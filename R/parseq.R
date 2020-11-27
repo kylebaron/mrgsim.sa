@@ -35,13 +35,13 @@ save_sens_values <- function(mod, values) {
 #' mod <- mrgsolve::house()
 #' 
 #' mod %>%
-#'   parseq_factor(CL,VC) %>% 
+#'   parseq_fct(CL,VC) %>% 
 #'   sens_each()
 #' 
 #' @seealso [parseq_cv()], [parseq_range()], [parseq_manual()]
 #' 
 #' @export
-parseq_factor <- function(mod, ..., .n = 5, .factor = 2, .geo = TRUE, 
+parseq_fct <- function(mod, ..., .n = 5, .factor = 2, .geo = TRUE, 
                           .digits = NULL) {
   qpars <- quos(...)
   if(length(qpars) > 0) {
@@ -58,6 +58,10 @@ parseq_factor <- function(mod, ..., .n = 5, .factor = 2, .geo = TRUE,
   mod <- save_sens_values(mod, pars)
   mod
 }
+
+#' @rdname parseq_fct
+#' @export
+parseq_factor <- parseq_fct
 
 #' Generate a sequence of parameters based on CV
 #' 
@@ -81,7 +85,7 @@ parseq_factor <- function(mod, ..., .n = 5, .factor = 2, .geo = TRUE,
 #'   parseq_cv(CL,VC) %>% 
 #'   sens_each()
 #' 
-#' @seealso [parseq_factor()], [parseq_range()], [parseq_manual()]
+#' @seealso [parseq_fct()], [parseq_range()], [parseq_manual()]
 #' 
 #' @export
 parseq_cv <- function(mod, ..., .cv = 30, .n = 5, .nsd = 2, .digits = NULL) {
@@ -116,7 +120,7 @@ parseq_cv <- function(mod, ..., .cv = 30, .n = 5, .nsd = 2, .digits = NULL) {
 #'   parseq_manual(CL = c(0.5, 1, 1.5)) %>% 
 #'   sens_each()
 #' 
-#' @seealso [parseq_cv()], [parseq_range()], [parseq_factor()]
+#' @seealso [parseq_cv()], [parseq_range()], [parseq_fct()]
 #' 
 #' @export
 parseq_manual <- function(mod, ...) {
@@ -151,7 +155,7 @@ parseq_manual <- function(mod, ...) {
 #'   parseq_range(CL = c(0.5,1),VC = c(10,40)) %>% 
 #'   sens_each()
 #' 
-#' @seealso [parseq_cv()], [parseq_factor()], [parseq_manual()]
+#' @seealso [parseq_cv()], [parseq_fct()], [parseq_manual()]
 #' 
 #' @export
 parseq_range <- function(mod, ..., .n = 5, .geo = TRUE, .digits = NULL) {

@@ -40,5 +40,5 @@ mod \%>\%
 
 }
 \seealso{
-\code{\link[=parseq_factor]{parseq_factor()}}, \code{\link[=parseq_range]{parseq_range()}}, \code{\link[=parseq_manual]{parseq_manual()}}
+\code{\link[=parseq_fct]{parseq_fct()}}, \code{\link[=parseq_range]{parseq_range()}}, \code{\link[=parseq_manual]{parseq_manual()}}
 }

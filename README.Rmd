@@ -40,7 +40,7 @@ out <-
   mod %>% 
   ev(amt = 100) %>% 
   select_par(CL, V) %>% 
-  parseq_factor(.n=8) %>% 
+  parseq_fct(.n=8) %>% 
   sens_each() 
 
 sens_plot(out, "CP")

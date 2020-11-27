@@ -24,3 +24,25 @@
 #' 
 #' 
 NULL
+
+#' Sensitivity Analysis with 'mrgsolve'
+#' 
+#' Perform local sensitivity analysis on ordinary differential 
+#' equation based models, including ad-hoc graphical analyses based on 
+#' sequences of parameters as well as local sensitivity analysis. Functions 
+#' are provided for creating inputs, simulating scenarios and plotting outputs.
+#' 
+#' @details
+#' For help and resources, visit: 
+#' [http://github.com/kylebaron/mrgsim.sa](http://github.com/kylebaron/mrgsim.sa)
+#' 
+#' - Local sensitivity analysis: [lsa()]
+#' - Run ad-hoc sensitivity analyses: [sens_each()], [sens_grid()], [sens_run()]
+#'   - Use [sens_each_data()] and [sens_grid_data()] to pass in data sets
+#' - Parameter sequence generation: 
+#'   - In a pipeline: [parseq_cv()], [parseq_fct()], [parseq_range()], [parseq_manual()]
+#'   - Stand alone: [seq_cv()], [seq_fct()], [seq_geo()]
+#' 
+#' @rdname mrgsim.sa
+#' @name mrgsim.sa
+NULL
