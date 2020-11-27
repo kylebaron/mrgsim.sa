@@ -106,7 +106,7 @@ for the range using 50% coefficient of variation.
 mod %>% 
   ev(amt = 600) %>% 
   parseq_cv(fBCLint_all_kg, .n = 7) %>% 
-  parseq_cv(SFKp, Kp_muscle, .n = 3, .cv = 50) %>% 
+  parseq_cv(SFKp, Kp_muscle, .n = 3) %>% 
   sens_grid() %>% 
   sens_plot("Ccentral")
 ```
