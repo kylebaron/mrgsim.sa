@@ -96,7 +96,7 @@ sens_plot.sens_each <- function(data, dv_name, logy = FALSE, ncol=NULL,
       theme_bw() + xlab(xlab) + ylab(ylab) + 
       facet_wrap(~ p_name, scales = "free_y", ncol = ncol) + 
       theme(legend.position = "top") + 
-      scale_color_discrete(name = "value")
+      scale_color_discrete(name = "")
     if(isTRUE(logy)) {
       p <- p + scale_y_log10()  
     }
