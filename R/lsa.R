@@ -120,29 +120,33 @@ lsa_plot <- function(x, ...) {
 #'
 #' @param x output from [lsa()]
 #' @param y not used
+#' @param pal a color palette passed to [ggplot2::scale_color_brewer()]; use 
+#' `NULL` to use default ggplot color scale
 #' @param ... not used
 #'
 #' @method plot lsa
 #' @keywords internal
 #' @export
-plot.lsa <- function(x,y=NULL,...) {
+plot.lsa <- function(x,y=NULL,pal=NULL,...) {
   stopifnot(requireNamespace("ggplot2"))
-  pal <- getOption("vera.brewer.palette", "Set2")
-  scale.col <- getOption("vera.scale.col",ggplot2::scale_color_brewer(palette=pal))
   tcol <- "time"
   if("TIME" %in% names(x)) tcol <- "TIME"
   if(!exists(tcol,x)) stop("couldn't find time column", call.=FALSE)
   x[["vera__plot__time"]] <- x[[tcol]]
   x[["var"]] <- factor(x[["var"]], levels = unique(x[["var"]]))
   x[["par"]] <- factor(x[["par"]], levels = unique(x[["par"]]))
-  ggplot2::ggplot(x,ggplot2::aes_string("vera__plot__time","sens",col="par")) +
+  ans <- 
+    ggplot2::ggplot(x,ggplot2::aes_string("vera__plot__time","sens",col="par")) +
     ggplot2::geom_line(lwd=1) +
     ggplot2::theme_bw() +
     ggplot2::theme(legend.position="top") +
     ggplot2::xlab("Time") +
     ggplot2::ylab("Sensitivity") +
-    scale.col +
     ggplot2::facet_wrap(~var)
+  if(is.character(pal)) {
+    ans <- ans + ggplot2::scale_color_brewer(palette = pal)  
+  }
+  ans
 }
 
 .lsa_fun <- function(mod, ...) {

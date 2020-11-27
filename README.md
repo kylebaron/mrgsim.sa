@@ -149,7 +149,7 @@ doses <- ev(amt = 100)
 
 out <- lsa(mod, var = "CP", par = "CL,V2,Q", events = doses)
 
-lsa_plot(out)
+lsa_plot(out, pal = NULL)
 ```
 
 ![](man/figures/README-unnamed-chunk-10-1.png)<!-- -->

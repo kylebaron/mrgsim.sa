@@ -4,12 +4,15 @@
 \alias{plot.lsa}
 \title{Plot a lsa object}
 \usage{
-\method{plot}{lsa}(x, y = NULL, ...)
+\method{plot}{lsa}(x, y = NULL, pal = NULL, ...)
 }
 \arguments{
 \item{x}{output from \code{\link[=lsa]{lsa()}}}
 
 \item{y}{not used}
+
+\item{pal}{a color palette passed to \code{\link[ggplot2:scale_brewer]{ggplot2::scale_color_brewer()}}; use
+\code{NULL} to use default ggplot color scale}
 
 \item{...}{not used}
 }
