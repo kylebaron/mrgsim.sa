@@ -169,13 +169,13 @@ out
 ```
 
     . # A tibble: 2,166 x 5
-    .    time var   value par       sens
-    . * <dbl> <chr> <dbl> <chr>    <dbl>
-    . 1   0   CP    0     CL     0      
-    . 2   0   CP    0     CL     0      
-    . 3   0.1 CP    0.472 CL    -0.00254
-    . 4   0.2 CP    0.893 CL    -0.00514
-    . 5   0.3 CP    1.27  CL    -0.00782
+    .    time dv_name dv_value p_name     sens
+    . * <dbl> <chr>      <dbl> <chr>     <dbl>
+    . 1   0   CP         0     CL      0      
+    . 2   0   CP         0     CL      0      
+    . 3   0.1 CP         0.472 CL     -0.00254
+    . 4   0.2 CP         0.893 CL     -0.00514
+    . 5   0.3 CP         1.27  CL     -0.00782
     . # … with 2,161 more rows
 
 ``` r
