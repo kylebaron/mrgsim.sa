@@ -1,12 +1,12 @@
 Package: mrgsim.sa
 Type: Package
 Title: Sensitivity Analysis with 'mrgsolve'
-Version: 0.0.1.9100
+Version: 0.1.0
 Date: 2020-11-18
 Authors@R: c(person("Kyle T", "Baron", "", "kylebtwin@imap.cc", c("aut", "cre")))
 Maintainer: Kyle T Baron <kylebtwin@imap.cc>
-Description: Perform local sensitivity analysis on ordinary differential 
-    equation based models, including ad-hoc graphical analyses based on 
+Description: Perform sensitivity analysis on ordinary differential equation 
+    based models, including ad-hoc graphical analyses based on structured 
     sequences of parameters as well as local sensitivity analysis. Functions 
     are provided for creating inputs, simulating scenarios and plotting outputs.
 License: GPL (>= 2)

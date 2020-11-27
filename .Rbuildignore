@@ -12,3 +12,4 @@ Makefile
 ^\.gitignore$
 inst/covr
 vignettes
+NEWS\.md
