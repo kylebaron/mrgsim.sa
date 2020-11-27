@@ -31,6 +31,13 @@ save_sens_values <- function(mod, values) {
 #' - `.n`       is passed to [seq_fct()] as `n`
 #' - `.factor`  is passed to [seq_fct()] as `factor`
 #' 
+#' @examples
+#' mod <- mrgsolve::house()
+#' 
+#' mod %>%
+#'   parseq_factor(CL,VC) %>% 
+#'   sens_each()
+#' 
 #' @seealso [parseq_cv()], [parseq_range()], [parseq_manual()]
 #' 
 #' @export
@@ -67,6 +74,13 @@ parseq_factor <- function(mod, ..., .n = 5, .factor = 2, .geo = TRUE,
 #' - `.n`   is passed to [seq_cv()] as `n`
 #' - `.nsd` is passed to [seq_cv()] as `nsd`
 #' 
+#' @examples
+#' mod <- mrgsolve::house()
+#' 
+#' mod %>%
+#'   parseq_cv(CL,VC) %>% 
+#'   sens_each()
+#' 
 #' @seealso [parseq_factor()], [parseq_range()], [parseq_manual()]
 #' 
 #' @export
@@ -94,6 +108,13 @@ parseq_cv <- function(mod, ..., .cv = 30, .n = 5, .nsd = 2, .digits = NULL) {
 #' @param ... named numeric vectors of parameter values to 
 #' simulate; names must correspond to parameters in the model 
 #' object
+#' 
+#' @examples
+#' mod <- mrgsolve::house()
+#' 
+#' mod %>%
+#'   parseq_manual(CL = c(0.5, 1, 1.5)) %>% 
+#'   sens_each()
 #' 
 #' @seealso [parseq_cv()], [parseq_range()], [parseq_factor()]
 #' 
@@ -123,6 +144,13 @@ parseq_manual <- function(mod, ...) {
 #' @details
 #' - `.n`  is passed to [seq_geo()] as `n`
 #' 
+#' @examples
+#' mod <- mrgsolve::house()
+#' 
+#' mod %>%
+#'   parseq_range(CL = c(0.5,1),VC = c(10,40)) %>% 
+#'   sens_each()
+#' 
 #' @seealso [parseq_cv()], [parseq_factor()], [parseq_manual()]
 #' 
 #' @export
@@ -144,8 +172,8 @@ parseq_range <- function(mod, ..., .n = 5, .geo = TRUE, .digits = NULL) {
 #' 
 #' @param mod a model object
 #' @param auto if `TRUE` then the model parameter list is used
-#' @md
-#' @export
+#' 
+#' 
 parseq_reference <- function(mod, auto = TRUE) {
   if(!exists("sens_values", mod@args)) {
     .stop("the test parameters and values must be specified first")  

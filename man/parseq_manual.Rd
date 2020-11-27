@@ -16,6 +16,14 @@ object}
 \description{
 Simulation helper to manually specify parameter sequences
 }
+\examples{
+mod <- mrgsolve::house()
+
+mod \%>\%
+  parseq_manual(CL = c(0.5, 1, 1.5)) \%>\% 
+  sens_each()
+
+}
 \seealso{
 \code{\link[=parseq_cv]{parseq_cv()}}, \code{\link[=parseq_range]{parseq_range()}}, \code{\link[=parseq_factor]{parseq_factor()}}
 }

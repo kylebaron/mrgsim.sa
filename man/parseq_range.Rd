@@ -27,6 +27,14 @@ Simulation helper to generate a sequence of parameters from a range
 \item \code{.n}  is passed to \code{\link[=seq_geo]{seq_geo()}} as \code{n}
 }
 }
+\examples{
+mod <- mrgsolve::house()
+
+mod \%>\%
+  parseq_range(CL = c(0.5,1),VC = c(10,40)) \%>\% 
+  sens_each()
+
+}
 \seealso{
 \code{\link[=parseq_cv]{parseq_cv()}}, \code{\link[=parseq_factor]{parseq_factor()}}, \code{\link[=parseq_manual]{parseq_manual()}}
 }

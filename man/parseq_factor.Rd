@@ -37,6 +37,14 @@ Generate a sequence of parameters
 \item \code{.factor}  is passed to \code{\link[=seq_fct]{seq_fct()}} as \code{factor}
 }
 }
+\examples{
+mod <- mrgsolve::house()
+
+mod \%>\%
+  parseq_factor(CL,VC) \%>\% 
+  sens_each()
+
+}
 \seealso{
 \code{\link[=parseq_cv]{parseq_cv()}}, \code{\link[=parseq_range]{parseq_range()}}, \code{\link[=parseq_manual]{parseq_manual()}}
 }
