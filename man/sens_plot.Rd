@@ -13,12 +13,11 @@ sens_plot(data, ...)
   dv_name,
   logy = FALSE,
   ncol = NULL,
-  bw = FALSE,
   digits = 3,
   plot_ref = TRUE,
   xlab = "time",
   ylab = dv_name[1],
-  grid = TRUE,
+  grid = FALSE,
   ...
 )
 
@@ -43,9 +42,6 @@ sens_plot(data, ...)
 \item{logy}{if \code{TRUE}, y-axis is transformed to log scale}
 
 \item{ncol}{passed to \code{\link[ggplot2:facet_wrap]{ggplot2::facet_wrap()}}}
-
-\item{bw}{if \code{TRUE} a simple black and white plot will be generated
-when the \code{\link[=sens_each]{sens_each()}} method is used}
 
 \item{digits}{used to format numbers on the strips}
 

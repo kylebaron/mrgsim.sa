@@ -10,7 +10,10 @@ Description: Perform local sensitivity analysis on ordinary differential
     sequences of parameters as well as local sensitivity analysis. Functions 
     are provided for creating inputs, simulating scenarios and plotting outputs.
 License: GPL (>= 2)
-Suggests: testthat
+Suggests: 
+    testthat,
+    knitr,
+    rmarkdown
 Imports: 
   withr, 
   purrr, 
@@ -39,3 +42,4 @@ Collate:
     'sens_plot.R'
     'sens_run.R'
     'seq.R'
+VignetteBuilder: knitr

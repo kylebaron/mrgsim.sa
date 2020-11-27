@@ -51,6 +51,11 @@ out
 ```
 
 
+```{r}
+sens_plot(out, "CP", grid = TRUE)
+```
+
+
 
 ## HIV viral dynamic model
 
@@ -65,7 +70,7 @@ mod %>%
   update(end = 365*10) %>%
   parseq_range(N = c(900,1500), .n = 10) %>%
   sens_each(tscale = 1/365) %>% 
-  sens_plot("L")
+  sens_plot("L", grid = TRUE)
 ```
 
 

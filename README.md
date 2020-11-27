@@ -62,6 +62,12 @@ out
     . 5     1     0 CL         0.5 CP             0         0
     . # … with 23,227 more rows
 
+``` r
+sens_plot(out, "CP", grid = TRUE)
+```
+
+![](man/figures/README-unnamed-chunk-6-1.png)<!-- -->
+
 ## HIV viral dynamic model
 
 We look at latent infected cell pool development over ten years at
@@ -79,10 +85,10 @@ mod %>%
   update(end = 365*10) %>%
   parseq_range(N = c(900,1500), .n = 10) %>%
   sens_each(tscale = 1/365) %>% 
-  sens_plot("L")
+  sens_plot("L", grid = TRUE)
 ```
 
-![](man/figures/README-unnamed-chunk-6-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-7-1.png)<!-- -->
 
 ## Sensitivity analysis on custom sequences
 
@@ -105,7 +111,7 @@ mod %>%
   sens_plot("Ccentral")
 ```
 
-![](man/figures/README-unnamed-chunk-7-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-8-1.png)<!-- -->
 
 # Simulate a grid
 
@@ -126,7 +132,7 @@ mod %>%
   sens_plot("Ccentral")
 ```
 
-![](man/figures/README-unnamed-chunk-8-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-9-1.png)<!-- -->
 
 # Local sensitivity analysis
 
@@ -144,4 +150,4 @@ out <- lsa(mod, var = "CP", par = "CL,V2,Q", events = doses)
 lsa_plot(out)
 ```
 
-![](man/figures/README-unnamed-chunk-9-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-10-1.png)<!-- -->

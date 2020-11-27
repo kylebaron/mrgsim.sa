@@ -21,8 +21,6 @@ sens_factor <- function(data, .name, prefix = "sens_facet_", digits = 2) {
 #' @param dv_name output column name to plot
 #' @param logy if `TRUE`, y-axis is transformed to log scale
 #' @param ncol passed to [ggplot2::facet_wrap()]
-#' @param bw if `TRUE` a simple black and white plot will be generated
-#' when the [sens_each()] method is used
 #' @param digits used to format numbers on the strips
 #' @param plot_ref if `TRUE`, then the reference case will be plotted in a black
 #' dashed line
@@ -43,9 +41,9 @@ sens_plot <- function(data,...) UseMethod("sens_plot")
 #' @rdname sens_plot
 #' @export
 sens_plot.sens_each <- function(data, dv_name, logy = FALSE, ncol=NULL, 
-                                bw = FALSE, digits = 3, plot_ref = TRUE,
+                                digits = 3, plot_ref = TRUE,
                                 xlab = "time", ylab = dv_name[1],
-                                grid = TRUE, ...) {
+                                grid = FALSE, ...) {
   pars <- unique(data[["p_name"]])
   npar <- length(unique(pars))
   
@@ -56,16 +54,32 @@ sens_plot.sens_each <- function(data, dv_name, logy = FALSE, ncol=NULL,
   data <- as_tibble(data)
   data <- select_sens(data, dv_name = dv_name)
   
-  if(bw) {
-    p <- ggplot(data=data, aes(!!x,!!y,group=!!group))
+  if(!isTRUE(grid)) {
+    data <- dplyr::group_by(data, p_name)  
+    data <- mutate(data, .col = match(!!group, unique(!!group)))
+    data <- mutate(data, .col = (.data[[".col"]] - 1)/max(.data[[".col"]]-1))
+    data <- dplyr::ungroup(data)
+    
+    p <- ggplot(data=data, aes(!!x,!!y, group=!!group, col = .col))
     p <- 
       p + 
-      geom_line(lwd=0.8) + 
-      theme_bw() + 
-      facet_wrap(~p_name,scales = "free_y", ncol = ncol) + 
-      xlab(xlab) + ylab(ylab)
+      theme_bw() + theme(legend.position = "top") + 
+      facet_wrap(~ p_name, scales = "free_y", ncol = ncol) + 
+      xlab(xlab) + ylab(ylab) + 
+      ggplot2::scale_color_viridis_c(
+        name = NULL, 
+        breaks  = c(0,0.5,1), 
+        labels = c("low", "mid", "hi")
+      )
     if(isTRUE(logy)) {
       p <- p + scale_y_log10()  
+    }
+    p <- p + geom_line(lwd = 1)
+    if(isTRUE(plot_ref)) {
+      p <- p + geom_line(
+        aes(.data[["time"]], .data[["ref_value"]]),
+        lty = 2, lwd = 1.2, col = "black"
+      )
     }
     return(p)
   } ## Simple case
