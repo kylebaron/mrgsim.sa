@@ -21,6 +21,7 @@ sens_factor <- function(data, .name, prefix = "sens_facet_", digits = 2) {
 #' @param dv_name output column name to plot
 #' @param logy if `TRUE`, y-axis is transformed to log scale
 #' @param ncol passed to [ggplot2::facet_wrap()]
+#' @param lwd passed to [ggplot2::geom_line()]
 #' @param digits used to format numbers on the strips
 #' @param plot_ref if `TRUE`, then the reference case will be plotted in a black
 #' dashed line
@@ -40,7 +41,8 @@ sens_plot <- function(data,...) UseMethod("sens_plot")
 #' @param ylab y-axis title
 #' @rdname sens_plot
 #' @export
-sens_plot.sens_each <- function(data, dv_name, logy = FALSE, ncol=NULL, 
+sens_plot.sens_each <- function(data, dv_name, logy = FALSE, ncol = NULL, 
+                                lwd = 0.8, 
                                 digits = 3, plot_ref = TRUE,
                                 xlab = "time", ylab = dv_name[1],
                                 grid = FALSE, ...) {
@@ -55,10 +57,10 @@ sens_plot.sens_each <- function(data, dv_name, logy = FALSE, ncol=NULL,
   data <- select_sens(data, dv_name = dv_name)
   
   if(!isTRUE(grid)) {
-    data <- dplyr::group_by(data, p_name)  
+    data <- group_by(data, .data[["p_name"]])  
     data <- mutate(data, .col = match(!!group, unique(!!group)))
     data <- mutate(data, .col = (.data[[".col"]] - 1)/max(.data[[".col"]]-1))
-    data <- dplyr::ungroup(data)
+    data <- ungroup(data)
     
     p <- ggplot(data=data, aes(!!x,!!y, group=!!group, col = .col))
     p <- 
@@ -66,7 +68,7 @@ sens_plot.sens_each <- function(data, dv_name, logy = FALSE, ncol=NULL,
       theme_bw() + theme(legend.position = "top") + 
       facet_wrap(~ p_name, scales = "free_y", ncol = ncol) + 
       xlab(xlab) + ylab(ylab) + 
-      ggplot2::scale_color_viridis_c(
+      scale_color_viridis_c(
         name = NULL, 
         breaks  = c(0,0.5,1), 
         labels = c("low", "mid", "hi")
@@ -74,11 +76,11 @@ sens_plot.sens_each <- function(data, dv_name, logy = FALSE, ncol=NULL,
     if(isTRUE(logy)) {
       p <- p + scale_y_log10()  
     }
-    p <- p + geom_line(lwd = 1)
+    p <- p + geom_line(lwd = lwd)
     if(isTRUE(plot_ref)) {
       p <- p + geom_line(
         aes(.data[["time"]], .data[["ref_value"]]),
-        lty = 2, lwd = 1.2, col = "black"
+        lty = 2, lwd = lwd * 1.1, col = "black"
       )
     }
     return(p)
@@ -92,7 +94,7 @@ sens_plot.sens_each <- function(data, dv_name, logy = FALSE, ncol=NULL,
     p <- ggplot(data=chunk, aes(!!x,!!sym(y),group=!!group,col=!!group))
     p <- 
       p + 
-      geom_line(lwd=0.8) + 
+      geom_line(lwd=lwd) + 
       theme_bw() + xlab(xlab) + ylab(ylab) + 
       facet_wrap(~ p_name, scales = "free_y", ncol = ncol) + 
       theme(legend.position = "top") + 
@@ -103,7 +105,7 @@ sens_plot.sens_each <- function(data, dv_name, logy = FALSE, ncol=NULL,
     if(isTRUE(plot_ref)) {
       p <- p + geom_line(
         aes(.data[["time"]],.data[["ref_value"]]),
-        col="black", lty = 2, lwd = 0.7
+        col="black", lty = 2, lwd = lwd * 1.1
       )
     }
     p 
@@ -117,7 +119,7 @@ sens_plot.sens_each <- function(data, dv_name, logy = FALSE, ncol=NULL,
 
 #' @rdname sens_plot
 #' @export
-sens_plot.sens_grid <- function(data, dv_name, digits = 2, ncol = NULL,
+sens_plot.sens_grid <- function(data, dv_name, digits = 2, ncol = NULL, lwd = 0.8,
                                 logy = FALSE, plot_ref = TRUE, ...) { #nocov start
   pars <- names(attr(data, "pars"))
   npar <- length(pars)
@@ -147,7 +149,7 @@ sens_plot.sens_grid <- function(data, dv_name, digits = 2, ncol = NULL,
     data <- sens_factor(data, pars[3], digits = digits)
   }
   p <- ggplot(data = data, aes(!!x, !!y, group=!!group, col=factor(!!group)))  
-  p <- p + geom_line(lwd=0.8) + scale_color_discrete(name = pars[1])
+  p <- p + geom_line(lwd=lwd) + scale_color_discrete(name = pars[1])
   p <- p + theme_bw() + theme(legend.position = "top")
   if(npar==2) p <- p + facet_wrap(formula, ncol = ncol)
   if(npar==3) p <- p + facet_grid(formula)
@@ -155,7 +157,7 @@ sens_plot.sens_grid <- function(data, dv_name, digits = 2, ncol = NULL,
   if(isTRUE(plot_ref)) {
     p <- p + geom_line(
       aes(.data[["time"]],.data[["ref_value"]]),
-      col = "black", lty = 2, lwd = 0.7
+      col = "black", lty = 2, lwd = lwd
     )
   }
   p

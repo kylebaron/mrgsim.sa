@@ -13,6 +13,7 @@ sens_plot(data, ...)
   dv_name,
   logy = FALSE,
   ncol = NULL,
+  lwd = 0.8,
   digits = 3,
   plot_ref = TRUE,
   xlab = "time",
@@ -26,6 +27,7 @@ sens_plot(data, ...)
   dv_name,
   digits = 2,
   ncol = NULL,
+  lwd = 0.8,
   logy = FALSE,
   plot_ref = TRUE,
   ...
@@ -42,6 +44,8 @@ sens_plot(data, ...)
 \item{logy}{if \code{TRUE}, y-axis is transformed to log scale}
 
 \item{ncol}{passed to \code{\link[ggplot2:facet_wrap]{ggplot2::facet_wrap()}}}
+
+\item{lwd}{passed to \code{\link[ggplot2:geom_path]{ggplot2::geom_line()}}}
 
 \item{digits}{used to format numbers on the strips}
 

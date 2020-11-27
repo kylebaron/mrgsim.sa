@@ -72,8 +72,11 @@ test_that("plot parseq output", {
     update(end = 24) %>%
     parseq_range(
       CL = c(0.5, 1.5)
-    ) %>% sens_each() %>% sens_plot("CP")
-  expect_is(out, "gg")
+    ) %>% sens_each()
+  plot1 <- out %>%  sens_plot("CP")
+  expect_is(plot1, "gg")
+  plot2 <- out %>% sens_plot("CP", grid = TRUE)
+  expect_is(plot2, "gg")
 })
 
 test_that("sens each data", {
