@@ -50,7 +50,7 @@ The simulated data is returned in a long format
 out
 ```
 
-
+And you can plot with more informative color scale and legend
 ```{r}
 sens_plot(out, "CP", grid = TRUE)
 ```

@@ -62,6 +62,8 @@ out
     . 5     1     0 CL         0.5 CP             0         0
     . # … with 23,227 more rows
 
+And you can plot with more informative color scale and legend
+
 ``` r
 sens_plot(out, "CP", grid = TRUE)
 ```
