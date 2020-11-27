@@ -10,8 +10,6 @@ sequences of parameters as well as local sensitivity analysis. Functions
 are provided for creating inputs, simulating scenarios and plotting outputs.
 }
 \details{
-For help and resources, visit:
-\url{http://github.com/kylebaron/mrgsim.sa}
 \itemize{
 \item Local sensitivity analysis: \code{\link[=lsa]{lsa()}}
 \item Run ad-hoc sensitivity analyses: \code{\link[=sens_each]{sens_each()}}, \code{\link[=sens_grid]{sens_grid()}}, \code{\link[=sens_run]{sens_run()}}

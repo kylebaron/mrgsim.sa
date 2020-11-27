@@ -65,7 +65,7 @@ lsa <- function(mod, par, var, fun = .lsa_fun, eps = 1E-8, ...) {
   parm <- as.numeric(parameters)[par_sens]
   var <- cvec_cs(var)
   base <- as.data.frame(fun(mod, ..., .p = parm))
-  if(!any(exists(c("time", "TIME"),base))) {
+  if(!any(c("time", "TIME") %in% names(base))) {
     stop(
       "output from `fun` must contain a column of time or TIME",
       call.=FALSE

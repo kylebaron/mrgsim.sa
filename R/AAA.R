@@ -33,8 +33,6 @@ NULL
 #' are provided for creating inputs, simulating scenarios and plotting outputs.
 #' 
 #' @details
-#' For help and resources, visit: 
-#' [http://github.com/kylebaron/mrgsim.sa](http://github.com/kylebaron/mrgsim.sa)
 #' 
 #' - Local sensitivity analysis: [lsa()]
 #' - Run ad-hoc sensitivity analyses: [sens_each()], [sens_grid()], [sens_run()]

@@ -145,8 +145,7 @@ as_tibble.sens_each <- function(x, row.names = NULL, optional = FALSE,
                                 unnest = TRUE, ...)  {
   cl <- class(x)
   cl <- cl[cl!="sens_each"]
-  x <- structure(x, class = cl)
-  x
+  structure(x, class = cl)
 }
 
 #' Unnest a sens_each object
