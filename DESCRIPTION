@@ -1,7 +1,7 @@
 Package: mrgsim.sa
 Type: Package
 Title: Sensitivity Analysis with 'mrgsolve'
-Version: 0.1.0
+Version: 0.1.0.9000
 Authors@R: c(person("Kyle", "Baron", "", "kylebtwin@imap.cc", c("aut", "cre")))
 Maintainer: Kyle Baron <kylebtwin@imap.cc>
 Description: Perform sensitivity analysis on ordinary differential equation 
