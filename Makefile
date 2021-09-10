@@ -5,6 +5,13 @@ VERSION=$(shell grep Version DESCRIPTION | awk '{print $$2}')
 TARBALL=${PACKAGE}_${VERSION}.tar.gz
 PKGDIR=.
 
+bump-dev:
+	Rscript -e 'usethis::use_version("dev")'
+
+tag-version:
+	git tag $(VERSION)
+	git push origin $(VERSION)
+
 test: 
 	Rscript -e "testthat::test_dir('tests/testthat')"
 
