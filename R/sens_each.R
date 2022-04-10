@@ -1,8 +1,11 @@
 #' Select sensitivity runs from a sens_each object
 #' 
-#' @param x a sens_each object
-#' @param dv_name character names of dependent variables to select
-#' @param p_name character names of parameters to select
+#' @param x a `sens_each` object.
+#' @param dv_name character names of dependent variables to select.
+#' @param p_name character names of parameters to select.
+#' 
+#' @return 
+#' The updated `sens_each` object is returned.
 #' 
 #' @examples
 #' library(dplyr)
@@ -23,7 +26,10 @@ select_sens <- function(x, dv_name = NULL, p_name = NULL) {
   }
   if(!is.null(p_name)) {
     x <- filter(x, .env[["p_name"]] %in% .data[["p_name"]]) 
-    x <- mutate(x, p_name = factor(.env[["p_name"]], levels = unique(.data[["p_name"]])))
+    x <- mutate(
+      x, 
+      p_name = factor(.env[["p_name"]], levels = unique(.data[["p_name"]]))
+    )
   }
   x
 }
@@ -33,18 +39,29 @@ select_sens <- function(x, dv_name = NULL, p_name = NULL) {
 #' @export
 sens_each <- function(mod, idata = NULL, ...) {
   if(is.data.frame(mod@args[["data"]])) {
-    return(sens_grid_data(mod, data = mod@args[["data"]], idata = NULL, ...))  
+    ans <- sens_grid_data(
+      mod, 
+      data = mod@args[["data"]], 
+      idata = NULL, 
+      ...
+    )
+    return(ans)  
+  }
+  if(is.ev(e <- mod@args[["events"]])) {
+    if(!is.null(e$ID)) {
+      stop("event objects cannot contain an ID column.")  
+    }
   }
   if(!exists("sens_values", mod@args)) {
-    stop("parameter values must be selected first")    
+    stop("parameter values must be selected first.")    
   }
   if(exists("idata_set", mod@args)) {
-    stop("'idata_set' use is not allowed with this workflow")    
+    stop("'idata_set' use is not allowed with this workflow.")    
   }
   if(!is.null(idata)) {
-    stop("'idata use' is not allowed with this workflow")
+    stop("'idata use' is not allowed with this workflow.")
   }
-  ref <- p_mrgsim_(NULL,mod,...)
+  ref <- p_mrgsim_(NULL, mod, ...)
   ref <- mutate(
     ref, 
     ref_value = .data[["dv_value"]], 
@@ -53,10 +70,10 @@ sens_each <- function(mod, idata = NULL, ...) {
   )
   parlist <- mod@args[["sens_values"]] 
   pars <- list_2_idata(parlist)
-  dims <- map_int(parlist,length)
+  dims <- vapply(parlist, length, 1L)
   out <- tibble(
-    p_name = rep(names(dims),dims),
-    p_value = unlist(parlist,use.names = FALSE),
+    p_name = rep(names(dims), dims),
+    p_value = unlist(parlist, use.names = FALSE),
     data = p_mrgsim(mod, pars,...)
   )
   out <- denest(out)
@@ -68,18 +85,18 @@ sens_each <- function(mod, idata = NULL, ...) {
 
 p_mrgsim <- function(mod, pars, ...) {
   mod@args[["idata_set"]] <- NULL
-  pars %>% 
-    map(p_mrgsim_, mod = mod, ...) %>% 
-    map(split_id) %>% 
-    flatten() %>% 
-    unname()
+  ans <- lapply(pars, p_mrgsim_, mod = mod, ...)
+  ans <- lapply(ans, split_id)
+  ans <- flatten(ans)
+  ans <- unname(ans)
+  ans
 }
 
 p_mrgsim_ <- function(x,mod, ...) {
   ans <- mrgsim_df(mod, idata = x, ...) 
   ans <- pivot_longer(
     ans,
-    cols = seq(3,ncol(ans)), 
+    cols = seq(3, ncol(ans)), 
     names_to = "dv_name", 
     values_to = "dv_value"
   )
@@ -104,8 +121,8 @@ sens_each_data <- function(mod, data, idata = NULL, ...) {
   }
   parlist <- mod@args[["sens_values"]] 
   pars <-list_2_idata(parlist)
-  pars <- map(pars,split_id) 
-  dims <- map_int(pars,length)
+  pars <- lapply(pars, split_id) 
+  dims <- vapply(pars, length, 1L)
   pars <- flatten(pars)
   out <- tibble(
     p_name = rep(names(dims),dims),
@@ -113,16 +130,17 @@ sens_each_data <- function(mod, data, idata = NULL, ...) {
     data = d_mrgsim(mod, pars, data = data, ...)
   )
   out <- denest(out, keep_id = TRUE)
-  structure(out, class = c("sens_data",class(out)))
+  class(out) <- c("sens_data",class(out))
+  out
 }
 
 d_mrgsim <- function(mod, pars, data, ...) {
   mod@args[["idata_set"]] <- NULL
-  map(pars, d_mrgsim_, mod = mod,  data = data, ...)  
+  lapply(pars, d_mrgsim_, mod = mod,  data = data, ...)  
 }
 
 d_mrgsim_ <- function(x, mod, data, ...) {
-  mod <- param(mod,x)
+  mod <- param(mod, x)
   mrgsim_df(mod, data = data,  ...) 
 }
 
@@ -135,7 +153,8 @@ d_mrgsim_ <- function(x, mod, data, ...) {
 #' @method as.data.frame sens_each
 #' @keywords internal
 #' @export
-as.data.frame.sens_each <- function(x, row.names = NULL, optional = FALSE, ...)  {
+as.data.frame.sens_each <- function(x, row.names = NULL, optional = FALSE, 
+                                    ...)  {
   as.data.frame(as_tibble(x))
 }
 
@@ -144,8 +163,9 @@ as.data.frame.sens_each <- function(x, row.names = NULL, optional = FALSE, ...) 
 as_tibble.sens_each <- function(x, row.names = NULL, optional = FALSE,
                                 unnest = TRUE, ...)  {
   cl <- class(x)
-  cl <- cl[cl!="sens_each"]
-  structure(x, class = cl)
+  cl <- cl[cl != "sens_each"]
+  class(x) <- cl
+  x
 }
 
 #' Unnest a sens_each object
@@ -161,11 +181,11 @@ denest <- function(x, keep_id = FALSE) {
   x <- mutate(x, case = seq_len(nrow(x)))
   x <- unnest(x, cols = "data")  
   if(!isTRUE(keep_id)) x[["ID"]] <- NULL
-  x[,unique(c("case", names(x))),drop=FALSE]
+  x[, unique(c("case", names(x))), drop = FALSE]
 }
 
 #' @keywords internal
 #' @export
 print.sens_each <- function(x,...) {
-  print(as_tibble(x,unnest=FALSE))
+  print(as_tibble(x, unnest = FALSE))
 }

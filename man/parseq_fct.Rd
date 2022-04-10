@@ -10,26 +10,26 @@ parseq_fct(mod, ..., .n = 5, .factor = 2, .geo = TRUE, .digits = NULL)
 parseq_factor(mod, ..., .n = 5, .factor = 2, .geo = TRUE, .digits = NULL)
 }
 \arguments{
-\item{mod}{a model object}
+\item{mod}{a model object.}
 
-\item{...}{unquoted parameter names}
+\item{...}{unquoted parameter names.}
 
 \item{.n}{number of parameters to simulate between the minimum
-and maximum parameter values}
+and maximum parameter values.}
 
 \item{.factor}{a numeric vector used to divide and multiply the
 parameter value thus generating the minimum and maximum parameter values,
 respectively, for the sequence; if \code{.factor} is length 1 it will be
 recycled to length 2; the first value is used to divide the nominal
 value generating the minimum value; the second value is used to multiply
-the nominal value generating the maximum value}
+the nominal value generating the maximum value.}
 
 \item{.geo}{if \code{TRUE} a geometric sequence is generated (evenly
 spaced from min to max on log scale); otherwise, the sequence is
-evenly spaced on Cartesian scale}
+evenly spaced on Cartesian scale.}
 
 \item{.digits}{if \code{numeric}, the number of significant digits in the
-parameter sensitivity values are set using \code{\link[=signif]{signif()}}}
+parameter sensitivity values are set using \code{\link[=signif]{signif()}}.}
 }
 \description{
 Generate a sequence of parameters

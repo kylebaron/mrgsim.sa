@@ -1,7 +1,7 @@
 #' @importFrom tidyselect vars_select everything all_of
 #' @importFrom dplyr mutate left_join select .data %>% n filter rename
 #' @importFrom dplyr bind_rows as_tibble group_by ungroup
-#' @importFrom purrr map_int map imap map_df flatten flatten_chr
+#' @importFrom purrr flatten flatten_chr imap
 #' @importFrom withr with_environment
 #' @importFrom assertthat assert_that
 #' @importFrom ggplot2 geom_line geom_point ggplot aes_string xlab ylab

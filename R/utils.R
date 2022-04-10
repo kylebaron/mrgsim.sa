@@ -1,8 +1,9 @@
 
 list_2_idata <- function(x) {
-  imap(x, function(value,name) {
-    tibble(ID = seq(length(value)),!!sym(name) := value)
-  }) %>% re_id()
+  ans <- imap(x, function(value, name) {
+    tibble(ID = seq(length(value)), !!sym(name) := value)
+  })
+  re_id(ans)
 }
 
 re_id <- function(x) {
@@ -30,19 +31,19 @@ re_id <- function(x) {
 #' @export
 select_par <- function(mod, ...) {
   assert_that(inherits(mod, "mrgmod"))
-  p <- vars_select(names(param(mod)),!!!quos(...))
+  p <- vars_select(names(param(mod)), !!!quos(...))
   mod@args[["select"]] <- p
   mod
 }
 
 split_id <- function(x) {
-  split(x,x$ID)  
+  split(x, x$ID)  
 }
 
 cvec_cs <- function(x) {
   if(is.null(x) | length(x)==0) return(character(0))
-  x <- unlist(strsplit(as.character(x),",",fixed=TRUE),use.names=FALSE)
-  x <- unlist(strsplit(x," ",fixed=TRUE),use.names=FALSE)
+  x <- unlist(strsplit(as.character(x),",",fixed=TRUE), use.names = FALSE)
+  x <- unlist(strsplit(x," ", fixed = TRUE), use.names = FALSE)
   x <- x[x!=""]
   if(length(x)==0) {
     return(character(0))
@@ -53,7 +54,7 @@ cvec_cs <- function(x) {
 
 combine_list <- function(left, right) {
   if(!all(is.list(left),is.list(right))) {
-    stop("input are not lists")
+    stop("input are not lists.")
   }
   left[names(right)] <-  right
   left
@@ -61,7 +62,7 @@ combine_list <- function(left, right) {
 
 update_list <- function(left, right) {
   if(!all(is.list(left),is.list(right))) {
-    stop("input are not lists")
+    stop("input are not lists.")
   }
   common <- intersect(names(left), names(right))
   left[common] <-  right[common]
@@ -69,3 +70,5 @@ update_list <- function(left, right) {
 }
 
 .stop <- function(...) stop(..., call. = FALSE)
+
+is.ev <- function(x) inherits(x, "ev")

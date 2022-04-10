@@ -19,7 +19,7 @@ range of test parameters}
 \item{.nsd}{number of standard deviations used to determine the range}
 
 \item{.digits}{if \code{numeric}, the number of significant digits in the
-parameter sensitivity values are set using \code{\link[=signif]{signif()}}}
+parameter sensitivity values are set using \code{\link[=signif]{signif()}}.}
 }
 \description{
 Generate a sequence of parameters based on CV

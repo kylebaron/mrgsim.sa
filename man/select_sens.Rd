@@ -7,11 +7,14 @@
 select_sens(x, dv_name = NULL, p_name = NULL)
 }
 \arguments{
-\item{x}{a sens_each object}
+\item{x}{a \code{sens_each} object.}
 
-\item{dv_name}{character names of dependent variables to select}
+\item{dv_name}{character names of dependent variables to select.}
 
-\item{p_name}{character names of parameters to select}
+\item{p_name}{character names of parameters to select.}
+}
+\value{
+The updated \code{sens_each} object is returned.
 }
 \description{
 Select sensitivity runs from a sens_each object

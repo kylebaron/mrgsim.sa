@@ -1,19 +1,18 @@
 #' Run ad-hoc parameter sensitivity analyses with mrgsolve
 #' 
-#' @param mod a mrgsolve model object
+#' @param mod a mrgsolve model object.
 #' @param par parameter names for sensitivity analysis; this can be 
-#' a character vector or a comma-separated string (see examples)
+#' a character vector or a comma-separated string (see examples).
 #' @param var names of model output variables to include in simulated output; 
 #' this could be the name of a compartment or another output derived inside
 #' of the model (e.g. `DV` or `CP` or `logV`, but is specific to what is coded 
-#' into `mod`)
-#' @param method parameter sequence generation method
-#' @param vary use `each` to vary one parameter at a time or `grid`
-#' to vary all combinations of parameters
-#' @param ... passed to `method` function
+#' into `mod`).
+#' @param method parameter sequence generation method.
+#' @param vary use `each` to vary one parameter at a time or `grid` to vary 
+#' all combinations of parameters.
+#' @param ... passed to `method` function.
 #' @param sargs a named list of arguments passed to [sens_each()] or 
-#' [sens_grid()] and eventually
-#' to [mrgsolve::mrgsim()]
+#' [sens_grid()] and eventually to [mrgsolve::mrgsim()].
 #' 
 #' @examples
 #' mod <- mrgsolve::house()

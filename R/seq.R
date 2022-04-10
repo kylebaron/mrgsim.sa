@@ -17,7 +17,7 @@ seq_geo <- function(from, to, n = 5, digits = NULL) {
 }
 
 geo_seq_ <- function(point, n = 5) { #nocov start
-  map(point, function(x) {
+  lapply(point, function(x) {
     seq_geo(x[1], x[2], n)
   })
 } # nocov end
@@ -72,7 +72,7 @@ seq_even <- function(from, to, n = 5, digits = NULL) {
 }
 
 even_seq_ <- function(point, n = 5) { #nocov start
-  map(point, function(x) {
+  lapply(point, function(x) {
     seq_even(x[1], x[2], n)
   }) 
 } # nocov end

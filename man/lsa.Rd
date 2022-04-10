@@ -10,20 +10,20 @@ lsa(mod, par, var, fun = .lsa_fun, eps = 1e-08, ...)
 lsa_plot(x, ...)
 }
 \arguments{
-\item{mod}{a mrgsolve model object}
+\item{mod}{a mrgsolve model object.}
 
-\item{par}{parameter names as character vector or comma-separated string}
+\item{par}{parameter names as character vector or comma-separated string.}
 
 \item{var}{output names (compartment or capture) as character vector
-or comma-separated string}
+or comma-separated string.}
 
-\item{fun}{generating simulated for sensitivity analysis (see details)}
+\item{fun}{generating simulated for sensitivity analysis (see details).}
 
-\item{eps}{parameter change value for sensitivity analysis}
+\item{eps}{parameter change value for sensitivity analysis.}
 
-\item{...}{passed to \code{\link[=plot.lsa]{plot.lsa()}}}
+\item{...}{passed to \code{\link[=plot.lsa]{plot.lsa()}}.}
 
-\item{x}{output from \code{lsa()}}
+\item{x}{output from \code{lsa()}.}
 }
 \value{
 A tibble with class \code{lsa}.
