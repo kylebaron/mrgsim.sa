@@ -61,6 +61,10 @@ sens_each <- function(mod, idata = NULL, ...) {
   if(!is.null(idata)) {
     stop("'idata use' is not allowed with this workflow.")
   }
+  
+  parlist <- mod@args[["sens_values"]] 
+  mod <- clear_args(mod)
+  
   ref <- p_mrgsim_(NULL, mod, ...)
   ref <- mutate(
     ref, 
@@ -68,7 +72,6 @@ sens_each <- function(mod, idata = NULL, ...) {
     dv_value = NULL, 
     ID = NULL
   )
-  parlist <- mod@args[["sens_values"]] 
   pars <- list_2_idata(parlist)
   dims <- vapply(parlist, length, 1L)
   out <- tibble(
@@ -119,7 +122,8 @@ sens_each_data <- function(mod, data, idata = NULL, ...) {
   if(!is.null(idata)) {
     stop("'idata' use is not allowed with this workflow",call.=FALSE)
   }
-  parlist <- mod@args[["sens_values"]] 
+  parlist <- mod@args[["sens_values"]]
+  mod <- clear_args(mod)
   pars <-list_2_idata(parlist)
   pars <- lapply(pars, split_id) 
   dims <- vapply(pars, length, 1L)

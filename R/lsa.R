@@ -157,6 +157,6 @@ plot.lsa <- function(x,y=NULL,pal=NULL,...) {
   ans
 }
 
-.lsa_fun <- function(mod, ...) {
+.lsa_fun <- function(mod, ..., .p = list()) {
   mrgsim(mod, ...)
 }

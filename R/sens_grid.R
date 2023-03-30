@@ -16,6 +16,7 @@ sens_grid <- function(mod, idata = NULL, ...) {
   }
   mod@args[["carry_out"]] <- NULL
   pars <- mod@args[["sens_values"]] 
+  mod <- clear_args(mod)
   parsdf <- do.call(expand.grid,pars) 
   parsdf <- mutate(parsdf, ID = seq(n()), case = .data[["ID"]])
   ref <- mrgsim_df(mod, ...)
@@ -60,6 +61,7 @@ sens_grid_data <- function(mod, data, idata = NULL, ...) {
   assert_that(is.data.frame(data))
   mod@args[["carry_out"]] <- NULL
   parlist <- mod@args[["sens_values"]] 
+  mod <- clear_args(mod)
   idata <- do.call(expand.grid,parlist) 
   idata <- mutate(idata, ID = seq(n()))
   pars <- split_id(idata)

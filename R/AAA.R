@@ -9,7 +9,7 @@
 #' @importFrom ggplot2 facet_grid facet_wrap aes scale_color_discrete theme
 #' @importFrom ggplot2 scale_color_viridis_c scale_color_brewer
 #' @importFrom patchwork wrap_plots
-#' @importFrom rlang quos sym set_names enexpr := as_string .env
+#' @importFrom rlang quos sym set_names enexpr := as_string .env abort warn
 #' @importFrom tidyr unnest nest pivot_longer
 #' @importFrom tibble tibble as_tibble
 #' @importMethodsFrom mrgsolve as.list param update as.data.frame

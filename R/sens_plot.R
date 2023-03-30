@@ -41,11 +41,12 @@ sens_plot <- function(data,...) UseMethod("sens_plot")
 #' @param ylab y-axis title
 #' @rdname sens_plot
 #' @export
-sens_plot.sens_each <- function(data, dv_name, logy = FALSE, ncol = NULL, 
-                                lwd = 0.8, 
+sens_plot.sens_each <- function(data, dv_name = NULL, logy = FALSE, 
+                                ncol = NULL, lwd = 0.8, 
                                 digits = 3, plot_ref = TRUE,
                                 xlab = "time", ylab = dv_name[1],
                                 grid = FALSE, ...) {
+  
   pars <- unique(data[["p_name"]])
   npar <- length(unique(pars))
   

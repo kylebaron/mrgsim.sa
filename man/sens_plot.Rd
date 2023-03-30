@@ -10,7 +10,7 @@ sens_plot(data, ...)
 
 \method{sens_plot}{sens_each}(
   data,
-  dv_name,
+  dv_name = NULL,
   logy = FALSE,
   ncol = NULL,
   lwd = 0.8,

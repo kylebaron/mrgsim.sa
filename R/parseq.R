@@ -9,6 +9,12 @@ save_sens_values <- function(mod, values) {
   mod
 }
 
+clear_args <- function(mod) {
+  mod@args[["sens_values"]] <- NULL
+  mod@args[["select"]] <- NULL
+  mod
+}
+
 #' Generate a sequence of parameters
 #' 
 #' @param mod a model object.
