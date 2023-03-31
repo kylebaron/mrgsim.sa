@@ -47,6 +47,23 @@ sens_plot.sens_each <- function(data, dv_name = NULL, logy = FALSE,
                                 xlab = "time", ylab = dv_name[1],
                                 grid = FALSE, ...) {
   
+  if(is.null(dv_name)) {
+    dv_name <- unique(data[["dv_name"]])
+  }
+  
+  if(length(dv_name) > 1) {
+    args <- c(as.list(environment()), list(...))
+    args$ylab <- NULL
+    out <- vector(mode = "list", length = length(dv_name))
+    i <- 1
+    for(this_dv_name in dv_name) {
+      args$dv_name <- this_dv_name
+      out[[i]] <- do.call(sens_plot.sens_each, args)
+      i <- i+1
+    }
+    return(out)
+  }
+  
   pars <- unique(data[["p_name"]])
   npar <- length(unique(pars))
   
@@ -72,7 +89,7 @@ sens_plot.sens_each <- function(data, dv_name = NULL, logy = FALSE,
       scale_color_viridis_c(
         name = NULL, 
         breaks  = c(0,0.5,1), 
-        labels = c("low", "mid", "hi")
+        labels = c("low", "mid", "high")
       )
     if(isTRUE(logy)) {
       p <- p + scale_y_log10()  
