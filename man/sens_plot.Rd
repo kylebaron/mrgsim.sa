@@ -11,6 +11,7 @@ sens_plot(data, ...)
 \method{sens_plot}{sens_each}(
   data,
   dv_name = NULL,
+  p_name = NULL,
   logy = FALSE,
   ncol = NULL,
   lwd = 0.8,
@@ -19,6 +20,9 @@ sens_plot(data, ...)
   xlab = "time",
   ylab = dv_name[1],
   grid = FALSE,
+  facet = FALSE,
+  flip = FALSE,
+  list = FALSE,
   ...
 )
 

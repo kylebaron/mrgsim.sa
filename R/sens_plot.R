@@ -41,45 +41,74 @@ sens_plot <- function(data,...) UseMethod("sens_plot")
 #' @param ylab y-axis title
 #' @rdname sens_plot
 #' @export
-sens_plot.sens_each <- function(data, dv_name = NULL, logy = FALSE, 
+sens_plot.sens_each <- function(data, dv_name = NULL, p_name = NULL,
+                                logy = FALSE, 
                                 ncol = NULL, lwd = 0.8, 
                                 digits = 3, plot_ref = TRUE,
                                 xlab = "time", ylab = dv_name[1],
-                                grid = FALSE, ...) {
+                                grid = FALSE,
+                                facet = FALSE, 
+                                flip = FALSE,
+                                list = FALSE, ...) {
+  
+  grid <- isTRUE(grid)
+  facet <- isTRUE(facet)
+  list <- isTRUE(list)
+  flip <- isTRUE(flip)
   
   if(is.null(dv_name)) {
     dv_name <- unique(data[["dv_name"]])
+  } else {
+    assert_that(is.character(dv_name))
+    dv_name <- cvec_cs(dv_name)
   }
   
-  if(length(dv_name) > 1) {
+  if(grid && length(dv_name) > 1) {
+    list <- TRUE    
+  }
+  
+  if(list) {
     args <- c(as.list(environment()), list(...))
-    args$ylab <- NULL
-    out <- vector(mode = "list", length = length(dv_name))
-    i <- 1
-    for(this_dv_name in dv_name) {
-      args$dv_name <- this_dv_name
-      out[[i]] <- do.call(sens_plot.sens_each, args)
-      i <- i+1
-    }
-    return(out)
+    args$list <- FALSE
+    return(sens_plot_list(dv_name, args))
   }
   
-  pars <- unique(data[["p_name"]])
-  npar <- length(unique(pars))
+  default <- !grid && !facet && !list
+  
+  if(!is.null(p_name)) {
+    assert_that(is.character(p_name))
+    pars <- cvec_cs(p_name)
+  } else {
+    pars <- unique(data[["p_name"]])  
+  }
+  pars <- unique(pars)
+  npar <- length(pars)
   
   group <- sym("p_value")
   x <- sym("time")
-  y <- sym(dv_name)
-  
+  if(default || (facet && length(dv_name)==1) || grid) {
+    y <- sym(dv_name)
+  }
+  if(facet && length(dv_name) > 1) {
+    y <- sym("dv_value")  
+  }
   data <- as_tibble(data)
-  data <- select_sens(data, dv_name = dv_name)
+  data <- select_sens(data, dv_name = dv_name, p_name = pars)
   
-  if(!isTRUE(grid)) {
+  if(default || facet) {
     data <- group_by(data, .data[["p_name"]])  
     data <- mutate(data, .col = match(!!group, unique(!!group)))
     data <- mutate(data, .col = (.data[[".col"]] - 1)/max(.data[[".col"]]-1))
     data <- ungroup(data)
-    
+    if(facet && flip) {
+      data <- mutate(
+        data, 
+        flip_strip = paste0(p_name, " { ", dv_name, " }")
+      ) 
+    }
+  }
+  
+  if(default) {
     p <- ggplot(data=data, aes(!!x,!!y, group=!!group, col = .col))
     p <- 
       p + 
@@ -104,17 +133,50 @@ sens_plot.sens_each <- function(data, dv_name = NULL, logy = FALSE,
     return(p)
   } ## Simple case
   
-  sp <- split(data,data[["p_name"]])
+  if(facet) {
+    p <- ggplot(data = data, aes(!!x,!!y, group=!!group, col = .col))
+    p <- p + theme_bw() + theme(legend.position = "top") 
+    p <- p + xlab(xlab) + ylab("value")
+    p <- p + scale_color_viridis_c(
+      name = NULL, 
+      breaks  = c(0,0.5,1), 
+      labels = c("low", "mid", "high")
+    )
+    p <- p + geom_line(lwd = lwd)
+    if(flip) {
+      if(missing(ncol)) {
+        ncol <- length(unique(data[["dv_name"]]))  
+      }
+      p <- p + facet_wrap(~flip_strip, scales = "free_y", ncol = ncol)  
+    } else {
+      p <- p + facet_grid(dv_name ~ p_name, scales = "free_y")
+    }
+    if(isTRUE(logy)) {
+      p <- p + scale_y_log10()  
+    }
+    
+    if(isTRUE(plot_ref)) {
+      p <- p + geom_line(
+        aes(.data[["time"]], .data[["ref_value"]]),
+        lty = 2, lwd = lwd * 1.1, col = "black"
+      )
+    }
+    return(p)
+  }
+  
+  # Grid
+  sp <- split(data, data[["p_name"]])
   
   plots <- lapply(sp, function(chunk) {
-    chunk[["p_value"]] <- signif(chunk[["p_value"]],digits)
+    chunk[["p_value"]] <- signif(chunk[["p_value"]], digits)
     chunk[["p_value"]] <- factor(chunk[["p_value"]])
+    
     p <- ggplot(data=chunk, aes(!!x,!!sym(y),group=!!group,col=!!group))
     p <- 
       p + 
-      geom_line(lwd=lwd) + 
+      geom_line(lwd = lwd) + 
       theme_bw() + xlab(xlab) + ylab(ylab) + 
-      facet_wrap(~ p_name, scales = "free_y", ncol = ncol) + 
+      facet_wrap(facets = "p_name", scales = "free_y", ncol = ncol) + 
       theme(legend.position = "top") + 
       scale_color_discrete(name = "")
     if(isTRUE(logy)) {
@@ -133,6 +195,18 @@ sens_plot.sens_each <- function(data, dv_name = NULL, logy = FALSE,
     return(do.call(wrap_plots, plots))
   }
   return(plots)
+}
+
+sens_plot_list <- function(dv_name, args) {
+  args$ylab <- NULL
+  out <- vector(mode = "list", length = length(dv_name))
+  i <- 1
+  for(this_dv_name in dv_name) {
+    args$dv_name <- this_dv_name
+    out[[i]] <- do.call(sens_plot.sens_each, args)
+    i <- i+1
+  }
+  return(out)
 }
 
 #' @rdname sens_plot

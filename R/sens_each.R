@@ -20,15 +20,24 @@
 select_sens <- function(x, dv_name = NULL, p_name = NULL) {
   x <- as_tibble(x)
   if(!is.null(dv_name)) {
-    x <- filter(x, dv_name == .env[["dv_name"]])
-    x <- rename(x, !!dv_name := .data[["dv_value"]])
-    x[["dv_name"]] <-  NULL
+    x <- filter(x, dv_name %in% .env[["dv_name"]])
+    if(nrow(x)==0) {
+      msg <- "could not find dv named `{dv_name}` in simulated data."
+      abort(glue(msg))  
+    }
+    if(length(dv_name)==1) {
+      x <- rename(x, !!dv_name := .data[["dv_value"]])
+    }
   }
   if(!is.null(p_name)) {
-    x <- filter(x, .env[["p_name"]] %in% .data[["p_name"]]) 
+    x <- filter(x, .data[["p_name"]] %in% .env[["p_name"]]) 
+    if(nrow(x)==0) {
+      msg <- "could not find parameter named `{p_name}` in simulated data."
+      abort(glue(msg))  
+    }
     x <- mutate(
       x, 
-      p_name = factor(.env[["p_name"]], levels = unique(.data[["p_name"]]))
+      p_name = factor(.data[["p_name"]], levels = unique(.data[["p_name"]]))
     )
   }
   x
