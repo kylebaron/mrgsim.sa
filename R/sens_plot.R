@@ -12,6 +12,15 @@ sens_factor <- function(data, .name, prefix = "sens_facet_", digits = 2) {
   )
 }
 
+sens_color_n <- function(data, group) {
+  if(is.character(group)) group <- sum(group)
+  data <- group_by(data, .data[["p_name"]])  
+  data <- mutate(data, .col = match(!!group, unique(!!group)))
+  data <- mutate(data, .col = (.data[[".col"]] - 1)/max(.data[[".col"]]-1))
+  data <- ungroup(data)
+  data
+}
+
 
 #' Plot sensitivity analysis results
 #' 
@@ -46,15 +55,18 @@ sens_plot.sens_each <- function(data, dv_name = NULL, p_name = NULL,
                                 ncol = NULL, lwd = 0.8, 
                                 digits = 3, plot_ref = TRUE,
                                 xlab = "time", ylab = dv_name[1],
-                                grid = FALSE,
-                                facet = FALSE, 
-                                flip = FALSE,
-                                list = FALSE, ...) {
+                                layout = c("default", "facet_grid", 
+                                           "facet_wrap", "grid", "list"),
+                                grid = FALSE, ...) {
+  
+  layout <- match.arg(layout)
   
   grid <- isTRUE(grid)
-  facet <- isTRUE(facet)
-  list <- isTRUE(list)
-  flip <- isTRUE(flip)
+  if(grid) layout <- "grid"
+  list <- layout=="list"
+  default <- layout=="default"
+  facet <- layout %in% c("facet_wrap", "facet_grid")
+  facet_wrap <- layout=="facet_wrap"
   
   if(is.null(dv_name)) {
     dv_name <- unique(data[["dv_name"]])
@@ -63,18 +75,18 @@ sens_plot.sens_each <- function(data, dv_name = NULL, p_name = NULL,
     dv_name <- cvec_cs(dv_name)
   }
   
-  if(grid && length(dv_name) > 1) {
+  if((grid && length(dv_name) > 1)) {
     list <- TRUE    
   }
   
+  if(length(dv_name) > 1 & default) list <- TRUE
+  
   if(list) {
     args <- c(as.list(environment()), list(...))
-    args$list <- FALSE
+    args$layout <- "default"
     return(sens_plot_list(dv_name, args))
   }
-  
-  default <- !grid && !facet && !list
-  
+
   if(!is.null(p_name)) {
     assert_that(is.character(p_name))
     pars <- cvec_cs(p_name)
@@ -96,11 +108,8 @@ sens_plot.sens_each <- function(data, dv_name = NULL, p_name = NULL,
   data <- select_sens(data, dv_name = dv_name, p_name = pars)
   
   if(default || facet) {
-    data <- group_by(data, .data[["p_name"]])  
-    data <- mutate(data, .col = match(!!group, unique(!!group)))
-    data <- mutate(data, .col = (.data[[".col"]] - 1)/max(.data[[".col"]]-1))
-    data <- ungroup(data)
-    if(facet && flip) {
+    data <- sens_color_n(data, group)
+    if(facet_wrap) {
       data <- mutate(
         data, 
         flip_strip = paste0(p_name, " { ", dv_name, " }")
@@ -143,7 +152,7 @@ sens_plot.sens_each <- function(data, dv_name = NULL, p_name = NULL,
       labels = c("low", "mid", "high")
     )
     p <- p + geom_line(lwd = lwd)
-    if(flip) {
+    if(layout=="facet_wrap") {
       if(missing(ncol)) {
         ncol <- length(unique(data[["dv_name"]]))  
       }
