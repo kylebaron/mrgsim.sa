@@ -1,4 +1,3 @@
-
 sens_factor <- function(data, .name, prefix = "sens_facet_", digits = 2) {
   ux <- sort(unique(data[[.name]]))
   new_col <- paste0(prefix,.name)
@@ -20,7 +19,6 @@ sens_color_n <- function(data, group) {
   data <- ungroup(data)
   data
 }
-
 
 #' Plot sensitivity analysis results
 #' 
