@@ -128,7 +128,8 @@ sens_plot.sens_each <- function(data, dv_name = NULL, p_name = NULL,
     y <- sym("dv_value")  
   }
   data <- as_tibble(data)
-  data <- select_sens(data, dv_name = dv_name, p_name = pars, to_factor = TRUE)
+  data <- select_sens(data, dv_name = dv_name, p_name = pars)
+  data <- sens_names_to_factor(data)
   
   if(default || facet) {
     data <- sens_color_n(data, group)
@@ -255,7 +256,8 @@ sens_plot.sens_grid <- function(data, dv_name, digits = 2, ncol = NULL, lwd = 0.
       call. = FALSE
     )  
   }
-  data <- select_sens(data, dv_name = dv_name, to_factor = TRUE)
+  data <- select_sens(data, dv_name = dv_name)
+  data <- sens_names_to_factor(data)
   group <- sym(pars[1])
   tcol <- "time"
   if(exists("TIME", data)) tcol <- "TIME"

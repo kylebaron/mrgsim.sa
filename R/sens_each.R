@@ -1,8 +1,10 @@
 #' Select sensitivity runs from a sens_each object
 #' 
 #' @param x a `sens_each` object.
-#' @param dv_name character names of dependent variables to select.
-#' @param p_name character names of parameters to select.
+#' @param dv_name character names of dependent variables to select; can be a 
+#' comma-separated string.
+#' @param p_name character names of parameters to select; can be a 
+#' comma-separated string.
 #' 
 #' @return 
 #' The updated `sens_each` object is returned.
@@ -18,10 +20,9 @@
 #' 
 #' 
 #' @export
-select_sens <- function(x, dv_name = NULL, p_name = NULL, to_factor = FALSE) {
+select_sens <- function(x, dv_name = NULL, p_name = NULL) {
   cl <- class(x)
   x <- as_tibble(x)
-  to_factor <- isTRUE(to_factor)
   if(!is.null(dv_name)) {
     dv_name <- cvec_cs(dv_name)
     x <- filter(x, dv_name %in% .env[["dv_name"]])
@@ -41,14 +42,23 @@ select_sens <- function(x, dv_name = NULL, p_name = NULL, to_factor = FALSE) {
       abort(glue(msg))  
     }
   }
-  if(to_factor) {
+  structure(x, class = cl)
+}
+
+sens_names_to_factor <- function(x) {
+  if("p_name" %in% names(x)) {
     x <- mutate(
       x, 
-      p_name = factor(.data[["p_name"]], levels = unique(.data[["p_name"]])), 
+      p_name = factor(.data[["p_name"]], levels = unique(.data[["p_name"]]))
+    )
+  }
+  if("dv_name" %in% names(x)) {
+    x <- mutate(
+      x, 
       dv_name = factor(.data[["dv_name"]], levels = unique(.data[["dv_name"]]))
     )
   }
-  structure(x, class = cl)
+  x
 }
 
 #' @rdname sens_fun

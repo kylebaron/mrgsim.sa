@@ -4,14 +4,16 @@
 \alias{select_sens}
 \title{Select sensitivity runs from a sens_each object}
 \usage{
-select_sens(x, dv_name = NULL, p_name = NULL, to_factor = FALSE)
+select_sens(x, dv_name = NULL, p_name = NULL)
 }
 \arguments{
 \item{x}{a \code{sens_each} object.}
 
-\item{dv_name}{character names of dependent variables to select.}
+\item{dv_name}{character names of dependent variables to select; can be a
+comma-separated string.}
 
-\item{p_name}{character names of parameters to select.}
+\item{p_name}{character names of parameters to select; can be a
+comma-separated string.}
 }
 \value{
 The updated \code{sens_each} object is returned.
