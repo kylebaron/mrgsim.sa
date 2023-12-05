@@ -25,17 +25,20 @@ sens_color_n <- function(data, group) {
 #' Plot sensitivity analysis results
 #' 
 #' @param data output from [sens_each()] or 
-#' [sens_grid()]
-#' @param ... arguments passed on to methods
-#' @param dv_name output column name to plot
+#' [sens_grid()].
+#' @param ... arguments passed on to methods.
+#' @param dv_name output columns name to plot; can be a comma-separated string.
+#' @param p_name parameter names to plot; can be a comma-separates string. 
 #' @param logy if `TRUE`, y-axis is transformed to log scale
-#' @param ncol passed to [ggplot2::facet_wrap()]
-#' @param lwd passed to [ggplot2::geom_line()]
-#' @param digits used to format numbers on the strips
+#' @param ncol passed to [ggplot2::facet_wrap()].
+#' @param lwd passed to [ggplot2::geom_line()].
+#' @param digits used to format numbers on the strips.
+#'
 #' @param plot_ref if `TRUE`, then the reference case will be plotted in a black
-#' dashed line
+#' dashed line.
 #' @param grid if `TRUE`, plots from the `sens_each` method
-#' will be passed through [patchwork::wrap_plots()]
+#' will be arranged on a page with [patchwork::wrap_plots()]; see the `ncol`
+#' argument.
 #' 
 #' @examples
 #' mod <- mrgsolve::house()
@@ -46,8 +49,28 @@ sens_color_n <- function(data, group) {
 #' @export
 sens_plot <- function(data,...) UseMethod("sens_plot")
 
-#' @param xlab x-axis title
-#' @param ylab y-axis title
+#' @param xlab x-axis title.
+#' @param ylab y-axis title; not used for `facet_grid` or `facet_wrap` layouts.
+#' @param layout specifies how plots should be returned when `dv_name` requests
+#' multiple dependent variables; see `Details`. 
+#' 
+#' @details
+#' 
+#' The `layout` argument let's you get the plots back in different formats
+#' when multiple dependent variables are requested via `dv_name`. 
+#' 
+#' - Use `default` to get the plots back in a list if multiple dependent 
+#'   variables are requested otherwise a single plot is returned.
+#' - Use `facet_grid` to get a single plot, with parameters in columns and 
+#'   dependent variables in rows. 
+#' - Use `facet_wrap` to get a plot with faceted using [ggplot2::facet_wrap()], 
+#'   with both the parameter name and the dependent variable name in the strip.
+#' - Use `list` to force output to be a list of plots; this output can be 
+#'   further arranged using [patchwork::wrap_plots()] if desired. 
+#' 
+#' When `grid` is `TRUE`, a list of plots will be returned when multiple 
+#' dependent variables are requested. 
+#' 
 #' @rdname sens_plot
 #' @export
 sens_plot.sens_each <- function(data, dv_name = NULL, p_name = NULL,
@@ -56,13 +79,12 @@ sens_plot.sens_each <- function(data, dv_name = NULL, p_name = NULL,
                                 digits = 3, plot_ref = TRUE,
                                 xlab = "time", ylab = dv_name[1],
                                 layout = c("default", "facet_grid", 
-                                           "facet_wrap", "grid", "list"),
+                                           "facet_wrap", "list"),
                                 grid = FALSE, ...) {
   
   layout <- match.arg(layout)
   
   grid <- isTRUE(grid)
-  if(grid) layout <- "grid"
   list <- layout=="list"
   default <- layout=="default"
   facet <- layout %in% c("facet_wrap", "facet_grid")
@@ -93,6 +115,7 @@ sens_plot.sens_each <- function(data, dv_name = NULL, p_name = NULL,
   } else {
     pars <- unique(data[["p_name"]])  
   }
+  
   pars <- unique(pars)
   npar <- length(pars)
   
@@ -105,7 +128,7 @@ sens_plot.sens_each <- function(data, dv_name = NULL, p_name = NULL,
     y <- sym("dv_value")  
   }
   data <- as_tibble(data)
-  data <- select_sens(data, dv_name = dv_name, p_name = pars)
+  data <- select_sens(data, dv_name = dv_name, p_name = pars, to_factor = TRUE)
   
   if(default || facet) {
     data <- sens_color_n(data, group)
@@ -148,7 +171,7 @@ sens_plot.sens_each <- function(data, dv_name = NULL, p_name = NULL,
     p <- p + xlab(xlab) + ylab("value")
     p <- p + scale_color_viridis_c(
       name = NULL, 
-      breaks  = c(0,0.5,1), 
+      breaks  = c(0, 0.5, 1), 
       labels = c("low", "mid", "high")
     )
     p <- p + geom_line(lwd = lwd)
@@ -232,7 +255,7 @@ sens_plot.sens_grid <- function(data, dv_name, digits = 2, ncol = NULL, lwd = 0.
       call. = FALSE
     )  
   }
-  data <- select_sens(data, dv_name = dv_name)
+  data <- select_sens(data, dv_name = dv_name, to_factor = TRUE)
   group <- sym(pars[1])
   tcol <- "time"
   if(exists("TIME", data)) tcol <- "TIME"
