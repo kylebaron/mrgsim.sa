@@ -91,8 +91,8 @@ sens_each <- function(mod, idata = NULL, ...) {
   out <- denest(out)
   out[["ID"]] <- NULL
   out <- left_join(out, ref, by = c("time", "dv_name"))
-  out <- out[, unique(c("case", "time",names(out))), drop=FALSE]
-  structure(out, class = c("sens_each",class(out)))
+  out <- out[, unique(c("case", "time", names(out))), drop=FALSE]
+  structure(out, class = c("sens_each", class(out)))
 }
 
 p_mrgsim <- function(mod, pars, ...) {
@@ -123,13 +123,13 @@ p_mrgsim_ <- function(x,mod, ...) {
 sens_each_data <- function(mod, data, idata = NULL, ...) {
   mod@args[["data"]] <- NULL
   if(!exists("sens_values", mod@args)) {
-    stop("parameter values must be selected first",call.=FALSE)    
+    stop("parameter values must be selected first", call.=FALSE)    
   }
   if(exists("idata_set", mod@args)) {
-    stop("'idata_set' use is not allowed with this workflow",call.=FALSE)    
+    stop("'idata_set' use is not allowed with this workflow", call.=FALSE)    
   }
   if(!is.null(idata)) {
-    stop("'idata' use is not allowed with this workflow",call.=FALSE)
+    stop("'idata' use is not allowed with this workflow", call.=FALSE)
   }
   parlist <- mod@args[["sens_values"]]
   mod <- clear_args(mod)
