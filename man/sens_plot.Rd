@@ -58,7 +58,7 @@ dashed line.}
 
 \item{xlab}{x-axis title.}
 
-\item{ylab}{y-axis title.}
+\item{ylab}{y-axis title; not used for \code{facet_grid} or \code{facet_wrap} layouts.}
 
 \item{layout}{specifies how plots should be returned when \code{dv_name} requests
 multiple dependent variables; see \code{Details}.}
@@ -74,7 +74,8 @@ Plot sensitivity analysis results
 The \code{layout} argument let's you get the plots back in different formats
 when multiple dependent variables are requested via \code{dv_name}.
 \itemize{
-\item Use \code{default} to get the plots back in a list.
+\item Use \code{default} to get the plots back in a list if multiple dependent
+variables are requested otherwise a single plot is returned.
 \item Use \code{facet_grid} to get a single plot, with parameters in columns and
 dependent variables in rows.
 \item Use \code{facet_wrap} to get a plot with faceted using \code{\link[ggplot2:facet_wrap]{ggplot2::facet_wrap()}},

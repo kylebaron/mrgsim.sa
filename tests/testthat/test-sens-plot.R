@@ -9,6 +9,12 @@ s1 <-
   parseq_cv(CL, VC, KIN, KOUT) %>%
   sens_each(end = 12) 
 
+test_that("by default, plot everything", {
+  p <- sens_plot(s1)  
+  expect_is(p, "list")
+  expect_length(p, length(unique(s1$dv_name)))
+})
+
 test_that("single plot - default", {
   p <- sens_plot(s1, "CP")
   expect_is(p, "gg")  

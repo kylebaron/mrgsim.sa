@@ -4,7 +4,7 @@
 \alias{select_sens}
 \title{Select sensitivity runs from a sens_each object}
 \usage{
-select_sens(x, dv_name = NULL, p_name = NULL)
+select_sens(x, dv_name = NULL, p_name = NULL, to_factor = FALSE)
 }
 \arguments{
 \item{x}{a \code{sens_each} object.}
