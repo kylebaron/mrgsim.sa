@@ -1,8 +1,10 @@
 #' Select sensitivity runs from a sens_each object
 #' 
 #' @param x a `sens_each` object.
-#' @param dv_name character names of dependent variables to select.
-#' @param p_name character names of parameters to select.
+#' @param dv_name character names of dependent variables to select; can be a 
+#' comma-separated string.
+#' @param p_name character names of parameters to select; can be a 
+#' comma-separated string.
 #' 
 #' @return 
 #' The updated `sens_each` object is returned.
@@ -14,21 +16,46 @@
 #' 
 #' out1 <- mod %>% parseq_factor(CL,VC) %>% sens_each()
 #' 
-#' out2 <- select_sens(out1, dv_name = "CP", p_name = "CV")
+#' out2 <- select_sens(out1, dv_name = "CP", p_name = "CL")
+#' 
 #' 
 #' @export
 select_sens <- function(x, dv_name = NULL, p_name = NULL) {
+  cl <- class(x)
   x <- as_tibble(x)
   if(!is.null(dv_name)) {
-    x <- filter(x, dv_name == .env[["dv_name"]])
-    x <- rename(x, !!dv_name := .data[["dv_value"]])
-    x[["dv_name"]] <-  NULL
+    dv_name <- cvec_cs(dv_name)
+    x <- filter(x, dv_name %in% .env[["dv_name"]])
+    if(nrow(x)==0) {
+      msg <- "could not find dv named `{dv_name}` in simulated data."
+      abort(glue(msg))  
+    }
+    if(length(dv_name)==1) {
+      x <- mutate(x, !!dv_name := .data[["dv_value"]])
+    } 
   }
   if(!is.null(p_name)) {
-    x <- filter(x, .env[["p_name"]] %in% .data[["p_name"]]) 
+    p_name <- cvec_cs(p_name)
+    x <- filter(x, .data[["p_name"]] %in% .env[["p_name"]]) 
+    if(nrow(x)==0) {
+      msg <- "could not find parameter named `{p_name}` in simulated data."
+      abort(glue(msg))  
+    }
+  }
+  structure(x, class = cl)
+}
+
+sens_names_to_factor <- function(x) {
+  if("p_name" %in% names(x)) {
     x <- mutate(
       x, 
-      p_name = factor(.env[["p_name"]], levels = unique(.data[["p_name"]]))
+      p_name = factor(.data[["p_name"]], levels = unique(.data[["p_name"]]))
+    )
+  }
+  if("dv_name" %in% names(x)) {
+    x <- mutate(
+      x, 
+      dv_name = factor(.data[["dv_name"]], levels = unique(.data[["dv_name"]]))
     )
   }
   x
@@ -61,6 +88,10 @@ sens_each <- function(mod, idata = NULL, ...) {
   if(!is.null(idata)) {
     stop("'idata use' is not allowed with this workflow.")
   }
+  
+  parlist <- mod@args[["sens_values"]] 
+  mod <- clear_args(mod)
+  
   ref <- p_mrgsim_(NULL, mod, ...)
   ref <- mutate(
     ref, 
@@ -68,7 +99,6 @@ sens_each <- function(mod, idata = NULL, ...) {
     dv_value = NULL, 
     ID = NULL
   )
-  parlist <- mod@args[["sens_values"]] 
   pars <- list_2_idata(parlist)
   dims <- vapply(parlist, length, 1L)
   out <- tibble(
@@ -79,8 +109,8 @@ sens_each <- function(mod, idata = NULL, ...) {
   out <- denest(out)
   out[["ID"]] <- NULL
   out <- left_join(out, ref, by = c("time", "dv_name"))
-  out <- out[, unique(c("case", "time",names(out))), drop=FALSE]
-  structure(out, class = c("sens_each",class(out)))
+  out <- out[, unique(c("case", "time", names(out))), drop=FALSE]
+  structure(out, class = c("sens_each", class(out)))
 }
 
 p_mrgsim <- function(mod, pars, ...) {
@@ -111,15 +141,16 @@ p_mrgsim_ <- function(x,mod, ...) {
 sens_each_data <- function(mod, data, idata = NULL, ...) {
   mod@args[["data"]] <- NULL
   if(!exists("sens_values", mod@args)) {
-    stop("parameter values must be selected first",call.=FALSE)    
+    stop("parameter values must be selected first", call.=FALSE)    
   }
   if(exists("idata_set", mod@args)) {
-    stop("'idata_set' use is not allowed with this workflow",call.=FALSE)    
+    stop("'idata_set' use is not allowed with this workflow", call.=FALSE)    
   }
   if(!is.null(idata)) {
-    stop("'idata' use is not allowed with this workflow",call.=FALSE)
+    stop("'idata' use is not allowed with this workflow", call.=FALSE)
   }
-  parlist <- mod@args[["sens_values"]] 
+  parlist <- mod@args[["sens_values"]]
+  mod <- clear_args(mod)
   pars <-list_2_idata(parlist)
   pars <- lapply(pars, split_id) 
   dims <- vapply(pars, length, 1L)

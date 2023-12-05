@@ -9,9 +9,11 @@ select_sens(x, dv_name = NULL, p_name = NULL)
 \arguments{
 \item{x}{a \code{sens_each} object.}
 
-\item{dv_name}{character names of dependent variables to select.}
+\item{dv_name}{character names of dependent variables to select; can be a
+comma-separated string.}
 
-\item{p_name}{character names of parameters to select.}
+\item{p_name}{character names of parameters to select; can be a
+comma-separated string.}
 }
 \value{
 The updated \code{sens_each} object is returned.
@@ -26,6 +28,7 @@ mod <- mrgsolve::house()
 
 out1 <- mod \%>\% parseq_factor(CL,VC) \%>\% sens_each()
 
-out2 <- select_sens(out1, dv_name = "CP", p_name = "CV")
+out2 <- select_sens(out1, dv_name = "CP", p_name = "CL")
+
 
 }

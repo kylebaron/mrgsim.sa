@@ -1,4 +1,3 @@
-
 sens_factor <- function(data, .name, prefix = "sens_facet_", digits = 2) {
   ux <- sort(unique(data[[.name]]))
   new_col <- paste0(prefix,.name)
@@ -12,21 +11,32 @@ sens_factor <- function(data, .name, prefix = "sens_facet_", digits = 2) {
   )
 }
 
+sens_color_n <- function(data, group) {
+  if(is.character(group)) group <- sum(group)
+  data <- group_by(data, .data[["p_name"]])  
+  data <- mutate(data, .col = match(!!group, unique(!!group)))
+  data <- mutate(data, .col = (.data[[".col"]] - 1)/max(.data[[".col"]]-1))
+  data <- ungroup(data)
+  data
+}
 
 #' Plot sensitivity analysis results
 #' 
 #' @param data output from [sens_each()] or 
-#' [sens_grid()]
-#' @param ... arguments passed on to methods
-#' @param dv_name output column name to plot
+#' [sens_grid()].
+#' @param ... arguments passed on to methods.
+#' @param dv_name output columns name to plot; can be a comma-separated string.
+#' @param p_name parameter names to plot; can be a comma-separates string. 
 #' @param logy if `TRUE`, y-axis is transformed to log scale
-#' @param ncol passed to [ggplot2::facet_wrap()]
-#' @param lwd passed to [ggplot2::geom_line()]
-#' @param digits used to format numbers on the strips
+#' @param ncol passed to [ggplot2::facet_wrap()].
+#' @param lwd passed to [ggplot2::geom_line()].
+#' @param digits used to format numbers on the strips.
+#'
 #' @param plot_ref if `TRUE`, then the reference case will be plotted in a black
-#' dashed line
+#' dashed line.
 #' @param grid if `TRUE`, plots from the `sens_each` method
-#' will be passed through [patchwork::wrap_plots()]
+#' will be arranged on a page with [patchwork::wrap_plots()]; see the `ncol`
+#' argument.
 #' 
 #' @examples
 #' mod <- mrgsolve::house()
@@ -37,31 +47,99 @@ sens_factor <- function(data, .name, prefix = "sens_facet_", digits = 2) {
 #' @export
 sens_plot <- function(data,...) UseMethod("sens_plot")
 
-#' @param xlab x-axis title
-#' @param ylab y-axis title
+#' @param xlab x-axis title.
+#' @param ylab y-axis title; not used for `facet_grid` or `facet_wrap` layouts.
+#' @param layout specifies how plots should be returned when `dv_name` requests
+#' multiple dependent variables; see `Details`. 
+#' 
+#' @details
+#' 
+#' The `layout` argument let's you get the plots back in different formats
+#' when multiple dependent variables are requested via `dv_name`. 
+#' 
+#' - Use `default` to get the plots back in a list if multiple dependent 
+#'   variables are requested otherwise a single plot is returned.
+#' - Use `facet_grid` to get a single plot, with parameters in columns and 
+#'   dependent variables in rows. 
+#' - Use `facet_wrap` to get a plot with faceted using [ggplot2::facet_wrap()], 
+#'   with both the parameter name and the dependent variable name in the strip.
+#' - Use `list` to force output to be a list of plots; this output can be 
+#'   further arranged using [patchwork::wrap_plots()] if desired. 
+#' 
+#' When `grid` is `TRUE`, a list of plots will be returned when multiple 
+#' dependent variables are requested. 
+#' 
 #' @rdname sens_plot
 #' @export
-sens_plot.sens_each <- function(data, dv_name, logy = FALSE, ncol = NULL, 
-                                lwd = 0.8, 
+sens_plot.sens_each <- function(data, dv_name = NULL, p_name = NULL,
+                                logy = FALSE, 
+                                ncol = NULL, lwd = 0.8, 
                                 digits = 3, plot_ref = TRUE,
                                 xlab = "time", ylab = dv_name[1],
+                                layout = c("default", "facet_grid", 
+                                           "facet_wrap", "list"),
                                 grid = FALSE, ...) {
-  pars <- unique(data[["p_name"]])
-  npar <- length(unique(pars))
+  
+  layout <- match.arg(layout)
+  
+  grid <- isTRUE(grid)
+  list <- layout=="list"
+  default <- layout=="default"
+  facet <- layout %in% c("facet_wrap", "facet_grid")
+  facet_wrap <- layout=="facet_wrap"
+  
+  if(is.null(dv_name)) {
+    dv_name <- unique(data[["dv_name"]])
+  } else {
+    assert_that(is.character(dv_name))
+    dv_name <- cvec_cs(dv_name)
+  }
+  
+  if((grid && length(dv_name) > 1)) {
+    list <- TRUE    
+  }
+  
+  if(length(dv_name) > 1 & default) list <- TRUE
+  
+  if(list) {
+    args <- c(as.list(environment()), list(...))
+    args$layout <- "default"
+    return(sens_plot_list(dv_name, args))
+  }
+
+  if(!is.null(p_name)) {
+    assert_that(is.character(p_name))
+    pars <- cvec_cs(p_name)
+  } else {
+    pars <- unique(data[["p_name"]])  
+  }
+  
+  pars <- unique(pars)
+  npar <- length(pars)
   
   group <- sym("p_value")
   x <- sym("time")
-  y <- sym(dv_name)
-  
+  if(default || (facet && length(dv_name)==1) || grid) {
+    y <- sym(dv_name)
+  }
+  if(facet && length(dv_name) > 1) {
+    y <- sym("dv_value")  
+  }
   data <- as_tibble(data)
-  data <- select_sens(data, dv_name = dv_name)
+  data <- select_sens(data, dv_name = dv_name, p_name = pars)
+  data <- sens_names_to_factor(data)
   
-  if(!isTRUE(grid)) {
-    data <- group_by(data, .data[["p_name"]])  
-    data <- mutate(data, .col = match(!!group, unique(!!group)))
-    data <- mutate(data, .col = (.data[[".col"]] - 1)/max(.data[[".col"]]-1))
-    data <- ungroup(data)
-    
+  if(default || facet) {
+    data <- sens_color_n(data, group)
+    if(facet_wrap) {
+      data <- mutate(
+        data, 
+        flip_strip = paste0(p_name, " { ", dv_name, " }")
+      ) 
+    }
+  }
+  
+  if(default) {
     p <- ggplot(data=data, aes(!!x,!!y, group=!!group, col = .col))
     p <- 
       p + 
@@ -71,7 +149,7 @@ sens_plot.sens_each <- function(data, dv_name, logy = FALSE, ncol = NULL,
       scale_color_viridis_c(
         name = NULL, 
         breaks  = c(0,0.5,1), 
-        labels = c("low", "mid", "hi")
+        labels = c("low", "mid", "high")
       )
     if(isTRUE(logy)) {
       p <- p + scale_y_log10()  
@@ -86,17 +164,50 @@ sens_plot.sens_each <- function(data, dv_name, logy = FALSE, ncol = NULL,
     return(p)
   } ## Simple case
   
-  sp <- split(data,data[["p_name"]])
+  if(facet) {
+    p <- ggplot(data = data, aes(!!x,!!y, group=!!group, col = .col))
+    p <- p + theme_bw() + theme(legend.position = "top") 
+    p <- p + xlab(xlab) + ylab("value")
+    p <- p + scale_color_viridis_c(
+      name = NULL, 
+      breaks  = c(0, 0.5, 1), 
+      labels = c("low", "mid", "high")
+    )
+    p <- p + geom_line(lwd = lwd)
+    if(layout=="facet_wrap") {
+      if(missing(ncol)) {
+        ncol <- length(unique(data[["dv_name"]]))  
+      }
+      p <- p + facet_wrap(~flip_strip, scales = "free_y", ncol = ncol)  
+    } else {
+      p <- p + facet_grid(dv_name ~ p_name, scales = "free_y")
+    }
+    if(isTRUE(logy)) {
+      p <- p + scale_y_log10()  
+    }
+    
+    if(isTRUE(plot_ref)) {
+      p <- p + geom_line(
+        aes(.data[["time"]], .data[["ref_value"]]),
+        lty = 2, lwd = lwd * 1.1, col = "black"
+      )
+    }
+    return(p)
+  }
+  
+  # Grid
+  sp <- split(data, data[["p_name"]])
   
   plots <- lapply(sp, function(chunk) {
-    chunk[["p_value"]] <- signif(chunk[["p_value"]],digits)
+    chunk[["p_value"]] <- signif(chunk[["p_value"]], digits)
     chunk[["p_value"]] <- factor(chunk[["p_value"]])
+    
     p <- ggplot(data=chunk, aes(!!x,!!sym(y),group=!!group,col=!!group))
     p <- 
       p + 
-      geom_line(lwd=lwd) + 
+      geom_line(lwd = lwd) + 
       theme_bw() + xlab(xlab) + ylab(ylab) + 
-      facet_wrap(~ p_name, scales = "free_y", ncol = ncol) + 
+      facet_wrap(facets = "p_name", scales = "free_y", ncol = ncol) + 
       theme(legend.position = "top") + 
       scale_color_discrete(name = "")
     if(isTRUE(logy)) {
@@ -117,6 +228,18 @@ sens_plot.sens_each <- function(data, dv_name, logy = FALSE, ncol = NULL,
   return(plots)
 }
 
+sens_plot_list <- function(dv_name, args) {
+  args$ylab <- NULL
+  out <- vector(mode = "list", length = length(dv_name))
+  i <- 1
+  for(this_dv_name in dv_name) {
+    args$dv_name <- this_dv_name
+    out[[i]] <- do.call(sens_plot.sens_each, args)
+    i <- i+1
+  }
+  return(out)
+}
+
 #' @rdname sens_plot
 #' @export
 sens_plot.sens_grid <- function(data, dv_name, digits = 2, ncol = NULL, lwd = 0.8,
@@ -132,6 +255,7 @@ sens_plot.sens_grid <- function(data, dv_name, digits = 2, ncol = NULL, lwd = 0.
     )  
   }
   data <- select_sens(data, dv_name = dv_name)
+  data <- sens_names_to_factor(data)
   group <- sym(pars[1])
   tcol <- "time"
   if(exists("TIME", data)) tcol <- "TIME"
