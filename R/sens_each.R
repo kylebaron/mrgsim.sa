@@ -27,7 +27,7 @@ select_sens <- function(x, dv_name = NULL, p_name = NULL) {
     dv_name <- cvec_cs(dv_name)
     x <- filter(x, dv_name %in% .env[["dv_name"]])
     if(nrow(x)==0) {
-      msg <- "could not find dv named `{dv_name}` in simulated data."
+      msg <- "Could not find dv named `{dv_name}` in simulated data."
       abort(glue(msg))  
     }
     if(length(dv_name)==1) {
@@ -38,7 +38,7 @@ select_sens <- function(x, dv_name = NULL, p_name = NULL) {
     p_name <- cvec_cs(p_name)
     x <- filter(x, .data[["p_name"]] %in% .env[["p_name"]]) 
     if(nrow(x)==0) {
-      msg <- "could not find parameter named `{p_name}` in simulated data."
+      msg <- "Could not find parameter named `{p_name}` in simulated data."
       abort(glue(msg))  
     }
   }
@@ -76,17 +76,17 @@ sens_each <- function(mod, idata = NULL, ...) {
   }
   if(is.ev(e <- mod@args[["events"]])) {
     if(!is.null(e$ID)) {
-      stop("event objects cannot contain an ID column.")  
+      abort("Event objects cannot contain an ID column.")  
     }
   }
   if(!exists("sens_values", mod@args)) {
-    stop("parameter values must be selected first.")    
+    abort("Parameter values must be selected first.")    
   }
   if(exists("idata_set", mod@args)) {
-    stop("'idata_set' use is not allowed with this workflow.")    
+    abort("`idata_set` use is not allowed with this workflow.")    
   }
   if(!is.null(idata)) {
-    stop("'idata use' is not allowed with this workflow.")
+    abort("`idata` use is not allowed with this workflow.")
   }
   
   parlist <- mod@args[["sens_values"]] 
@@ -141,13 +141,13 @@ p_mrgsim_ <- function(x,mod, ...) {
 sens_each_data <- function(mod, data, idata = NULL, ...) {
   mod@args[["data"]] <- NULL
   if(!exists("sens_values", mod@args)) {
-    stop("parameter values must be selected first", call.=FALSE)    
+    abort("Parameter values must be selected first.")    
   }
   if(exists("idata_set", mod@args)) {
-    stop("'idata_set' use is not allowed with this workflow", call.=FALSE)    
+    abort("`idata_set` use is not allowed with this workflow.")    
   }
   if(!is.null(idata)) {
-    stop("'idata' use is not allowed with this workflow", call.=FALSE)
+    abort("`idata` use is not allowed with this workflow.")
   }
   parlist <- mod@args[["sens_values"]]
   mod <- clear_args(mod)
@@ -177,10 +177,10 @@ d_mrgsim_ <- function(x, mod, data, ...) {
 
 #' Coerce sens_each output to data frame
 #' 
-#' @param x a `sense_each` object
-#' @param row.names not used
-#' @param optional not used
-#' @param ... not used
+#' @param x a `sense_each` object.
+#' @param row.names not used.
+#' @param optional not used.
+#' @param ... not used.
 #' @method as.data.frame sens_each
 #' @keywords internal
 #' @export
@@ -201,10 +201,10 @@ as_tibble.sens_each <- function(x, row.names = NULL, optional = FALSE,
 
 #' Unnest a sens_each object
 #' 
-#' @param x a sens_each object
-#' @param keep_id if `FALSE` then the `ID` column is removed 
+#' @param x a sens_each object.
+#' @param keep_id if `FALSE` then the `ID` column is removed .
 #' @return
-#' `x` is returned after unnesting and possible modification
+#' `x` is returned after unnesting and possible modification.
 #' @keywords internal
 #' @export
 denest <- function(x, keep_id = FALSE) {

@@ -7,19 +7,19 @@
 parseq_cv(mod, ..., .cv = 30, .n = 5, .nsd = 2, .digits = NULL)
 }
 \arguments{
-\item{mod}{a model object}
+\item{mod}{a model object.}
 
-\item{...}{model parameter names}
+\item{...}{model parameter names.}
 
 \item{.cv}{a coefficient of variation used to determine
-range of test parameters}
+range of test parameters.}
 
-\item{.n}{number of parameters to simulate in the sequence}
+\item{.n}{number of parameters to simulate in the sequence.}
 
-\item{.nsd}{number of standard deviations used to determine the range}
+\item{.nsd}{number of standard deviations used to determine the range.}
 
 \item{.digits}{if \code{numeric}, the number of significant digits in the
-parameter sensitivity values are set using \code{\link[=signif]{signif()}}.}
+parameter sensitivity values are set using \code{\link[base:Round]{base::signif()}}.}
 }
 \description{
 Generate a sequence of parameters based on CV

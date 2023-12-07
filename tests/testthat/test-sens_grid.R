@@ -81,5 +81,5 @@ test_that("plot a sens_grid object", {
   expect_is(sens_plot(out, dv_name = "CP"), "gg")
   expect_error(sens_plot(out))
   out2 <- sens_run(house(), par = "CL,VC,KA,IC50", vary = "grid")
-  expect_error(sens_plot(out2, "CP"), regexp = "found more than 3 parameters")
+  expect_error(sens_plot(out2, "CP"), regexp = "Too many ")
 })

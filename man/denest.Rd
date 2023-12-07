@@ -7,12 +7,12 @@
 denest(x, keep_id = FALSE)
 }
 \arguments{
-\item{x}{a sens_each object}
+\item{x}{a sens_each object.}
 
-\item{keep_id}{if \code{FALSE} then the \code{ID} column is removed}
+\item{keep_id}{if \code{FALSE} then the \code{ID} column is removed .}
 }
 \value{
-\code{x} is returned after unnesting and possible modification
+\code{x} is returned after unnesting and possible modification.
 }
 \description{
 Unnest a sens_each object

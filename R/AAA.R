@@ -10,7 +10,7 @@
 #' @importFrom ggplot2 scale_color_viridis_c scale_color_brewer
 #' @importFrom patchwork wrap_plots
 #' @importFrom rlang quos sym set_names enexpr := as_string .env abort warn
-#' @importFrom rlang abort
+#' @importFrom rlang abort is_integerish
 #' @importFrom tidyr unnest nest pivot_longer
 #' @importFrom tibble tibble as_tibble
 #' @importMethodsFrom mrgsolve as.list param update as.data.frame

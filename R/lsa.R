@@ -47,10 +47,10 @@ dvalue <- function(sim,ref,scale) {
 #' @export
 lsa <- function(mod, par, var, fun = .lsa_fun, eps = 1E-8, ...) {
   if(!inherits(mod, "mrgmod")) {
-    stop("mod argument must have class 'mrgmod'.", call. = FALSE)
+    abort("`mod` argument must have class 'mrgmod'.")
   }
   if(!is.numeric(eps)) {
-    stop("eps argument must be numeric.", call. = FALSE)
+    abort("`eps` argument must be numeric.")
   }
   parameters <- mrgsolve::param(mod)
   par_names <- names(parameters)
@@ -58,28 +58,25 @@ lsa <- function(mod, par, var, fun = .lsa_fun, eps = 1E-8, ...) {
   if(!all(par_sens %in% par_names)) {
     par_bad <- setdiff(par_sens,par_names)
     par_bad <- paste0(par_bad,collapse=",")
-    stop(
-      "invalid parameter name(s): ",
-      par_bad,
-      call.=FALSE
+    abort(
+      message = "Invalid parameter name(s): ",
+      body = par_bad
     )
   }
   parm <- as.numeric(parameters)[par_sens]
   var <- cvec_cs(var)
   base <- as.data.frame(fun(mod, ..., .p = parm))
   if(!any(c("time", "TIME") %in% names(base))) {
-    stop(
-      "output from `fun` must contain a column of time or TIME",
-      call.=FALSE
+    abort(
+      "Output from `fun` must contain a column of time or TIME."
     )
   }
   if(!all(var %in% names(base))) {
     col_bad <- setdiff(var, names(base))
     col_bad <- paste0(col_bad, collapse = ',')
-    stop(
-      "invalid output name(s): ",
-      col_bad,
-      call. = FALSE
+    abort(
+      message = "Invalid output name(s): ",
+      body = col_bad
     )
   }
   delta_p <- abs(parm*eps)
@@ -133,12 +130,12 @@ lsa_plot <- function(x, ...) {
 #' @method plot lsa
 #' @keywords internal
 #' @export
-plot.lsa <- function(x,y=NULL,pal=NULL,...) {
+plot.lsa <- function(x, y = NULL, pal = NULL, ...) {
   stopifnot(requireNamespace("ggplot2"))
   tcol <- "time"
   if("TIME" %in% names(x)) tcol <- "TIME"
-  if(!exists(tcol,x)) {
-    stop("couldn't find time column", call.=FALSE)
+  if(!exists(tcol, x)) {
+    abort("Couldn't find time column.")
   }
   x[["vera__plot__time"]] <- x[[tcol]]
   x[["dv_name"]] <- factor(x[["dv_name"]], levels = unique(x[["dv_name"]]))

@@ -29,7 +29,7 @@ spaced from min to max on log scale); otherwise, the sequence is
 evenly spaced on Cartesian scale.}
 
 \item{.digits}{if \code{numeric}, the number of significant digits in the
-parameter sensitivity values are set using \code{\link[=signif]{signif()}}.}
+parameter sensitivity values are set using \code{\link[base:Round]{base::signif()}}.}
 }
 \description{
 Generate a sequence of parameters
