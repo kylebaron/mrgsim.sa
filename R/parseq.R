@@ -49,7 +49,7 @@ clear_args <- function(mod) {
 #' @export
 parseq_fct <- function(mod, ..., .n = 5, .factor = 2, .geo = TRUE, 
                        .digits = NULL) {
-  .geo <- isTRUE(geo)
+  .geo <- isTRUE(.geo)
   if(!is_integerish(.n)) {
     abort("`.n` must be an integer.")  
   }
