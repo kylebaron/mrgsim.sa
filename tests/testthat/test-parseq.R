@@ -37,7 +37,7 @@ test_that("parseq_range", {
 test_that("parseq_manual", {
   expect_error(
     parseq_manual(mod, c(1,2)),
-    "All parameter range vectors in ... must be named" 
+    "All parameter value vectors in ... must be named" 
   )
   expect_error(
     parseq_manual(mod, CLx = c(1,2)),
