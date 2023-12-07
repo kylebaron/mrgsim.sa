@@ -1,0 +1,180 @@
+---
+title: "Get started"
+author: ""
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette: 
+    toc: true
+    number_sections: true
+    keep_md: true
+    fig_width: 6
+    fig_height: 3
+vignette: >
+  %\VignetteIndexEntry{Get started}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, message = FALSE}
+library(dplyr)
+library(mrgsim.sa)
+library(patchwork)
+```
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(fig.height = 4, comment = ".")
+```
+
+
+mrgsim.sa is a package that allows you to do various types of ad-hoc or local
+sensitivity analysis for models written in mrgsolve. This vignette will help 
+you get started. 
+
+By "ad-hoc" sensitivity analysis, I mean selecting some model parameters of 
+interest, varying them at certain discrete, systematic way, simulating from 
+those varied parameters and visualizing the outputs. For example, "what happens
+when you double the value of a parameter or cut it in half; lets plots outputs
+for parameters within those two extremes, filling in with 3 or 4 values in 
+between."
+
+So first, we need a model. This can be any model _you_ write using the 
+mrgsolve package. Here, we'll use the example `house` model provided by 
+mrgsolve
+
+```{r}
+mod <- house(outvars = "CP,RESP")
+```
+
+This model has parameters
+
+```{r}
+param(mod)
+```
+
+and outputs
+
+```{r}
+outvars(mod)
+```
+
+
+Let's vary `CL` and `VC` and look at the `RESP` output. 
+
+As suggested in the example above, lets double and halve those parameters, 
+and look a total of 5 values between those extremes. Use the `parseq_fct()`
+function after selecting the parameters you want to vary
+
+```{r}
+out <- 
+  mod %>% 
+  ev(amt = 100) %>% 
+  parseq_fct(CL, VC, .factor = 2, .n = 5) %>% 
+  sens_each()
+```
+
+The "base" value for each parameter is whatever is currently in the model; in 
+this case it is 
+
+```{r}
+param(mod)[c("CL", "VC")]
+```
+
+Passing the `.factor` argument as 2 means multiply those base values by 2
+for the upper extreme and 1/2 for the lower extreme. The `.n` argument says to 
+fill in 5 parameter values between those two extremes. 
+
+
+The `sens_each()` function call above tells you to vary `CL` and `VC` one at
+a time.
+
+The output is a tibble in long format, with class `sens_each`
+
+```{r}
+out
+class(out)
+```
+
+Taking inventory of this output
+
+```{r}
+count(out, p_name, dv_name)
+```
+
+We pass this output object to `sens_plot()` and name the variable we want 
+to plot
+
+```{r}
+sens_plot(out, "RESP")
+```
+
+There are other ways to vary parameters in the model
+
+- `parseq_fct()` - increase and decrease by a certain factor
+- `parseq_cv()` - increase and decrease by a certain coefficient of variation
+- `parseq_range()` - manually specify the _range_ for varying parameters
+- `parseq_manual()` - manually specify all values for the parameters
+
+For example, to vary `CL` by 60% coefficient of variation, plotting 5 values
+between -2 and 2 sd and looking at `CP` output
+
+```{r}
+mod %>% 
+  ev(amt = 100) %>% 
+  parseq_cv(CL, .cv = 50, .nsd = 2) %>% 
+  sens_each() %>% 
+  sens_plot("CP")
+```
+
+
+Or we can look at how `VC` influences approach to steady state
+
+```{r, fig.height = 4}
+out <- 
+  mod %>% 
+  ev(amt = 100, ii = 24, addl = 10) %>%
+  update(end = 240) %>% 
+  parseq_manual(VC = seq(10,100,20)) %>% 
+  sens_each()
+
+sens_plot(out, "CP")
+```
+
+
+We can also look at multiple outputs on the same plot
+
+```{r}
+out <- 
+  mod %>% 
+  ev(amt = 100) %>%
+  parseq_fct(CL, KA, .n = 3) %>% 
+  sens_each(end = 36)
+```
+
+
+The `facet_wrap` layout puts parameters in rows and outputs in columns
+
+```{r, fig.height = 5}
+sens_plot(out, layout = "facet_wrap")
+```
+
+The `facet_grid` layout puts outputs in rows and parameters in columns
+
+```{r, fig.height = 5}
+sens_plot(out, layout = "facet_grid")
+```
+
+You can also plot this in "grid" format, where the actual parameter values 
+are shown in the legend
+
+```{r}
+sens_plot(out, dv_name = "CP", grid = TRUE)
+```
+
+Or look at multiple outputs
+
+```{r, fig.height = 6}
+out %>% 
+  select_sens(dv_name = "RESP,CP") %>% 
+  sens_plot(grid = TRUE) %>% 
+  patchwork::wrap_plots(ncol = 1)
+```
