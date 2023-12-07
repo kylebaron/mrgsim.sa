@@ -28,7 +28,7 @@ mod <- mrgsolve::house()
 
 out1 <- mod \%>\% parseq_factor(CL,VC) \%>\% sens_each()
 
-out2 <- select_sens(out1, dv_name = "CP", p_name = "CL")
+out2 <- select_sens(out1, dv_name = "CP,RESP", p_name = "CL")
 
 
 }

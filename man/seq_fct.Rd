@@ -30,4 +30,8 @@ Generate a sequence by fold increase and decrease from a point
 \examples{
 seq_fct(10)
 
+seq_fct(10, n = 4, factor = 2)
+
+seq_fct(10, n = 4, factor = 2, geo = TRUE)
+
 }

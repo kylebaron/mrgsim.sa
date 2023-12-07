@@ -39,8 +39,11 @@ sens_color_n <- function(data, group) {
 #' 
 #' @examples
 #' mod <- mrgsolve::house()
+#' 
 #' dose <- mrgsolve::ev(amt = 100)
+#' 
 #' out <- sens_run(mod, sargs = list(events = dose),  par = "CL,VC") 
+#' 
 #' sens_plot(out, dv_name = "CP")
 #' 
 #' @export

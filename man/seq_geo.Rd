@@ -20,6 +20,6 @@ default) all digits are retained.}
 Generate a geometric sequence of parameter values
 }
 \examples{
-seq_geo(1,10,10)
+seq_geo(from = 1, to = 10, n = 10)
 
 }

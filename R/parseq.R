@@ -53,6 +53,9 @@ parseq_fct <- function(mod, ..., .n = 5, .factor = 2, .geo = TRUE,
   if(!is_integerish(.n)) {
     abort("`.n` must be an integer.")  
   }
+  if(!is.numeric(.factor)) {
+    abort("`.factor` must be numeric.")  
+  }
   qpars <- quos(...)
   if(length(qpars) > 0) {
     sel <- vars_select(names(param(mod)),!!!qpars) 
@@ -99,11 +102,11 @@ parseq_factor <- parseq_fct
 #' 
 #' @export
 parseq_cv <- function(mod, ..., .cv = 30, .n = 5, .nsd = 2, .digits = NULL) {
-  if(!is_integerish(.n)) {
-    abort("`.n` must be an integer.")  
-  }
   if(!is.numeric(.cv)) {
     abort("`.cv` must be numeric.")  
+  }
+  if(!is_integerish(.n)) {
+    abort("`.n` must be an integer.")  
   }
   if(!is.numeric(.nsd)) {
     abort("`.nsd` must be numeric.")  
@@ -165,7 +168,8 @@ parseq_manual <- function(mod, ...) {
 #' 
 #' @inheritParams parseq_factor
 #' @param mod mrgsolve model object.
-#' @param ... unquoted parameter names.
+#' @param ... named vectors of minimum and maximum values for model parameters;
+#' each vector must have length 2 and names must correspond to model parameters.
 #' @param .n number of values to simulate for each parameter sequence.
 #' @param .geo if `TRUE` generate a geometric sequence; otherwise,
 #' generate a sequence evenly spaced on Cartesian scale; see [seq_geo()].
@@ -189,11 +193,22 @@ parseq_range <- function(mod, ..., .n = 5, .geo = TRUE, .digits = NULL) {
     abort("`.n` must be an integer.")  
   }
   pars <- list(...)
+  if(length(pars) < 1) {
+    abort("At least one parameter range vector must be passed.")  
+  }
+  if(!is_named(pars)) {
+    abort("All parameter range vectors in ... must be named.")  
+  }
   len <- vapply(pars, length, 1L)
   if(!all(len==2)) {
-    abort("All parameter entries must have length 2.")  
+    abort("All parameter range vectors must have length 2.")  
   }
-  fun <- ifelse(isTRUE(.geo), seq_geo, seq_even)
+  bad <- setdiff(names(pars), names(param(mod)))
+  if(length(bad) > 0) {
+    names(bad) <- rep("x", length(bad))
+    abort(c("Some parameters were not found in the model.", bad))
+  }
+  fun <- ifelse(.geo, seq_geo, seq_even)
   pars <- lapply(pars, function(x) {
     fun(x[1], x[2], n = .n, digits = .digits)
   })

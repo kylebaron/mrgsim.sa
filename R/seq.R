@@ -7,7 +7,7 @@
 #' default) all digits are retained.
 #' 
 #' @examples
-#' seq_geo(1,10,10)
+#' seq_geo(from = 1, to = 10, n = 10)
 #' 
 #' @export
 seq_geo <- function(from, to, n = 5, digits = NULL) {
@@ -39,6 +39,10 @@ geo_seq_ <- function(point, n = 5) { #nocov start
 #' 
 #' @examples
 #' seq_fct(10)
+#' 
+#' seq_fct(10, n = 4, factor = 2)
+#' 
+#' seq_fct(10, n = 4, factor = 2, geo = TRUE)
 #' 
 #' @export
 seq_fct <- function(point, n = 5, factor = c(3,3), geo = TRUE, digits = NULL) {
@@ -89,6 +93,8 @@ even_seq_ <- function(point, n = 5) { #nocov start
 #' 
 #' @examples
 #' seq_cv(10)
+#' 
+#' seq_cv(5, n = 10)
 #' 
 #' @export 
 seq_cv <- function(point, cv = 30, n = 5, nsd = 2, digits = NULL) {

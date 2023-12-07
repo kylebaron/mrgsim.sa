@@ -22,7 +22,7 @@ sens_grid <- function(mod, idata = NULL, ...) {
   ref <- mrgsim_df(mod, ...)
   ref <- pivot_longer(
     ref, 
-    seq(3,ncol(ref)), 
+    seq(3, ncol(ref)), 
     names_to = "dv_name", 
     values_to = "ref_value"
   )
@@ -36,7 +36,7 @@ sens_grid <- function(mod, idata = NULL, ...) {
   out <- denest(out)
   out <- pivot_longer(
     out, 
-    seq(3+length(pars),ncol(out)), 
+    seq(3 + length(pars), ncol(out)), 
     names_to = "dv_name", 
     values_to = "dv_value"
   )

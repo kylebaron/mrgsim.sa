@@ -9,7 +9,8 @@ parseq_range(mod, ..., .n = 5, .geo = TRUE, .digits = NULL)
 \arguments{
 \item{mod}{mrgsolve model object.}
 
-\item{...}{unquoted parameter names.}
+\item{...}{named vectors of minimum and maximum values for model parameters;
+each vector must have length 2 and names must correspond to model parameters.}
 
 \item{.n}{number of values to simulate for each parameter sequence.}
 

@@ -25,4 +25,6 @@ Generate a sequence based on coefficient of variation
 \examples{
 seq_cv(10)
 
+seq_cv(5, n = 10)
+
 }

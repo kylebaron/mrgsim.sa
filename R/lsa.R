@@ -135,7 +135,7 @@ plot.lsa <- function(x, y = NULL, pal = NULL, ...) {
   tcol <- "time"
   if("TIME" %in% names(x)) tcol <- "TIME"
   if(!exists(tcol, x)) {
-    abort("Couldn't find time column.")
+    abort("Couldn't find a time column.")
   }
   x[["vera__plot__time"]] <- x[[tcol]]
   x[["dv_name"]] <- factor(x[["dv_name"]], levels = unique(x[["dv_name"]]))

@@ -10,7 +10,7 @@
 #' @importFrom ggplot2 scale_color_viridis_c scale_color_brewer
 #' @importFrom patchwork wrap_plots
 #' @importFrom rlang quos sym set_names enexpr := as_string .env abort warn
-#' @importFrom rlang abort is_integerish
+#' @importFrom rlang abort is_integerish is_named
 #' @importFrom tidyr unnest nest pivot_longer
 #' @importFrom tibble tibble as_tibble
 #' @importMethodsFrom mrgsolve as.list param update as.data.frame
@@ -42,6 +42,10 @@ NULL
 #' - Parameter sequence generation: 
 #'   - In a pipeline: [parseq_cv()], [parseq_fct()], [parseq_range()], [parseq_manual()]
 #'   - Stand alone: [seq_cv()], [seq_fct()], [seq_geo()], [seq_even()]
+#' - Plot ad-hoc sensitivity analysis results
+#'   - Use [sens_plot()]
+#' - Select a subset of sensitivity analysis results
+#'   - Use [select_sens()]
 #' 
 #' @rdname mrgsim.sa
 #' @name mrgsim.sa
