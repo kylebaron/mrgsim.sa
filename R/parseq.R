@@ -153,12 +153,24 @@ parseq_cv <- function(mod, ..., .cv = 30, .n = 5, .nsd = 2, .digits = NULL) {
 #' 
 #' @export
 parseq_manual <- function(mod, ...) {
-  pars <- as.list(param(mod))
+  params <- as.list(param(mod))
+  pars <- list(...) 
+  if(length(pars) < 1) {
+    abort("At least one parameter range vector must be passed.")  
+  }
+  if(!is_named(pars)) {
+    abort("All parameter range vectors in ... must be named.")  
+  }
+  bad <- setdiff(names(pars), names(params))
+  if(length(bad) > 0) {
+    names(bad) <- rep("x", length(bad))
+    abort(c("Some parameters were not found in the model.", bad))
+  }
   values <- with_environment(
-    list2env(pars), list(...)
+    list2env(params), pars
   )
   for(i in seq_along(values)) {
-    values[[i]] <- eval(values[[i]], envir = c(values, pars))  
+    values[[i]] <- eval(values[[i]], envir = c(values, params))  
   }
   mod <- save_sens_values(mod, values)
   mod
