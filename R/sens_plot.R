@@ -247,10 +247,11 @@ sens_plot.sens_grid <- function(data, dv_name, digits = 2, ncol = NULL, lwd = 0.
   npar <- length(pars)
   if(npar > 3) {
     abort(
-      c(
-        "found more than 3 parameters in this `sens_grid` object; ",
-        "please construct your own `ggplot` call to plot these data ",
-        "or select 3 or fewer parameters for sensitivity analysis"
+      message = "Too many parameters to make this plot.", 
+      body = c(
+        "Found more than 3 parameters in this `sens_grid` object.", 
+        "Please construct your own `ggplot` call to plot these data ",
+        "or select 3 or fewer parameters for sensitivity analysis."
       )
     )  
   }
@@ -290,9 +291,7 @@ sens_plot.sens_grid <- function(data, dv_name, digits = 2, ncol = NULL, lwd = 0.
 #' @export
 sens_plot.sens_each_data <- function(data, ...) {
   abort(
-    c(
-      "there is no plotting method for objects of this class. ", 
-      "Use 'as_tibble' to coerce to a data frame and then plot with ggplot2."
-    )
+    message = "No plotting method for objects of this class.", 
+    body = "Use 'as_tibble' to coerce to a data frame and then plot with ggplot2." 
   )
 }
