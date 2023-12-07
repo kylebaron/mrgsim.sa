@@ -68,6 +68,9 @@ spelling:
 rhub:
 	Rscript -e 'rhub::check_for_cran(env_vars = c(`_R_CHECK_FORCE_SUGGESTS_` = "false", R_COMPILE_AND_INSTALL_PACKAGES = "always"))'
 
+check-win:
+	Rscript -e 'devtools::check_win_devel()'
+
 clean: 
 	rm -f README.html
 	rm -rf DOCS
