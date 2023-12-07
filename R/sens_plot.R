@@ -82,6 +82,7 @@ sens_plot.sens_each <- function(data, dv_name = NULL, p_name = NULL,
   layout <- match.arg(layout)
   
   grid <- isTRUE(grid)
+  if(grid) layout <- "grid"
   list <- layout=="list"
   default <- layout=="default"
   facet <- layout %in% c("facet_wrap", "facet_grid")
