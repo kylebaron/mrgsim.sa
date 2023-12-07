@@ -164,7 +164,7 @@ parseq_manual <- function(mod, ...) {
   bad <- setdiff(names(pars), names(params))
   if(length(bad) > 0) {
     names(bad) <- rep("x", length(bad))
-    abort(c("Some parameters were not found in the model.", bad))
+    abort(c("Some parameter names were not found in the model.", bad))
   }
   values <- with_environment(
     list2env(params), pars
@@ -218,7 +218,7 @@ parseq_range <- function(mod, ..., .n = 5, .geo = TRUE, .digits = NULL) {
   bad <- setdiff(names(pars), names(param(mod)))
   if(length(bad) > 0) {
     names(bad) <- rep("x", length(bad))
-    abort(c("Some parameters were not found in the model.", bad))
+    abort(c("Some parameter names were not found in the model.", bad))
   }
   fun <- ifelse(.geo, seq_geo, seq_even)
   pars <- lapply(pars, function(x) {

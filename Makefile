@@ -20,7 +20,7 @@ covr:
 
 cran:
 	make doc
-	make build
+	make build-vignettes
 	R CMD CHECK --as-cran ${TARBALL} 
 
 package:
@@ -58,7 +58,7 @@ install-build:
 check:
 	make doc
 	make build
-	R CMD CHECK ${TARBALL} 
+	R CMD CHECK --no-vignettes  --ignore-vignettes ${TARBALL}
 
 readme:
 	Rscript -e "rmarkdown::render('README.Rmd')"
