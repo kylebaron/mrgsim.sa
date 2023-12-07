@@ -23,7 +23,7 @@ cran:
 	make build
 	R CMD CHECK --as-cran ${TARBALL} 
 
-release:
+package:
 	make doc
 	make build-vignettes
 	R CMD CHECK --as-cran ${TARBALL} 
