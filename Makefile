@@ -50,6 +50,7 @@ readme:
 	Rscript -e "rmarkdown::render('README.Rmd')"
 
 pkgdown:
+	rm -rf DOCS
 	Rscript -e "pkgdown::build_site('.', override = list(destination = 'DOCS'))"
 
 spelling:
