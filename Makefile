@@ -23,6 +23,11 @@ cran:
 	make build
 	R CMD CHECK --as-cran ${TARBALL} 
 
+release:
+	make doc
+	make build-vignettes
+	R CMD CHECK --as-cran ${TARBALL} 
+
 all:
 	make doc
 	make build
@@ -33,7 +38,11 @@ doc:
 	Rscript -e 'devtools::document("${PKGDIR}")'
 
 build:
+	R CMD build --md5 $(PKGDIR) --no-build-vignettes
+
+build-vignettes:
 	R CMD build --md5 $(PKGDIR)
+
 
 install:
 	R CMD INSTALL --install-tests ${TARBALL}

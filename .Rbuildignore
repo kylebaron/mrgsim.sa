@@ -11,5 +11,5 @@ Makefile
 ^mrgsim\.sa\.Rcheck$
 ^\.gitignore$
 inst/covr
-vignettes
 ^\.github$
+^_pkgdown\.yml$
