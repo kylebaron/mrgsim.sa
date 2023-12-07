@@ -76,7 +76,7 @@ sens_each <- function(mod, idata = NULL, ...) {
   }
   if(is.ev(e <- mod@args[["events"]])) {
     if(!is.null(e$ID)) {
-      abort("eEvent objects cannot contain an ID column.")  
+      abort("Event objects cannot contain an ID column.")  
     }
   }
   if(!exists("sens_values", mod@args)) {
