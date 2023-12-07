@@ -2,7 +2,6 @@ mrgsim.sa: sensitivity analysis with mrgsolve
 ================
 
 A simple, clean workflow for sensitivity analysis with mrgsolve.
-
 <hr>
 
 <BR>
@@ -52,7 +51,7 @@ The simulated data is returned in a long format
 out
 ```
 
-    . # A tibble: 23,232 x 7
+    . # A tibble: 23,232 × 7
     .    case  time p_name p_value dv_name dv_value ref_value
     . * <int> <dbl> <chr>    <dbl> <chr>      <dbl>     <dbl>
     . 1     1     0 CL         0.5 EV             0         0
@@ -60,7 +59,7 @@ out
     . 3     1     0 CL         0.5 CENT           0         0
     . 4     1     0 CL         0.5 CENT           0         0
     . 5     1     0 CL         0.5 CP             0         0
-    . # … with 23,227 more rows
+    . # ℹ 23,227 more rows
 
 And you can plot with more informative color scale and legend
 
@@ -136,7 +135,7 @@ out <-
 out
 ```
 
-    . # A tibble: 15,372 x 8
+    . # A tibble: 15,372 × 8
     .    case fBCLint_all_kg  SFKp Kp_muscle  time dv_name  dv_value ref_value
     . * <int>          <dbl> <dbl>     <dbl> <dbl> <chr>       <dbl>     <dbl>
     . 1     1          0.138  3.65    0.0520   0   Ccentral     0         0   
@@ -144,7 +143,7 @@ out
     . 3     1          0.138  3.65    0.0520   0   Ccentral     0         0   
     . 4     1          0.138  3.65    0.0520   0   Ccentral     0         0   
     . 5     1          0.138  3.65    0.0520   0.1 Ccentral     3.66      3.14
-    . # … with 15,367 more rows
+    . # ℹ 15,367 more rows
 
 ``` r
 out %>% sens_plot("Ccentral")
@@ -168,15 +167,15 @@ out <- lsa(mod, var = "CP", par = "CL,V2,Q", events = doses)
 out
 ```
 
-    . # A tibble: 2,166 x 5
+    . # A tibble: 2,166 × 5
     .    time dv_name dv_value p_name     sens
-    . * <dbl> <chr>      <dbl> <chr>     <dbl>
+    .   <dbl> <chr>      <dbl> <chr>     <dbl>
     . 1   0   CP         0     CL      0      
     . 2   0   CP         0     CL      0      
     . 3   0.1 CP         0.472 CL     -0.00254
     . 4   0.2 CP         0.893 CL     -0.00514
     . 5   0.3 CP         1.27  CL     -0.00782
-    . # … with 2,161 more rows
+    . # ℹ 2,161 more rows
 
 ``` r
 lsa_plot(out, pal = NULL)
