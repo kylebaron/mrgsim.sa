@@ -1,4 +1,4 @@
-# mrgsim.sa (development version)
+# mrgsim.sa 0.2.0
 
 - `sens_plot()` will now plot the all items in `dv_name` by default 
   (#7). 
