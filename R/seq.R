@@ -1,7 +1,7 @@
 #' Generate a geometric sequence of parameter values
 #' 
-#' @param from passed to [base::seq()].
-#' @param to passed to [base::seq()].
+#' @param from passed to [base::seq()]; must be numeric and positive.
+#' @param to passed to [base::seq()]; must be numeric and positive.
 #' @param n passed to [base::seq()] as `length.out`.
 #' @param digits number of significant digits in the answer; if `NULL` (the 
 #' default) all digits are retained.
@@ -11,7 +11,16 @@
 #' 
 #' @export
 seq_geo <- function(from, to, n = 5, digits = NULL) {
-  ans <- exp(seq(log(from),log(to), length.out = n))
+  if(!is.numeric(from) | from <= 0) {
+    abort("`from` must be numeric and positive.")
+  }
+  if(!is.numeric(to) | to <= 0) {
+    abort("`to` must be numeric and positive.")
+  }
+  if(!to > from) {
+    abort("`to` must be greater than `from`.")  
+  }
+  ans <- exp(seq(log(from), log(to), length.out = n))
   if(is.numeric(digits)) ans <- signif(ans, digits = digits)
   ans
 }
@@ -70,6 +79,9 @@ seq_fct <- function(point, n = 5, factor = c(3,3), geo = TRUE, digits = NULL) {
 #' 
 #' @export
 seq_even <- function(from, to, n = 5, digits = NULL) {
+  if(!(to > from)) {
+    abort("`to` must be greater than `from`.")  
+  }
   ans <- seq(from, to, length.out = n) 
   if(is.numeric(digits)) ans <- signif(ans, digits = digits)
   ans
@@ -88,8 +100,8 @@ even_seq_ <- function(point, n = 5) { #nocov start
 #' @param point reference parameter value.
 #' @param cv coefficient of variation.
 #' @param n number of values to simulate in the sequence.
-#' @param nsd number of standard deviations defining the 
-#' range of simulated parameter values.
+#' @param nsd number of standard deviations defining the range of simulated \
+#' parameter values.
 #' 
 #' @examples
 #' seq_cv(10)
@@ -98,6 +110,9 @@ even_seq_ <- function(point, n = 5) { #nocov start
 #' 
 #' @export 
 seq_cv <- function(point, cv = 30, n = 5, nsd = 2, digits = NULL) {
+  if(!is.numeric(point) | point <= 0) {
+    abort("`point` must be numeric and positive.")
+  }
   std <- sqrt((cv/100)^2)
   from <- log(point) - nsd * std
   to <-   log(point) + nsd * std
@@ -105,4 +120,3 @@ seq_cv <- function(point, cv = 30, n = 5, nsd = 2, digits = NULL) {
   if(is.numeric(digits)) ans <- signif(ans, digits = digits)
   ans
 }
-

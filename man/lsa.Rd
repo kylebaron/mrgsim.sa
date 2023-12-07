@@ -5,7 +5,7 @@
 \alias{lsa_plot}
 \title{Perform local sensitivity analysis}
 \usage{
-lsa(mod, par, var, fun = .lsa_fun, eps = 1e-08, ...)
+lsa(mod, par, var, fun = .lsa_fun, eps = 1e-07, ...)
 
 lsa_plot(x, ...)
 }

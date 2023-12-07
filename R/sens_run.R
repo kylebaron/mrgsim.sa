@@ -52,4 +52,3 @@ sens_run <- function(mod,
   sargs$mod <- mod
   do.call(simf, sargs)
 }
-

@@ -7,9 +7,9 @@
 seq_geo(from, to, n = 5, digits = NULL)
 }
 \arguments{
-\item{from}{passed to \code{\link[base:seq]{base::seq()}}.}
+\item{from}{passed to \code{\link[base:seq]{base::seq()}}; must be numeric and positive.}
 
-\item{to}{passed to \code{\link[base:seq]{base::seq()}}.}
+\item{to}{passed to \code{\link[base:seq]{base::seq()}}; must be numeric and positive.}
 
 \item{n}{passed to \code{\link[base:seq]{base::seq()}} as \code{length.out}.}
 

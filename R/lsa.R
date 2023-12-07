@@ -45,7 +45,7 @@ dvalue <- function(sim,ref,scale) {
 #' lsa_plot(out)
 #' 
 #' @export
-lsa <- function(mod, par, var, fun = .lsa_fun, eps = 1E-8, ...) {
+lsa <- function(mod, par, var, fun = .lsa_fun, eps = 1E-7, ...) {
   if(!inherits(mod, "mrgmod")) {
     abort("`mod` argument must have class 'mrgmod'.")
   }
