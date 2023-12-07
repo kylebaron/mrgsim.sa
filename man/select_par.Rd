@@ -7,9 +7,9 @@
 select_par(mod, ...)
 }
 \arguments{
-\item{mod}{an mrgsolve model object}
+\item{mod}{an mrgsolve model object.}
 
-\item{...}{unquoted parameter names}
+\item{...}{unquoted parameter names.}
 }
 \description{
 Identify parameters in a model for sensitivity analysis

@@ -31,7 +31,7 @@ clear_args <- function(mod) {
 #' spaced from min to max on log scale); otherwise, the sequence is 
 #' evenly spaced on Cartesian scale.
 #' @param .digits if `numeric`, the number of significant digits in the 
-#' parameter sensitivity values are set using [signif()].
+#' parameter sensitivity values are set using [base::signif()].
 #' 
 #' @details
 #' - `.n`       is passed to [seq_fct()] as `n`
@@ -49,6 +49,10 @@ clear_args <- function(mod) {
 #' @export
 parseq_fct <- function(mod, ..., .n = 5, .factor = 2, .geo = TRUE, 
                        .digits = NULL) {
+  .geo <- isTRUE(geo)
+  if(!is_integerish(.n)) {
+    abort("`.n` must be an integer.")  
+  }
   qpars <- quos(...)
   if(length(qpars) > 0) {
     sel <- vars_select(names(param(mod)),!!!qpars) 
@@ -56,7 +60,7 @@ parseq_fct <- function(mod, ..., .n = 5, .factor = 2, .geo = TRUE,
     if(exists("select", mod@args)) {
       sel <- mod@args[["select"]]      
     } else {
-      .stop("parameter names must be passed via `...` or selected")
+      abort("Parameter names must be passed via `...` or selected.")
     }
   }
   point <- as.list(param(mod))[sel]
@@ -72,12 +76,12 @@ parseq_factor <- parseq_fct
 #' Generate a sequence of parameters based on CV
 #' 
 #' @inheritParams parseq_factor
-#' @param mod a model object
-#' @param ... model parameter names
+#' @param mod a model object.
+#' @param ... model parameter names.
 #' @param .cv a coefficient of variation used to determine 
-#' range of test parameters
-#' @param .n number of parameters to simulate in the sequence
-#' @param .nsd number of standard deviations used to determine the range
+#' range of test parameters.
+#' @param .n number of parameters to simulate in the sequence.
+#' @param .nsd number of standard deviations used to determine the range.
 #' 
 #' @details
 #' - `.cv`  is passed to [seq_cv()] as `cv`
@@ -95,6 +99,15 @@ parseq_factor <- parseq_fct
 #' 
 #' @export
 parseq_cv <- function(mod, ..., .cv = 30, .n = 5, .nsd = 2, .digits = NULL) {
+  if(!is_integerish(.n)) {
+    abort("`.n` must be an integer.")  
+  }
+  if(!is.numeric(.cv)) {
+    abort("`.cv` must be numeric.")  
+  }
+  if(!is.numeric(.nsd)) {
+    abort("`.nsd` must be numeric.")  
+  }
   qpars <- quos(...)
   if(length(qpars) > 0) {
     sel <- vars_select(names(param(mod)),!!!qpars) 
@@ -102,7 +115,7 @@ parseq_cv <- function(mod, ..., .cv = 30, .n = 5, .nsd = 2, .digits = NULL) {
     if(exists("select", mod@args)) {
       sel <- mod@args[["select"]]      
     } else {
-      .stop("parameter names must be passed or selected")
+      abort("Parameter names must be passed or selected.")
     }
   }
   point <- as.list(param(mod))[sel]
@@ -121,10 +134,10 @@ parseq_cv <- function(mod, ..., .cv = 30, .n = 5, .nsd = 2, .digits = NULL) {
 
 #' Simulation helper to manually specify parameter sequences
 #' 
-#' @param mod mrgsolve model object
+#' @param mod mrgsolve model object.
 #' @param ... named numeric vectors of parameter values to 
 #' simulate; names must correspond to parameters in the model 
-#' object
+#' object.
 #' 
 #' @examples
 #' mod <- mrgsolve::house()
@@ -171,10 +184,14 @@ parseq_manual <- function(mod, ...) {
 #' 
 #' @export
 parseq_range <- function(mod, ..., .n = 5, .geo = TRUE, .digits = NULL) {
+  .geo <- isTRUE(.geo)
+  if(!is_integerish(.n)) {
+    abort("`.n` must be an integer.")  
+  }
   pars <- list(...)
   len <- vapply(pars, length, 1L)
   if(!all(len==2)) {
-    .stop("all parameter entries must be length 2")  
+    abort("All parameter entries must have length 2.")  
   }
   fun <- ifelse(isTRUE(.geo), seq_geo, seq_even)
   pars <- lapply(pars, function(x) {
@@ -186,12 +203,12 @@ parseq_range <- function(mod, ..., .n = 5, .geo = TRUE, .digits = NULL) {
 
 #' Set reference values for each parameter
 #' 
-#' @param mod a model object
-#' @param auto if `TRUE` then the model parameter list is used
+#' @param mod a model object.
+#' @param auto if `TRUE` then the model parameter list is used.
 #' 
 parseq_reference <- function(mod, auto = TRUE) {
   if(!exists("sens_values", mod@args)) {
-    .stop("the test parameters and values must be specified first")  
+    abort("The test parameters and values must be specified first.")  
   }
   if(auto) {
     mod@args[["sens_reference"]] <- as.list(param(mod))  

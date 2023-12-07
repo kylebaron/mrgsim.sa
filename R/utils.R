@@ -21,8 +21,8 @@ re_id <- function(x) {
 
 #' Identify parameters in a model for sensitivity analysis
 #' 
-#' @param mod an mrgsolve model object
-#' @param ... unquoted parameter names
+#' @param mod an mrgsolve model object.
+#' @param ... unquoted parameter names.
 #' 
 #' @examples
 #' mod <- mrgsolve::house()
@@ -54,7 +54,7 @@ cvec_cs <- function(x) {
 
 combine_list <- function(left, right) {
   if(!all(is.list(left),is.list(right))) {
-    stop("input are not lists.")
+    abort("Input are not lists.")
   }
   left[names(right)] <-  right
   left
@@ -62,7 +62,7 @@ combine_list <- function(left, right) {
 
 update_list <- function(left, right) {
   if(!all(is.list(left),is.list(right))) {
-    stop("input are not lists.")
+    abort("Input are not lists.")
   }
   common <- intersect(names(left), names(right))
   left[common] <-  right[common]

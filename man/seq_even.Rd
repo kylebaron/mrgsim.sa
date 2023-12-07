@@ -7,14 +7,14 @@
 seq_even(from, to, n = 5, digits = NULL)
 }
 \arguments{
-\item{from}{passed to \code{\link[base:seq]{base::seq()}}}
+\item{from}{passed to \code{\link[base:seq]{base::seq()}}.}
 
-\item{to}{passed to \code{\link[base:seq]{base::seq()}}}
+\item{to}{passed to \code{\link[base:seq]{base::seq()}}.}
 
-\item{n}{passed to \code{\link[base:seq]{base::seq()}} as \code{length.out}}
+\item{n}{passed to \code{\link[base:seq]{base::seq()}} as \code{length.out}.}
 
 \item{digits}{number of significant digits in the answer; if \code{NULL} (the
-default) all digits are retained}
+default) all digits are retained.}
 }
 \description{
 Generate evenly spaced sequence

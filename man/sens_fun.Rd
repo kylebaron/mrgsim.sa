@@ -18,14 +18,14 @@ sens_grid_data(mod, data, idata = NULL, ...)
 }
 \arguments{
 \item{mod}{an mrgsolve model object (usually read in with
-\code{\link[mrgsolve:mread]{mrgsolve::mread()}})}
+\code{\link[mrgsolve:mread]{mrgsolve::mread()}}).}
 
 \item{idata}{included only to prevent users from passing through; the
-function will create an idata set if appropriate}
+function will create an \code{idata_set} if appropriate.}
 
-\item{...}{passed to \code{\link[mrgsolve:mrgsim_variants]{mrgsolve::mrgsim_d()}}}
+\item{...}{passed to \code{\link[mrgsolve:mrgsim_variants]{mrgsolve::mrgsim_d()}}.}
 
-\item{data}{a simulation input data set (see \code{\link[mrgsolve:data_set]{mrgsolve::data_set()}})}
+\item{data}{a simulation input data set (see \code{\link[mrgsolve:data_set]{mrgsolve::data_set()}}).}
 }
 \value{
 A tibble-like object with class \code{sens_each} or \code{sens_grid}, depending on the

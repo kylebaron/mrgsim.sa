@@ -7,17 +7,17 @@
 seq_cv(point, cv = 30, n = 5, nsd = 2, digits = NULL)
 }
 \arguments{
-\item{point}{reference parameter value}
+\item{point}{reference parameter value.}
 
-\item{cv}{coefficient of variation}
+\item{cv}{coefficient of variation.}
 
-\item{n}{number of values to simulate in the sequence}
+\item{n}{number of values to simulate in the sequence.}
 
 \item{nsd}{number of standard deviations defining the
-range of simulated parameter values}
+range of simulated parameter values.}
 
 \item{digits}{number of significant digits in the answer; if \code{NULL} (the
-default) all digits are retained}
+default) all digits are retained.}
 }
 \description{
 Generate a sequence based on coefficient of variation

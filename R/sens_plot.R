@@ -31,7 +31,6 @@ sens_color_n <- function(data, group) {
 #' @param ncol passed to [ggplot2::facet_wrap()].
 #' @param lwd passed to [ggplot2::geom_line()].
 #' @param digits used to format numbers on the strips.
-#'
 #' @param plot_ref if `TRUE`, then the reference case will be plotted in a black
 #' dashed line.
 #' @param grid if `TRUE`, plots from the `sens_each` method
@@ -106,7 +105,7 @@ sens_plot.sens_each <- function(data, dv_name = NULL, p_name = NULL,
     args$layout <- "default"
     return(sens_plot_list(dv_name, args))
   }
-
+  
   if(!is.null(p_name)) {
     assert_that(is.character(p_name))
     pars <- cvec_cs(p_name)
@@ -247,11 +246,12 @@ sens_plot.sens_grid <- function(data, dv_name, digits = 2, ncol = NULL, lwd = 0.
   pars <- names(attr(data, "pars"))
   npar <- length(pars)
   if(npar > 3) {
-    stop(
-      "found more than 3 parameters in this `sens_grid` object; ",
-      "please construct your own `ggplot` call to plot these data ",
-      "or select 3 or fewer parameters for sensitivity analysis",
-      call. = FALSE
+    abort(
+      c(
+        "found more than 3 parameters in this `sens_grid` object; ",
+        "please construct your own `ggplot` call to plot these data ",
+        "or select 3 or fewer parameters for sensitivity analysis"
+      )
     )  
   }
   data <- select_sens(data, dv_name = dv_name)
@@ -289,8 +289,10 @@ sens_plot.sens_grid <- function(data, dv_name, digits = 2, ncol = NULL, lwd = 0.
 
 #' @export
 sens_plot.sens_each_data <- function(data, ...) {
-  stop(
-    "there is no plotting method for objects of this class. ", 
-    "Use 'as_tibble' to coerce to a data frame and then plot with ggplot2."
+  abort(
+    c(
+      "there is no plotting method for objects of this class. ", 
+      "Use 'as_tibble' to coerce to a data frame and then plot with ggplot2."
+    )
   )
 }

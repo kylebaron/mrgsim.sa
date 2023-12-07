@@ -6,11 +6,11 @@
 #' variants allow you to pass in a data set to simulate from.
 #' 
 #' @param mod an mrgsolve model object (usually read in with 
-#' [mrgsolve::mread()])
+#' [mrgsolve::mread()]).
 #' @param idata included only to prevent users from passing through; the 
-#' function will create an idata set if appropriate
-#' @param ... passed to [mrgsolve::mrgsim_d()]
-#' @param data a simulation input data set (see [mrgsolve::data_set()])
+#' function will create an `idata_set` if appropriate.
+#' @param ... passed to [mrgsolve::mrgsim_d()].
+#' @param data a simulation input data set (see [mrgsolve::data_set()]).
 #' 
 #' @examples
 #' mod <- mrgsolve::house()

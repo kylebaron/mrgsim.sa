@@ -7,9 +7,9 @@
 parseq_reference(mod, auto = TRUE)
 }
 \arguments{
-\item{mod}{a model object}
+\item{mod}{a model object.}
 
-\item{auto}{if \code{TRUE} then the model parameter list is used}
+\item{auto}{if \code{TRUE} then the model parameter list is used.}
 }
 \description{
 Set reference values for each parameter
