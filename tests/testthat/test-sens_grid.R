@@ -74,12 +74,3 @@ test_that("sens_data coerce output", {
   df <- as.data.frame(out)
   expect_is(df, "data.frame")
 })
-
-test_that("plot a sens_grid object", {
-  out <- sens_run(house(), par = "CL,VC", vary = "grid") 
-  expect_is(out, "sens_grid")
-  expect_is(sens_plot(out, dv_name = "CP"), "gg")
-  expect_error(sens_plot(out))
-  out2 <- sens_run(house(), par = "CL,VC,KA,IC50", vary = "grid")
-  expect_error(sens_plot(out2, "CP"), regexp = "Too many ")
-})

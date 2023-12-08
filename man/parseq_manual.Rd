@@ -16,6 +16,9 @@ object.}
 \description{
 Simulation helper to manually specify parameter sequences
 }
+\details{
+Parameter value vectors passed via \code{...} will be sorted prior to simulation.
+}
 \examples{
 mod <- mrgsolve::house()
 

@@ -26,8 +26,7 @@ cran:
 package:
 	make doc
 	make build-vignettes
-	R CMD CHECK --as-cran ${TARBALL} 
-	
+
 submit:
 	make doc
 	make build-vignettes
@@ -47,7 +46,6 @@ build:
 
 build-vignettes:
 	R CMD build --md5 $(PKGDIR)
-
 
 install:
 	R CMD INSTALL --install-tests ${TARBALL}

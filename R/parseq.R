@@ -142,6 +142,10 @@ parseq_cv <- function(mod, ..., .cv = 30, .n = 5, .nsd = 2, .digits = NULL) {
 #' simulate; names must correspond to parameters in the model 
 #' object.
 #' 
+#' @details
+#' Parameter value vectors passed via `...` will be sorted prior to simulation.
+#' 
+#' 
 #' @examples
 #' mod <- mrgsolve::house()
 #' 
@@ -156,16 +160,17 @@ parseq_manual <- function(mod, ...) {
   params <- as.list(param(mod))
   pars <- list(...) 
   if(length(pars) < 1) {
-    abort("At least one parameter range vector must be passed.")  
+    abort("At least one parameter value vector must be passed.")  
   }
   if(!is_named(pars)) {
-    abort("All parameter range vectors in ... must be named.")  
+    abort("All parameter value vectors in ... must be named.")  
   }
   bad <- setdiff(names(pars), names(params))
   if(length(bad) > 0) {
     names(bad) <- rep("x", length(bad))
     abort(c("Some parameter names were not found in the model.", bad))
   }
+  pars <- lapply(pars, sort)
   values <- with_environment(
     list2env(params), pars
   )
@@ -180,14 +185,16 @@ parseq_manual <- function(mod, ...) {
 #' 
 #' @inheritParams parseq_factor
 #' @param mod mrgsolve model object.
-#' @param ... named vectors of minimum and maximum values for model parameters;
-#' each vector must have length 2 and names must correspond to model parameters.
-#' @param .n number of values to simulate for each parameter sequence.
+#' @param ... named  parameter range vectors )minimum and maximum) for model 
+#' parameters; each vector must have length 2 and names must correspond to 
+#' model parameters.
+#' @param .n number of values to simulate for each parameter sequence; passed
+#' to [seq_geo()] as `n`.
 #' @param .geo if `TRUE` generate a geometric sequence; otherwise,
 #' generate a sequence evenly spaced on Cartesian scale; see [seq_geo()].
 #' 
 #' @details
-#' - `.n`  is passed to [seq_geo()] as `n`
+#'  Parameter range vectors passed via `...` will be sorted prior to simulation.
 #' 
 #' @examples
 #' mod <- mrgsolve::house()
@@ -215,6 +222,7 @@ parseq_range <- function(mod, ..., .n = 5, .geo = TRUE, .digits = NULL) {
   if(!all(len==2)) {
     abort("All parameter range vectors must have length 2.")  
   }
+  pars <- lapply(pars, sort)
   bad <- setdiff(names(pars), names(param(mod)))
   if(length(bad) > 0) {
     names(bad) <- rep("x", length(bad))

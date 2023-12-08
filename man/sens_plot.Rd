@@ -26,7 +26,7 @@ sens_plot(data, ...)
 
 \method{sens_plot}{sens_grid}(
   data,
-  dv_name,
+  dv_name = NULL,
   digits = 2,
   ncol = NULL,
   lwd = 0.8,
@@ -41,7 +41,8 @@ sens_plot(data, ...)
 
 \item{...}{arguments passed on to methods.}
 
-\item{dv_name}{output columns name to plot; can be a comma-separated string.}
+\item{dv_name}{dependent variable names to plot; can be a comma-separated
+string; if \code{NULL}, then the unique values of \code{dv_name} in \code{data} are used.}
 
 \item{p_name}{parameter names to plot; can be a comma-separates string.}
 
@@ -67,12 +68,17 @@ multiple dependent variables; see \code{Details}.}
 will be arranged on a page with \code{\link[patchwork:wrap_plots]{patchwork::wrap_plots()}}; see the \code{ncol}
 argument.}
 }
+\value{
+A \code{ggplot} object when one \code{dv_name} is specified or a list of \code{ggplot}
+objects when multiple \code{dv_name}s are specified.
+}
 \description{
 Plot sensitivity analysis results
 }
 \details{
-The \code{layout} argument let's you get the plots back in different formats
-when multiple dependent variables are requested via \code{dv_name}.
+The \code{layout} argument is only used for the \code{sens_each} method. It lets
+you get the plots back in different formats when multiple dependent
+variables are requested via \code{dv_name}.
 \itemize{
 \item Use \code{default} to get the plots back in a list if multiple dependent
 variables are requested otherwise a single plot is returned.
