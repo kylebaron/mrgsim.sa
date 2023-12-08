@@ -245,8 +245,26 @@ sens_plot_list <- function(dv_name, args) {
 
 #' @rdname sens_plot
 #' @export
-sens_plot.sens_grid <- function(data, dv_name, digits = 2, ncol = NULL, lwd = 0.8,
-                                logy = FALSE, plot_ref = TRUE, ...) { #nocov start
+sens_plot.sens_grid <- function(data, dv_name = NULL, digits = 2, ncol = NULL,
+                                lwd = 0.8, logy = FALSE, 
+                                plot_ref = TRUE, ...) { #nocov start
+  
+  if(is.null(dv_name)) {
+    dv_name <- unique(data[["dv_name"]])  
+  } else {
+    assert_that(is.character(dv_name))
+    dv_name <- cvec_cs(dv_name)  
+  }
+  
+  if(length(dv_name) > 1) {
+    args <- c(as.list(environment()), list(...))
+    out <- lapply(dv_name, function(this_dv_name) {
+      args$dv_name <- this_dv_name
+      do.call(sens_plot.sens_grid, args)
+    })
+    return(out)
+  }
+  
   pars <- names(attr(data, "pars"))
   npar <- length(pars)
   if(npar > 3) {
@@ -259,6 +277,7 @@ sens_plot.sens_grid <- function(data, dv_name, digits = 2, ncol = NULL, lwd = 0.
       )
     )  
   }
+  
   data <- select_sens(data, dv_name = dv_name)
   data <- sens_names_to_factor(data)
   group <- sym(pars[1])

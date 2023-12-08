@@ -9,6 +9,11 @@ s1 <-
   parseq_cv(CL, VC, KIN, KOUT) %>%
   sens_each(end = 12) 
 
+s2 <- mrgsolve::house() %>% 
+  ev(amt = 100) %>% 
+  parseq_cv(CL, VC, KOUT) %>%
+  sens_grid(end = 12) 
+
 test_that("by default, plot everything", {
   p <- sens_plot(s1)  
   expect_is(p, "list")
@@ -76,4 +81,24 @@ test_that("multiple plots - grid", {
   expect_is(p, "list")
   expect_length(p, 3)
   expect_is(p[[2]], "gg")
+})
+
+test_that("sens_grid - single plot", {
+  p <- sens_plot(s2, "CP")
+  expect_is(p, "gg")
+})
+
+test_that("sens_grid - multiple plots", {
+  p <- sens_plot(s2, "CP,RESP")
+  expect_is(p, "list")
+  expect_length(p, 2)
+  expect_is(p[[1]], "gg")
+})
+
+test_that("sens_grid - multiple plots everything", {
+  p <- sens_plot(s2)
+  expect_is(p, "list")
+  outv <- unique(s2$dv_name)
+  expect_length(p, length(outv))
+  expect_is(p[[1]], "gg")
 })
