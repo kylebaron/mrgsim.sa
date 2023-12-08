@@ -83,6 +83,14 @@ test_that("multiple plots - grid", {
   expect_is(p[[2]], "gg")
 })
 
+test_that("plot a sens_grid object", {
+  out <- sens_run(house(), par = "CL,VC", vary = "grid") 
+  expect_is(out, "sens_grid")
+  expect_is(sens_plot(out, dv_name = "CP"), "gg")
+  out2 <- sens_run(house(), par = "CL,VC,KA,IC50", vary = "grid")
+  expect_error(sens_plot(out2, "CP"), regexp = "Too many ")
+})
+
 test_that("sens_grid - single plot", {
   p <- sens_plot(s2, "CP")
   expect_is(p, "gg")

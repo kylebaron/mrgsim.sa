@@ -25,7 +25,8 @@ sens_color_n <- function(data, group) {
 #' @param data output from [sens_each()] or 
 #' [sens_grid()].
 #' @param ... arguments passed on to methods.
-#' @param dv_name output columns name to plot; can be a comma-separated string.
+#' @param dv_name dependent variable names to plot; can be a comma-separated 
+#' string; if `NULL`, then the unique values of `dv_name` in `data` are used.
 #' @param p_name parameter names to plot; can be a comma-separates string. 
 #' @param logy if `TRUE`, y-axis is transformed to log scale
 #' @param ncol passed to [ggplot2::facet_wrap()].
@@ -36,6 +37,10 @@ sens_color_n <- function(data, group) {
 #' @param grid if `TRUE`, plots from the `sens_each` method
 #' will be arranged on a page with [patchwork::wrap_plots()]; see the `ncol`
 #' argument.
+#' 
+#' @return 
+#' A `ggplot` object when one `dv_name` is specified or a list of `ggplot` 
+#' objects when multiple `dv_name`s are specified. 
 #' 
 #' @examples
 #' mod <- mrgsolve::house()
@@ -56,8 +61,9 @@ sens_plot <- function(data,...) UseMethod("sens_plot")
 #' 
 #' @details
 #' 
-#' The `layout` argument let's you get the plots back in different formats
-#' when multiple dependent variables are requested via `dv_name`. 
+#' The `layout` argument is only used for the `sens_each` method. It lets 
+#' you get the plots back in different formats when multiple dependent 
+#' variables are requested via `dv_name`. 
 #' 
 #' - Use `default` to get the plots back in a list if multiple dependent 
 #'   variables are requested otherwise a single plot is returned.
