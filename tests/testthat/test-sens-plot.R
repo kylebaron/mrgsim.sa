@@ -86,6 +86,7 @@ test_that("multiple plots - grid", {
 test_that("sens_grid - single plot", {
   p <- sens_plot(s2, "CP")
   expect_is(p, "gg")
+  expect_error(sens_plot(s2, TRUE), "dv_name is not a character")
 })
 
 test_that("sens_grid - multiple plots", {
