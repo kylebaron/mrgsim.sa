@@ -26,7 +26,7 @@ sens_plot(data, ...)
 
 \method{sens_plot}{sens_grid}(
   data,
-  dv_name,
+  dv_name = NULL,
   digits = 2,
   ncol = NULL,
   lwd = 0.8,
