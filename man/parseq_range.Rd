@@ -9,10 +9,12 @@ parseq_range(mod, ..., .n = 5, .geo = TRUE, .digits = NULL)
 \arguments{
 \item{mod}{mrgsolve model object.}
 
-\item{...}{named vectors of minimum and maximum values for model parameters;
-each vector must have length 2 and names must correspond to model parameters.}
+\item{...}{named  parameter range vectors )minimum and maximum) for model
+parameters; each vector must have length 2 and names must correspond to
+model parameters.}
 
-\item{.n}{number of values to simulate for each parameter sequence.}
+\item{.n}{number of values to simulate for each parameter sequence; passed
+to \code{\link[=seq_geo]{seq_geo()}} as \code{n}.}
 
 \item{.geo}{if \code{TRUE} generate a geometric sequence; otherwise,
 generate a sequence evenly spaced on Cartesian scale; see \code{\link[=seq_geo]{seq_geo()}}.}
@@ -24,9 +26,7 @@ parameter sensitivity values are set using \code{\link[base:Round]{base::signif(
 Simulation helper to generate a sequence of parameters from a range
 }
 \details{
-\itemize{
-\item \code{.n}  is passed to \code{\link[=seq_geo]{seq_geo()}} as \code{n}
-}
+Parameter range vectors passed via \code{...} will be sorted prior to simulation.
 }
 \examples{
 mod <- mrgsolve::house()
