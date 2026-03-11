@@ -91,7 +91,7 @@ sens_each <- function(mod, idata = NULL, ...) {
   
   parlist <- mod@args[["sens_values"]] 
   mod <- clear_args(mod)
-  
+  mod <- drop_sensitivity_parameters(mod, names(parlist))
   ref <- p_mrgsim_(NULL, mod, ...)
   ref <- mutate(
     ref, 
