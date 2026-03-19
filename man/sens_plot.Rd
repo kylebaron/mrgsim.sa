@@ -18,7 +18,7 @@ sens_plot(data, ...)
   digits = 3,
   plot_ref = TRUE,
   xlab = "time",
-  ylab = dv_name[1],
+  ylab = NULL,
   layout = c("default", "facet_grid", "facet_wrap", "list"),
   grid = FALSE,
   ...
