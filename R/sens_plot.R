@@ -83,7 +83,7 @@ sens_plot.sens_each <- function(data, dv_name = NULL, p_name = NULL,
                                 logy = FALSE, 
                                 ncol = NULL, lwd = 0.8, 
                                 digits = 3, plot_ref = TRUE,
-                                xlab = "time", ylab = dv_name[1],
+                                xlab = "time", ylab = NULL,
                                 layout = c("default", "facet_grid", 
                                            "facet_wrap", "list"),
                                 grid = FALSE, ...) {
@@ -104,6 +104,20 @@ sens_plot.sens_each <- function(data, dv_name = NULL, p_name = NULL,
     dv_name <- cvec_cs(dv_name)
   }
   
+  if(is.null(ylab)) {
+    ylab <- dv_name  
+  }
+  
+  assert_that(is.character(xlab))
+  xlab <- xlab[1]
+  
+  if(length(dv_name) != length(ylab)) {
+    ndv <- length(dv_name)
+    ny <- length(ylab)
+    msg <- glue("`dv_name` ({ndv}) and `ylab` ({ny}) have different lengths.")
+    abort(glue(msg))
+  }
+  
   if((grid && length(dv_name) > 1)) {
     list <- TRUE    
   }
@@ -113,7 +127,7 @@ sens_plot.sens_each <- function(data, dv_name = NULL, p_name = NULL,
   if(list) {
     args <- c(as.list(environment()), list(...))
     args$layout <- "default"
-    return(sens_plot_list(dv_name, args))
+    return(sens_plot_list(dv_name, ylab, args))
   }
   
   if(!is.null(p_name)) {
@@ -237,14 +251,12 @@ sens_plot.sens_each <- function(data, dv_name = NULL, p_name = NULL,
   return(plots)
 }
 
-sens_plot_list <- function(dv_name, args) {
-  args$ylab <- NULL
+sens_plot_list <- function(dv_name, ylab, args) {
   out <- vector(mode = "list", length = length(dv_name))
-  i <- 1
-  for(this_dv_name in dv_name) {
-    args$dv_name <- this_dv_name
+  for(i in seq_along(dv_name)) {
+    args$dv_name <- dv_name[i]
+    args$ylab <- ylab[i]
     out[[i]] <- do.call(sens_plot.sens_each, args)
-    i <- i+1
   }
   return(out)
 }
