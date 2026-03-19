@@ -251,9 +251,16 @@ sens_plot_list <- function(dv_name, args) {
 
 #' @rdname sens_plot
 #' @export
-sens_plot.sens_grid <- function(data, dv_name = NULL, digits = 2, ncol = NULL,
-                                lwd = 0.8, logy = FALSE, 
-                                plot_ref = TRUE, ...) { #nocov start
+sens_plot.sens_grid <- function(data, 
+                                dv_name = NULL, 
+                                logy = FALSE,
+                                ncol = NULL,
+                                lwd = 0.8,
+                                digits = 2, 
+                                plot_ref = TRUE, 
+                                xlab = "time", 
+                                ylab = dv_name,
+                                ...) { #nocov start
   
   if(is.null(dv_name)) {
     dv_name <- unique(data[["dv_name"]])  
@@ -262,10 +269,25 @@ sens_plot.sens_grid <- function(data, dv_name = NULL, digits = 2, ncol = NULL,
     dv_name <- cvec_cs(dv_name)  
   }
   
+  if(is.null(ylab)) {
+    ylab <- dv_name  
+  }
+  
+  assert_that(is.character(xlab))
+  xlab <- xlab[1]
+  
+  if(length(dv_name) != length(ylab)) {
+    ndv <- length(dv_name)
+    ny <- length(ylab)
+    msg <- glue("`dv_name` ({ndv}) and `ylab` ({ny}) have different lengths.")
+    abort(glue(msg))
+  }
+  
   if(length(dv_name) > 1) {
     args <- c(as.list(environment()), list(...))
-    out <- lapply(dv_name, function(this_dv_name) {
+    out <- Map(dv_name, ylab, f = function(this_dv_name, this_ylab) {
       args$dv_name <- this_dv_name
+      args$ylab <- this_ylab
       do.call(sens_plot.sens_grid, args)
     })
     return(out)
@@ -305,6 +327,7 @@ sens_plot.sens_grid <- function(data, dv_name = NULL, digits = 2, ncol = NULL,
   p <- ggplot(data = data, aes(!!x, !!y, group=!!group, col=factor(!!group)))  
   p <- p + geom_line(lwd=lwd) + scale_color_discrete(name = pars[1])
   p <- p + theme_bw() + theme(legend.position = "top")
+  p <- p + xlab(xlab) + ylab(ylab)
   if(npar==2) p <- p + facet_wrap(formula, ncol = ncol)
   if(npar==3) p <- p + facet_grid(formula)
   if(isTRUE(logy)) p <- p + scale_y_log10()
