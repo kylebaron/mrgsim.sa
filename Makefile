@@ -78,5 +78,6 @@ clean:
 	rm -f README.html
 	rm -rf DOCS
 	rm -rf mrgsim.sa.Rcheck
+	rm -rf mrgsim.sa*.900*.tar.gz
 
 	

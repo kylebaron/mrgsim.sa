@@ -111,3 +111,72 @@ test_that("sens_grid - multiple plots everything", {
   expect_length(p, length(outv))
   expect_is(p[[1]], "gg")
 })
+
+# xlab / ylab - sens_each -----------------------------------------------
+
+test_that("sens_each - xlab is applied", {
+  p <- sens_plot(s1, "CP", xlab = "my-xlab")
+  expect_equal(p$labels$x, "my-xlab")
+})
+
+test_that("sens_each - ylab is applied for single dv", {
+  p <- sens_plot(s1, "CP", ylab = "my-ylab")
+  expect_equal(p$labels$y, "my-ylab")
+})
+
+test_that("sens_each - ylab defaults to dv_name for single dv", {
+  p <- sens_plot(s1, "CP")
+  expect_equal(p$labels$y, "CP")
+})
+
+test_that("sens_each - vectorized ylab applied to each plot in list", {
+  p <- sens_plot(s1, dv_name = "GUT,CP,RESP", ylab = c("gut", "conc", "resp"))
+  expect_is(p, "list")
+  expect_length(p, 3)
+  expect_equal(p[[1]]$labels$y, "gut")
+  expect_equal(p[[2]]$labels$y, "conc")
+  expect_equal(p[[3]]$labels$y, "resp")
+})
+
+test_that("sens_each - ylab length mismatch with dv_name errors", {
+  expect_error(
+    sens_plot(s1, dv_name = "GUT,CP,RESP", ylab = c("a", "b")),
+    regexp = "dv_name.*ylab.*different lengths"
+  )
+})
+
+test_that("sens_each - xlab must be character", {
+  expect_error(sens_plot(s1, "CP", xlab = 123), "xlab is not a character")
+})
+
+# xlab / ylab - sens_grid -----------------------------------------------
+
+test_that("sens_grid - xlab is applied", {
+  p <- sens_plot(s2, "CP", xlab = "my-xlab")
+  expect_equal(p$labels$x, "my-xlab")
+})
+
+test_that("sens_grid - ylab is applied for single dv", {
+  p <- sens_plot(s2, "CP", ylab = "my-ylab")
+  expect_equal(p$labels$y, "my-ylab")
+})
+
+test_that("sens_grid - ylab defaults to dv_name for single dv", {
+  p <- sens_plot(s2, "CP")
+  expect_equal(p$labels$y, "CP")
+})
+
+test_that("sens_grid - vectorized ylab applied to each plot in list", {
+  p <- sens_plot(s2, dv_name = "CP,RESP", ylab = c("conc", "resp"))
+  expect_is(p, "list")
+  expect_length(p, 2)
+  expect_equal(p[[1]]$labels$y, "conc")
+  expect_equal(p[[2]]$labels$y, "resp")
+})
+
+test_that("sens_grid - ylab length mismatch with dv_name errors", {
+  expect_error(
+    sens_plot(s2, dv_name = "CP,RESP", ylab = "only-one"),
+    regexp = "dv_name.*ylab.*different lengths"
+  )
+})

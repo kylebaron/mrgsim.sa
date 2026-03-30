@@ -18,7 +18,7 @@ sens_plot(data, ...)
   digits = 3,
   plot_ref = TRUE,
   xlab = "time",
-  ylab = dv_name[1],
+  ylab = NULL,
   layout = c("default", "facet_grid", "facet_wrap", "list"),
   grid = FALSE,
   ...
@@ -27,11 +27,13 @@ sens_plot(data, ...)
 \method{sens_plot}{sens_grid}(
   data,
   dv_name = NULL,
-  digits = 2,
+  logy = FALSE,
   ncol = NULL,
   lwd = 0.8,
-  logy = FALSE,
+  digits = 2,
   plot_ref = TRUE,
+  xlab = "time",
+  ylab = dv_name,
   ...
 )
 }
