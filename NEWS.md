@@ -1,4 +1,16 @@
-# mrgsim.sa (development version)
+# mrgsim.sa 0.3.0
+
+- Add `xlab` and `ylab` arguments to `sens_plot()` for `sens_grid()` output 
+  (#15).
+
+- `ylab` can now be a vector; the length must match the length of `dv_name` 
+  when multiple dependent variables are requested (#15).
+
+## Bugs Fixed
+
+- Fixed bug where sensitivity parameters were carried into the
+  simulated output when running `sens_grid()` and causing a naming
+  conflict (#14).
 
 # mrgsim.sa 0.2.0
 
