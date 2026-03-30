@@ -17,6 +17,7 @@ sens_grid <- function(mod, idata = NULL, ...) {
   mod@args[["carry_out"]] <- NULL
   pars <- mod@args[["sens_values"]] 
   mod <- clear_args(mod)
+  mod <- drop_sensitivity_parameters(mod, names(pars))
   parsdf <- do.call(expand.grid,pars) 
   parsdf <- mutate(parsdf, ID = seq(n()), case = .data[["ID"]])
   ref <- mrgsim_df(mod, ...)

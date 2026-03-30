@@ -63,6 +63,7 @@ lsa <- function(mod, par, var, fun = .lsa_fun, eps = 1E-7, ...) {
       body = par_bad
     )
   }
+  mod <- drop_sensitivity_parameters(mod, par_sens)
   parm <- as.numeric(parameters)[par_sens]
   var <- cvec_cs(var)
   base <- as.data.frame(fun(mod, ..., .p = parm))

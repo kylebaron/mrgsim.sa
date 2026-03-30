@@ -36,6 +36,17 @@ select_par <- function(mod, ...) {
   mod
 }
 
+# Sensitivity parameters cannot get captured
+drop_sensitivity_parameters <- function(mod, pars) {
+  ov <- mrgsolve::outvars(mod)
+  to_drop <- intersect(pars, ov$capture)
+  if(!length(to_drop)) {
+    return(mod)  
+  }
+  to_keep <- setdiff(ov$capture, to_drop)
+  update(mod, outvars = c(ov$cmt, to_keep))
+}
+
 split_id <- function(x) {
   split(x, x$ID)  
 }
