@@ -58,6 +58,21 @@ test_that("sens grid data", {
   
 })
 
+test_that("sens_grid - sensitivity parameters are not captured in output", {
+  # Alias CP as CL in the output so CL is both a sensitivity parameter and
+  # a captured output name
+  cap_mod <- update(mod, outvars = "CL = CP, RESP")
+  expect_true("CL" %in% outvars(cap_mod)$capture)
+  out <- cap_mod %>%
+    ev(amt = 100) %>%
+    parseq_cv(CL) %>%
+    sens_grid()
+  tb <- as_tibble(out)
+  # CL should appear exactly once (as the sensitivity parameter column, not
+  # additionally as a captured variable)
+  expect_equal(sum(names(tb) == "CL"), 1)
+})
+
 test_that("sens_data coerce output", {
   data <- mrgsolve:::expand.ev(amt = c(100,300))
   outx <- mrgsim(mod, end = -1)
