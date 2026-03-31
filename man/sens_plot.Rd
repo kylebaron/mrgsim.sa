@@ -34,6 +34,8 @@ sens_plot(data, ...)
   plot_ref = TRUE,
   xlab = "time",
   ylab = dv_name,
+  group = NULL,
+  facet = NULL,
   ...
 )
 }
@@ -69,6 +71,14 @@ multiple dependent variables; see \code{Details}.}
 \item{grid}{if \code{TRUE}, plots from the \code{sens_each} method
 will be arranged on a page with \code{\link[patchwork:wrap_plots]{patchwork::wrap_plots()}}; see the \code{ncol}
 argument.}
+
+\item{group}{sensitivity variable for within-panel grouping; defaults to the
+first sensitivity variable.}
+
+\item{facet}{sensitivity variable for faceting when 3 sensitivity variables
+are being plotted; the \code{facet} variable will run left to right and the other
+variable will run up and down; this argument is ignored / not needed when
+there are fewer than 3 sensitivity variables.}
 }
 \value{
 A \code{ggplot} object when one \code{dv_name} is specified or a list of \code{ggplot}
@@ -100,8 +110,25 @@ mod <- mrgsolve::house()
 
 dose <- mrgsolve::ev(amt = 100)
 
-out <- sens_run(mod, sargs = list(events = dose),  par = "CL,VC") 
+out <- sens_run(
+  mod, 
+  sargs = list(events = dose),  
+  par = "CL,VC"
+) 
 
-sens_plot(out, dv_name = "CP")
+sens_plot(out, "CP")
+
+out <- sens_run(
+  mod, 
+  sargs = list(events = dose), 
+  par = "CL,VC", 
+  vary  = "grid", 
+  .n = 3
+)
+
+sens_plot(out, "CP")
+
+sens_plot(out, "CP", group = "VC")
+
 
 }

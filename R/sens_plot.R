@@ -20,6 +20,51 @@ sens_color_n <- function(data, group) {
   data
 }
 
+sens_grid_plot_vars <- function(pars, group = NULL, facet = NULL) {
+  checkvar <- function(x, pars) {
+    if(!is.element(x, pars)) {
+      msg <- glue("`{x}` is not a sensitivity parameter.")
+      abort(msg)  
+    }
+  }
+  if(is.null(group)) return(pars)
+  pars0 <- pars
+  lp <- length(pars)
+  p <- vector(mode = "character", length = lp)
+  if(is.character(facet)) {
+    facet <- cvec_cs(facet)
+  }
+  if(is.character(group)) {
+    checkvar(group, pars0)
+    p[1] <- group
+    pars <- pars[!pars==group]
+  } else {
+    p[1] <- pars[1]
+    pars <- pars[-1]
+  }
+  if(lp==1) return(p)
+  if(is.character(facet)) {
+    checkvar(facet[1], pars0) 
+    p[2] <- facet[1] 
+    pars <- pars[!pars==facet[1]]
+  } else {
+    p[2] <- pars[1]
+    pars <- pars[-1]
+  }
+  if(lp==2) return(p)
+  if(length(facet) > 1) {
+    checkvar(facet[2], pars0)
+    p[3] <- facet[2]
+  } else {
+    p[3] <- pars[length(pars)]  
+  }
+  if(any(duplicated(p))) {
+    warn("duplicated grouping or faceting variables.")  
+  }
+  p
+}
+
+
 #' Plot sensitivity analysis results
 #' 
 #' @param data output from [sens_each()] or 
@@ -47,9 +92,26 @@ sens_color_n <- function(data, group) {
 #' 
 #' dose <- mrgsolve::ev(amt = 100)
 #' 
-#' out <- sens_run(mod, sargs = list(events = dose),  par = "CL,VC") 
+#' out <- sens_run(
+#'   mod, 
+#'   sargs = list(events = dose),  
+#'   par = "CL,VC"
+#' ) 
 #' 
-#' sens_plot(out, dv_name = "CP")
+#' sens_plot(out, "CP")
+#' 
+#' out <- sens_run(
+#'   mod, 
+#'   sargs = list(events = dose), 
+#'   par = "CL,VC", 
+#'   vary  = "grid", 
+#'   .n = 3
+#' )
+#' 
+#' sens_plot(out, "CP")
+#' 
+#' sens_plot(out, "CP", group = "VC")
+#' 
 #' 
 #' @export
 sens_plot <- function(data,...) UseMethod("sens_plot")
@@ -261,6 +323,12 @@ sens_plot_list <- function(dv_name, ylab, args) {
   return(out)
 }
 
+#' @param group sensitivity variable for within-panel grouping; defaults to the 
+#' first sensitivity variable.
+#' @param facet sensitivity variable for faceting when 3 sensitivity variables
+#' are being plotted; the `facet` variable will run left to right and the other
+#' variable will run up and down; this argument is ignored / not needed when 
+#' there are fewer than 3 sensitivity variables.
 #' @rdname sens_plot
 #' @export
 sens_plot.sens_grid <- function(data, 
@@ -272,6 +340,8 @@ sens_plot.sens_grid <- function(data,
                                 plot_ref = TRUE, 
                                 xlab = "time", 
                                 ylab = dv_name,
+                                group = NULL,
+                                facet = NULL,
                                 ...) { #nocov start
   
   if(is.null(dv_name)) {
@@ -317,9 +387,9 @@ sens_plot.sens_grid <- function(data,
       )
     )  
   }
-  
   data <- select_sens(data, dv_name = dv_name)
   data <- sens_names_to_factor(data)
+  pars <- sens_grid_plot_vars(pars, group, facet)
   group <- sym(pars[1])
   tcol <- "time"
   if(exists("TIME", data)) tcol <- "TIME"
