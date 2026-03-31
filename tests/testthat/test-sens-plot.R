@@ -180,3 +180,29 @@ test_that("sens_grid - ylab length mismatch with dv_name errors", {
     regexp = "dv_name.*ylab.*different lengths"
   )
 })
+
+# group / facet - sens_grid ---------------------------------------------
+
+test_that("sens_grid - group selects the within-panel color variable", {
+  p_default <- sens_plot(s2, "CP")
+  p_group   <- sens_plot(s2, "CP", group = "VC")
+  expect_equal(p_default$scales$scales[[1]]$name, "CL")
+  expect_equal(p_group$scales$scales[[1]]$name,   "VC")
+})
+
+test_that("sens_grid - facet selects the faceting variable", {
+  # default: pars order is CL, VC, KOUT → group=CL, cols=VC
+  # with group="VC", facet="CL" → group=VC, cols=CL
+  p_default <- sens_plot(s2, "CP")
+  p_facet   <- sens_plot(s2, "CP", group = "VC", facet = "CL")
+  expect_true(grepl("VC", names(p_default$facet$params$cols)))
+  expect_true(grepl("CL", names(p_facet$facet$params$cols)))
+})
+
+test_that("sens_grid - group errors for non-parameter name", {
+  expect_error(sens_plot(s2, "CP", group = "FOO"), "is not a sensitivity parameter")
+})
+
+test_that("sens_grid - facet errors for non-parameter name", {
+  expect_error(sens_plot(s2, "CP", group = "CL", facet = "FOO"), "is not a sensitivity parameter")
+})

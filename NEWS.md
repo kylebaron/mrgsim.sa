@@ -1,6 +1,10 @@
 # mrgsim.sa 0.3.0
 
-- Add `xlab` and `ylab` arguments to `sens_plot()` for `sens_grid()` output 
+- Add `group` and `facet` arguments to `sens_plot()` for `sens_grid()` output
+  to control which sensitivity variable is used for within-panel color grouping
+  and which variable(s) appear in the facet strips.
+
+- Add `xlab` and `ylab` arguments to `sens_plot()` for `sens_grid()` output
   (#15).
 
 - `ylab` can now be a vector; the length must match the length of `dv_name` 
