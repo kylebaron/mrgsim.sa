@@ -20,6 +20,19 @@ sens_color_n <- function(data, group) {
   data
 }
 
+pick_palette <- function(ncol, name = ggplot2::waiver()) {
+  if(ncol <= 10) {
+    palette <- scale_color_jco(name = name)
+  }
+  if(ncol > 10 && ncol <= 20) {
+    palette <- scale_color_igv(name = name)
+  }
+  if(ncol > 20) {
+    palette <- scale_color_discrete(name = name)  
+  }
+  palette
+}
+
 sens_grid_plot_vars <- function(pars, group = NULL, facet = NULL) {
   checkvar <- function(x, pars) {
     if(!is.element(x, pars)) {
@@ -148,7 +161,9 @@ sens_plot.sens_each <- function(data, dv_name = NULL, p_name = NULL,
                                 xlab = "time", ylab = NULL,
                                 layout = c("default", "facet_grid", 
                                            "facet_wrap", "list"),
-                                grid = FALSE, ...) {
+                                grid = FALSE, 
+                                palette = NULL, 
+                                ...) {
   
   layout <- match.arg(layout)
   
@@ -281,9 +296,16 @@ sens_plot.sens_each <- function(data, dv_name = NULL, p_name = NULL,
   }
   
   # Grid
+  
   sp <- split(data, data[["p_name"]])
   
   plots <- lapply(sp, function(chunk) {
+    
+    if(is.null(palette)) {
+      ncolor <- length(unique(chunk[["p_name"]]))
+      palette <- pick_palette(ncolor, chunk[["p_name"]][1]) 
+    }
+    
     chunk[["p_value"]] <- signif(chunk[["p_value"]], digits)
     chunk[["p_value"]] <- factor(chunk[["p_value"]])
     
@@ -294,7 +316,7 @@ sens_plot.sens_each <- function(data, dv_name = NULL, p_name = NULL,
       theme_bw() + xlab(xlab) + ylab(ylab) + 
       facet_wrap(facets = "p_name", scales = "free_y", ncol = ncol) + 
       theme(legend.position = "top") + 
-      scale_color_discrete(name = "")
+      palette + labs(color = chunk[["p_name"]][1])
     if(isTRUE(logy)) {
       p <- p + scale_y_log10()  
     }
@@ -342,6 +364,7 @@ sens_plot.sens_grid <- function(data,
                                 ylab = dv_name,
                                 group = NULL,
                                 facet = NULL,
+                                palette = NULL,
                                 ...) { #nocov start
   
   if(is.null(dv_name)) {
@@ -390,6 +413,11 @@ sens_plot.sens_grid <- function(data,
   data <- select_sens(data, dv_name = dv_name)
   data <- sens_names_to_factor(data)
   pars <- sens_grid_plot_vars(pars, group, facet)
+  
+  if(is.null(palette)) {
+    ncolor <- length(unique(data[[pars[1]]]))
+    palette <- pick_palette(ncolor) 
+  }
   group <- sym(pars[1])
   tcol <- "time"
   if(exists("TIME", data)) tcol <- "TIME"
@@ -407,9 +435,10 @@ sens_plot.sens_grid <- function(data,
     data <- sens_factor(data, pars[3], digits = digits)
   }
   p <- ggplot(data = data, aes(!!x, !!y, group=!!group, col=factor(!!group)))  
-  p <- p + geom_line(lwd=lwd) + scale_color_discrete(name = pars[1])
+  p <- p + geom_line(lwd=lwd) 
   p <- p + theme_bw() + theme(legend.position = "top")
   p <- p + xlab(xlab) + ylab(ylab)
+  p <- p + palette + labs(color = pars[1])
   if(npar==2) p <- p + facet_wrap(formula, ncol = ncol)
   if(npar==3) p <- p + facet_grid(formula)
   if(isTRUE(logy)) p <- p + scale_y_log10()
