@@ -21,6 +21,7 @@ sens_plot(data, ...)
   ylab = NULL,
   layout = c("default", "facet_grid", "facet_wrap", "list"),
   grid = FALSE,
+  palette = NULL,
   ...
 )
 
@@ -36,6 +37,7 @@ sens_plot(data, ...)
   ylab = dv_name,
   group = NULL,
   facet = NULL,
+  palette = NULL,
   ...
 )
 }
@@ -71,6 +73,11 @@ multiple dependent variables; see \code{Details}.}
 \item{grid}{if \code{TRUE}, plots from the \code{sens_each} method
 will be arranged on a page with \code{\link[patchwork:wrap_plots]{patchwork::wrap_plots()}}; see the \code{ncol}
 argument.}
+
+\item{palette}{a discrete color scale; like what you get from calling
+\code{\link[ggplot2:scale_colour_discrete]{ggplot2::scale_color_discrete()}}. For \code{sens_each}, this is only applied
+when \code{grid = TRUE}; it is ignored for all other layouts, which use a
+continuous viridis color scale.}
 
 \item{group}{sensitivity variable for within-panel grouping; defaults to the
 first sensitivity variable.}
@@ -130,5 +137,12 @@ sens_plot(out, "CP")
 
 sens_plot(out, "CP", group = "VC")
 
+if(requireNamespace("ggsci")) {
+
+  color <- ggsci::scale_color_atlassian()
+  
+  sens_plot(out, "CP", palette = color)
+
+}
 
 }

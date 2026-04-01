@@ -14,7 +14,8 @@ BugReports: https://github.com/kylebaron/mrgsim.sa/issues
 Suggests: 
     testthat,
     knitr,
-    rmarkdown
+    rmarkdown, 
+    ggsci
 Imports: 
   withr, 
   purrr, 
@@ -27,7 +28,8 @@ Imports:
   methods,
   tibble, 
   patchwork, 
-  glue
+  glue, 
+  lattice
 Encoding: UTF-8
 Language: en-US
 Depends: mrgsolve
