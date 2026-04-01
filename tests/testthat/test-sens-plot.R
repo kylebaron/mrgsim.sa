@@ -206,3 +206,66 @@ test_that("sens_grid - group errors for non-parameter name", {
 test_that("sens_grid - facet errors for non-parameter name", {
   expect_error(sens_plot(s2, "CP", group = "CL", facet = "FOO"), "is not a sensitivity parameter")
 })
+
+# palette - sens_each ---------------------------------------------------
+
+test_that("sens_each - custom palette with grid = TRUE produces a valid plot", {
+  pal <- ggplot2::scale_color_manual(values = c("red", "blue", "green", "orange", "purple"))
+  p <- sens_plot(s1, "CP", grid = TRUE, palette = pal)
+  expect_is(p, "gg")
+})
+
+test_that("sens_each - custom palette applied per-panel when grid = TRUE", {
+  pal <- ggplot2::scale_color_manual(values = c("red", "blue", "green", "orange", "purple"))
+  p <- sens_plot(s1, "CP", grid = TRUE, palette = pal)
+  # The custom colors should appear in the scale
+  scale_vals <- p$scales$scales[[1]]$palette(5)
+  expect_true(all(c("red", "blue", "green") %in% scale_vals))
+})
+
+test_that("sens_each - palette NULL default still produces a valid plot with grid = TRUE", {
+  p <- sens_plot(s1, "CP", grid = TRUE)
+  expect_is(p, "gg")
+})
+
+test_that("sens_each - palette is ignored for default layout (viridis used instead)", {
+  pal <- ggplot2::scale_color_manual(values = c("red", "blue", "green"))
+  p_default <- sens_plot(s1, "CP")
+  p_pal     <- sens_plot(s1, "CP", palette = pal)
+  # Both should still produce a valid gg object
+  expect_is(p_default, "gg")
+  expect_is(p_pal, "gg")
+  # Default uses viridis (continuous), so the scale class should be the same
+  # regardless of the palette argument
+  expect_equal(class(p_default$scales$scales[[1]]), class(p_pal$scales$scales[[1]]))
+})
+
+# palette - sens_grid ---------------------------------------------------
+
+test_that("sens_grid - custom palette is applied", {
+  pal <- ggplot2::scale_color_manual(values = c("red", "blue", "green", "orange", "purple"))
+  p <- sens_plot(s2, "CP", palette = pal)
+  expect_is(p, "gg")
+  # The custom colors should appear in the scale
+  scale_vals <- p$scales$scales[[1]]$palette(5)
+  expect_true(all(c("red", "blue", "green") %in% scale_vals))
+})
+
+test_that("sens_grid - palette NULL default produces valid plot with discrete scale", {
+  p <- sens_plot(s2, "CP")
+  expect_is(p, "gg")
+  # Default palette is a scale_color_manual from pick_palette
+  expect_is(p$scales$scales[[1]], "ScaleDiscrete")
+})
+
+test_that("sens_grid - custom palette forwarded across multiple dv_names", {
+  pal <- ggplot2::scale_color_manual(values = c("red", "blue", "green", "orange", "purple"))
+  p <- sens_plot(s2, "CP,RESP", palette = pal)
+  expect_is(p, "list")
+  expect_length(p, 2)
+  scale_vals1 <- p[[1]]$scales$scales[[1]]$palette(5)
+  scale_vals2 <- p[[2]]$scales$scales[[1]]$palette(5)
+  expect_true(all(c("red", "blue", "green") %in% scale_vals1))
+  expect_true(all(c("red", "blue", "green") %in% scale_vals2))
+})
+

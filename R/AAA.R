@@ -8,6 +8,7 @@
 #' @importFrom ggplot2 guides theme_bw scale_y_continuous scale_y_log10
 #' @importFrom ggplot2 facet_grid facet_wrap aes scale_color_discrete theme
 #' @importFrom ggplot2 scale_color_viridis_c scale_color_brewer labs
+#' @importFrom ggplot2 scale_color_manual
 #' @importFrom patchwork wrap_plots
 #' @importFrom rlang quos sym set_names enexpr := as_string .env abort warn
 #' @importFrom rlang abort is_integerish is_named 
@@ -19,6 +20,7 @@
 #' @importFrom graphics plot
 #' @importFrom glue glue
 #' @importFrom lattice trellis.par.get
+#' @importFrom grDevices hcl.colors
 #' @import methods
 #' 
 #' @include utils.R

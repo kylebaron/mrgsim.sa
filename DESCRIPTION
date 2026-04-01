@@ -28,7 +28,8 @@ Imports:
   methods,
   tibble, 
   patchwork, 
-  glue
+  glue, 
+  lattice
 Encoding: UTF-8
 Language: en-US
 Depends: mrgsolve

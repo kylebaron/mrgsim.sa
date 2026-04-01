@@ -95,6 +95,10 @@ sens_grid_plot_vars <- function(pars, group = NULL, facet = NULL) {
 #' @param grid if `TRUE`, plots from the `sens_each` method
 #' will be arranged on a page with [patchwork::wrap_plots()]; see the `ncol`
 #' argument.
+#' @param palette a discrete color scale; like what you get from calling
+#' [ggplot2::scale_color_discrete()]. For `sens_each`, this is only applied
+#' when `grid = TRUE`; it is ignored for all other layouts, which use a
+#' continuous viridis color scale.
 #' 
 #' @return 
 #' A `ggplot` object when one `dv_name` is specified or a list of `ggplot` 
@@ -125,6 +129,13 @@ sens_grid_plot_vars <- function(pars, group = NULL, facet = NULL) {
 #' 
 #' sens_plot(out, "CP", group = "VC")
 #' 
+#' if(requireNamespace("ggsci")) {
+#' 
+#'   color <- ggsci::scale_color_atlassian()
+#'   
+#'   sens_plot(out, "CP", palette = color)
+#' 
+#' }
 #' 
 #' @export
 sens_plot <- function(data,...) UseMethod("sens_plot")
@@ -302,8 +313,8 @@ sens_plot.sens_each <- function(data, dv_name = NULL, p_name = NULL,
   plots <- lapply(sp, function(chunk) {
     
     if(is.null(palette)) {
-      ncolor <- length(unique(chunk[["p_name"]]))
-      palette <- pick_palette(ncolor, chunk[["p_name"]][1]) 
+      ncolor <- length(unique(chunk[["p_value"]]))
+      palette <- pick_palette(ncolor, chunk[["p_name"]][1])
     }
     
     chunk[["p_value"]] <- signif(chunk[["p_value"]], digits)
@@ -416,7 +427,7 @@ sens_plot.sens_grid <- function(data,
 
   if(is.null(palette)) {
     ncolor <- length(unique(data[[pars[1]]]))
-    palette <- pick_palette(ncolor) 
+    palette <- pick_palette(ncolor, name = pars[1]) 
   }
   group <- sym(pars[1])
   tcol <- "time"
