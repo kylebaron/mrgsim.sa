@@ -1,5 +1,10 @@
 # mrgsim.sa 0.3.0
 
+- Add `palette` argument to `sens_plot()` for both `sens_each` and `sens_grid`
+  output, allowing users to pass a custom discrete color scale (e.g., from
+  ggplot2 or ggsci). The default palette uses lattice/trellis colors for small
+  numbers of levels and `hcl.colors()` for larger sets (#13).
+
 - Add `group` and `facet` arguments to `sens_plot()` for `sens_grid()` output
   to control which sensitivity variable is used for within-panel color grouping
   and which variable(s) appear in the facet strips.
