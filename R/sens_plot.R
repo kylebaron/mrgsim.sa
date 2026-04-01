@@ -21,14 +21,14 @@ sens_color_n <- function(data, group) {
 }
 
 pick_palette <- function(ncol, name = ggplot2::waiver()) {
-  if(ncol <= 10) {
-    palette <- scale_color_jco(name = name)
-  }
-  if(ncol > 10 && ncol <= 20) {
-    palette <- scale_color_igv(name = name)
-  }
-  if(ncol > 20) {
-    palette <- scale_color_discrete(name = name)  
+  colors <- trellis.par.get("superpose.symbol")$col
+  ntrel <- length(colors)
+  if(ncol <= ntrel) {
+    palette <- scale_color_manual(values = colors, name = name)
+    return(palette)
+  } else {
+    colors <- hcl.colors(ncol, "Dark 2")
+    palette <- scale_color_manual(values = colors, name = name)
   }
   palette
 }
@@ -413,7 +413,7 @@ sens_plot.sens_grid <- function(data,
   data <- select_sens(data, dv_name = dv_name)
   data <- sens_names_to_factor(data)
   pars <- sens_grid_plot_vars(pars, group, facet)
-  
+
   if(is.null(palette)) {
     ncolor <- length(unique(data[[pars[1]]]))
     palette <- pick_palette(ncolor) 

@@ -21,6 +21,7 @@ sens_plot(data, ...)
   ylab = NULL,
   layout = c("default", "facet_grid", "facet_wrap", "list"),
   grid = FALSE,
+  palette = NULL,
   ...
 )
 
@@ -36,6 +37,7 @@ sens_plot(data, ...)
   ylab = dv_name,
   group = NULL,
   facet = NULL,
+  palette = NULL,
   ...
 )
 }

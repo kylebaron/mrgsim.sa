@@ -14,7 +14,8 @@ BugReports: https://github.com/kylebaron/mrgsim.sa/issues
 Suggests: 
     testthat,
     knitr,
-    rmarkdown
+    rmarkdown, 
+    ggsci
 Imports: 
   withr, 
   purrr, 
