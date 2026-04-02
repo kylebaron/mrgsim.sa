@@ -119,10 +119,10 @@ lsa_plot <- function(x, ...) {
 
 #' Plot a lsa object
 #'
+#' @inheritParams sens_plot
 #' @param x output from [lsa()].
 #' @param y not used.
-#' @param pal a color palette passed to [ggplot2::scale_color_brewer()]; use 
-#' `NULL` to use default ggplot color scale.
+#' @param pal please use the `palette` argument instead.
 #' @param ... not used.
 #' 
 #' @return 
@@ -131,16 +131,22 @@ lsa_plot <- function(x, ...) {
 #' @method plot lsa
 #' @keywords internal
 #' @export
-plot.lsa <- function(x, y = NULL, pal = NULL, ...) {
-  stopifnot(requireNamespace("ggplot2"))
+plot.lsa <- function(x, y = NULL, palette = NULL, pal = NULL, ...) {
   tcol <- "time"
   if("TIME" %in% names(x)) tcol <- "TIME"
   if(!exists(tcol, x)) {
     abort("Couldn't find a time column.")
   }
+  if(!missing(pal)) {
+    abort("please pass a discrete scale object via `palette` instead.")  
+  }
   x[["vera__plot__time"]] <- x[[tcol]]
   x[["dv_name"]] <- factor(x[["dv_name"]], levels = unique(x[["dv_name"]]))
   x[["parameter"]] <- factor(x[["p_name"]], levels = unique(x[["p_name"]]))
+  if(is.null(palette)) {
+    ncol <- length(unique(x[["parameter"]]))
+    palette <- pick_palette(ncol, "parameter")
+  }
   ans <- 
     ggplot(x,aes_string("vera__plot__time","sens",col="parameter")) +
     geom_line(lwd=1) +
@@ -148,10 +154,9 @@ plot.lsa <- function(x, y = NULL, pal = NULL, ...) {
     theme(legend.position="top") +
     xlab("Time") +
     ylab("Sensitivity") +
-    facet_wrap(~dv_name)
-  if(is.character(pal)) {
-    ans <- ans + scale_color_brewer(palette = pal)  
-  } 
+    facet_wrap(~dv_name) + 
+    palette
+  
   ans
 }
 

@@ -21,37 +21,52 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 library(mrgsim.sa)
 ```
 
-
+Models in mrgsolve have "parameters" associated with them. 
 
 ```{r}
-mod <- mread("pk1", modlib(), end = 48, delta = 0.1)
+#| message: false
+mod <- modlib("pk1", end = 48, delta = 0.1)
 
 param(mod)
 ```
 
+Parameters are name-value pairs that are usually involved in controlling how 
+the system advances in time. Parameters could be clearances (`CL`), rate 
+constants (`k`), pharmacodynamic parameters (`EC50`) or even covariates 
+(`WT` ... weight). mrgsim.sa does one-at-a-time sensitivity analysis on 
+parameters in your model.
+
 ## PK model sensitivity analysis by factor
 
-The nominal (in model) parameter value is divided 
-and multiplied by a factor, generating minimum and maximum 
-bounds for simulating a sequence of parameter values
+The nominal (in model) parameter value is divided and multiplied by a factor,
+generating minimum and maximum bounds for simulating a sequence of parameter
+values. In this example, we vary `CL` and `V`, each one at a time.
 
 ```{r}
 out <- 
   mod %>% 
   ev(amt = 100) %>% 
   select_par(CL, V) %>% 
-  parseq_fct(.n=8) %>% 
+  parseq_fct(.n = 5) %>% 
   sens_each() 
 
 sens_plot(out, "CP")
 ```
+
+In this sensitivity analysis, `CL` is varied at the value of `V` in the 
+model parameter list and `V` is varied at the value of `CL` in the model 
+parameter list. The black dashed line indicates the model prediction based on 
+`CL` and `V` both as they are in the parameter list; this is the "reference".
 
 The simulated data is returned in a long format
 ```{r}
 out
 ```
 
-And you can plot with more informative color scale and legend
+The previous plot focused on relative changes in the PK profile for "lower" and 
+"higher" values of `CL` and `V` according to the `parseq_` method. You can plot 
+with a more quantitative color scale and legend using `grid = TRUE`.
+
 ```{r}
 sens_plot(out, "CP", grid = TRUE)
 ```
@@ -60,11 +75,13 @@ sens_plot(out, "CP", grid = TRUE)
 
 ## HIV viral dynamic model
 
-We look at latent infected cell pool development over ten years at different 
-"burst" size, or the number of HIV particles released when one cell lyses.  
+In another exampple, we look at latent infected cell pool development over ten
+years at different "burst" size, or the number of HIV particles released when
+one cell lyses.
 
 
 ```{r}
+#| message: false
 mod <- mread("hiv", "inst/example")
 
 mod %>% 
@@ -80,26 +97,27 @@ mod %>%
 The model is rifampicin PBPK.
 
 ```{r}
-mod <- mread("inst/example/rifampicin.cpp") %>% update(delta = 0.1)
+mod <- mread("inst/example/rifampicin.cpp", delta = 0.1)
 
-mod %>% 
+sims <- 
+  mod %>% 
   ev(amt = 600) %>% 
   parseq_manual(
     SFKp = seq_fct(.$SFKp, n = 20), 
     Kp_muscle = seq_even(0.001, 0.1, n = 6)
-  ) %>% 
-  sens_each() %>% 
-  sens_plot("Ccentral")
+  ) %>% sens_each() 
+
+sens_plot(sims, "Ccentral")
 ```
 
 # Simulate a grid
 
-To this point, we have always used `sens_each` so that each value for each 
-parameter is simulated one at a time.  Now, simulate the grid or all 
-combinations.
+To this point, we have always used `sens_each()` so that each value for each
+parameter is simulated one at a time. Now, simulate the grid or all
+combinations of the sensitivity parameters.
 
-We use `parseq_cv` here, which generates lower and upper bounds
-for the range using 50% coefficient of variation.
+We use `parseq_cv()` here, which generates lower and upper bounds for the range
+using 50% coefficient of variation.
 
 ```{r, fig.height = 7}
 
@@ -107,16 +125,24 @@ out <-
   mod %>% 
   update(outvars = "Ccentral") %>%
   ev(amt = 600) %>% 
-  parseq_cv(fBCLint_all_kg, .n = 7) %>% 
+  parseq_cv(fBCLint_all_kg, .n = 5) %>% 
   parseq_cv(SFKp, Kp_muscle, .n = 3) %>% 
   sens_grid(recsort = 3) 
 
 out
 
-out %>% sens_plot("Ccentral")
+sens_plot(out, "Ccentral")
 ```
 
+The output is more complicated because all the selected parameters have varying
+"sensitivity" values. 
+
 # Local sensitivity analysis
+
+In local sensitivity analysis, we vary each sensitivity parameter a very small
+amount around the parameter list (model) value and see how much the output 
+changes for a unit change in the parameter. The "sensitivity" is plotted over
+time. 
 
 ```{r}
 mod <- modlib("pk2", delta = 0.1, end = 72)
