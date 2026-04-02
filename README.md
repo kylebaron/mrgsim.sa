@@ -173,7 +173,7 @@ the output changes for a unit change in the parameter. The “sensitivity”
 is plotted over time.
 
 ``` r
-mod <- modlib("pk2", delta = 0.1, end = 72)
+mod <- modlib("pk2", delta = 0.1, end = 48)
 
 doses <- ev(amt = 100)
 
@@ -182,7 +182,7 @@ out <- lsa(mod, var = "CP", par = "CL,V2,Q,V3", events = doses)
 out
 ```
 
-    . # A tibble: 2,888 × 5
+    . # A tibble: 1,928 × 5
     .    time dv_name dv_value p_name     sens
     .   <dbl> <chr>      <dbl> <chr>     <dbl>
     . 1   0   CP         0     CL      0      
@@ -190,7 +190,7 @@ out
     . 3   0.1 CP         0.472 CL     -0.00254
     . 4   0.2 CP         0.893 CL     -0.00514
     . 5   0.3 CP         1.27  CL     -0.00782
-    . # ℹ 2,883 more rows
+    . # ℹ 1,923 more rows
 
 ``` r
 lsa_plot(out)

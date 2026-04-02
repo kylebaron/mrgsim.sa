@@ -11,7 +11,7 @@ are provided for creating inputs, simulating scenarios and plotting outputs.
 }
 \details{
 \itemize{
-\item Local sensitivity analysis: \code{\link[=lsa]{lsa()}}
+\item Local sensitivity analysis: \code{\link[=lsa]{lsa()}}, \code{\link[=lsa_plot]{lsa_plot()}}
 \item Run ad-hoc sensitivity analyses: \code{\link[=sens_each]{sens_each()}}, \code{\link[=sens_grid]{sens_grid()}}, \code{\link[=sens_run]{sens_run()}}
 \itemize{
 \item Use \code{\link[=sens_each_data]{sens_each_data()}} and \code{\link[=sens_grid_data]{sens_grid_data()}} to pass in data sets
@@ -25,9 +25,13 @@ are provided for creating inputs, simulating scenarios and plotting outputs.
 \itemize{
 \item Use \code{\link[=sens_plot]{sens_plot()}}
 }
-\item Select a subset of sensitivity analysis results
+\item Select parameters or results
 \itemize{
-\item Use \code{\link[=select_sens]{select_sens()}}
+\item Use \code{\link[=select_par]{select_par()}} to choose which parameters to vary
+\item Use \code{\link[=select_sens]{select_sens()}} to subset sensitivity analysis results
 }
 }
+}
+\seealso{
+\code{vignette("mrgsim.sa", package = "mrgsim.sa")} for a complete tutorial.
 }

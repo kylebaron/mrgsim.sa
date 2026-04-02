@@ -23,7 +23,7 @@ library(ggplot2)
 ```
 
 ```{r, include = FALSE}
-knitr::opts_chunk$set(fig.height = 4, comment = ".")
+knitr::opts_chunk$set(fig.height = 4, comment = ".", fig.align = "center")
 ```
 
 
