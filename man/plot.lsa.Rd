@@ -4,15 +4,19 @@
 \alias{plot.lsa}
 \title{Plot a lsa object}
 \usage{
-\method{plot}{lsa}(x, y = NULL, pal = NULL, ...)
+\method{plot}{lsa}(x, y = NULL, palette = NULL, pal = NULL, ...)
 }
 \arguments{
 \item{x}{output from \code{\link[=lsa]{lsa()}}.}
 
 \item{y}{not used.}
 
-\item{pal}{a color palette passed to \code{\link[ggplot2:scale_brewer]{ggplot2::scale_color_brewer()}}; use
-\code{NULL} to use default ggplot color scale.}
+\item{palette}{a discrete color scale; like what you get from calling
+\code{\link[ggplot2:scale_colour_discrete]{ggplot2::scale_color_discrete()}}. For \code{sens_each}, this is only applied
+when \code{grid = TRUE}; it is ignored for all other layouts, which use a
+continuous viridis color scale.}
+
+\item{pal}{please use the \code{palette} argument instead.}
 
 \item{...}{not used.}
 }

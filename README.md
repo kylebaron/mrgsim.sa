@@ -85,7 +85,7 @@ sens_plot(out, "CP", grid = TRUE)
 
 ## HIV viral dynamic model
 
-In another exampple, we look at latent infected cell pool development
+In another example, we look at latent infected cell pool development
 over ten years at different “burst” size, or the number of HIV particles
 released when one cell lyses.
 
@@ -169,23 +169,20 @@ varying “sensitivity” values.
 
 In local sensitivity analysis, we vary each sensitivity parameter a very
 small amount around the parameter list (model) value and see how much
-the output changes.
+the output changes for a unit change in the parameter. The “sensitivity”
+is plotted over time.
 
 ``` r
 mod <- modlib("pk2", delta = 0.1, end = 72)
-```
 
-    . Building pk2 ... done.
-
-``` r
 doses <- ev(amt = 100)
 
-out <- lsa(mod, var = "CP", par = "CL,V2,Q", events = doses)
+out <- lsa(mod, var = "CP", par = "CL,V2,Q,V3", events = doses)
 
 out
 ```
 
-    . # A tibble: 2,166 × 5
+    . # A tibble: 2,888 × 5
     .    time dv_name dv_value p_name     sens
     .   <dbl> <chr>      <dbl> <chr>     <dbl>
     . 1   0   CP         0     CL      0      
@@ -193,18 +190,10 @@ out
     . 3   0.1 CP         0.472 CL     -0.00254
     . 4   0.2 CP         0.893 CL     -0.00514
     . 5   0.3 CP         1.27  CL     -0.00782
-    . # ℹ 2,161 more rows
+    . # ℹ 2,883 more rows
 
 ``` r
-lsa_plot(out, pal = NULL)
+lsa_plot(out)
 ```
-
-    . Warning: `aes_string()` was deprecated in ggplot2 3.0.0.
-    . ℹ Please use tidy evaluation idioms with `aes()`.
-    . ℹ See also `vignette("ggplot2-in-packages")` for more information.
-    . ℹ The deprecated feature was likely used in the mrgsim.sa package.
-    .   Please report the issue at <https://github.com/kylebaron/mrgsim.sa/issues>.
-    . This warning is displayed once per session.
-    . Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.
 
 ![](man/figures/README-unnamed-chunk-10-1.png)<!-- -->

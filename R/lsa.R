@@ -147,11 +147,14 @@ plot.lsa <- function(x, y = NULL, palette = NULL, pal = NULL, ...) {
     ncol <- length(unique(x[["parameter"]]))
     palette <- pick_palette(ncol, "parameter")
   }
+  ggx <- sym("vera__plot__time")
+  ggy <- sym("sens")
+  ggcol <- sym("parameter")
   ans <- 
-    ggplot(x,aes_string("vera__plot__time","sens",col="parameter")) +
-    geom_line(lwd=1) +
+    ggplot(x, aes(!!ggx, !!ggy, col = !!ggcol)) +
+    geom_line(lwd = 1) +
     theme_bw() +
-    theme(legend.position="top") +
+    theme(legend.position = "top") +
     xlab("Time") +
     ylab("Sensitivity") +
     facet_wrap(~dv_name) + 

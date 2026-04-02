@@ -75,7 +75,7 @@ sens_plot(out, "CP", grid = TRUE)
 
 ## HIV viral dynamic model
 
-In another exampple, we look at latent infected cell pool development over ten
+In another example, we look at latent infected cell pool development over ten
 years at different "burst" size, or the number of HIV particles released when
 one cell lyses.
 
@@ -145,14 +145,15 @@ changes for a unit change in the parameter. The "sensitivity" is plotted over
 time. 
 
 ```{r}
+#| message: false
 mod <- modlib("pk2", delta = 0.1, end = 72)
 
 doses <- ev(amt = 100)
 
-out <- lsa(mod, var = "CP", par = "CL,V2,Q", events = doses)
+out <- lsa(mod, var = "CP", par = "CL,V2,Q,V3", events = doses)
 
 out
 
-lsa_plot(out, pal = NULL)
+lsa_plot(out)
 ```
 
