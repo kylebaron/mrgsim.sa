@@ -28,7 +28,7 @@ dvalue <- function(sim,ref,scale) {
 #' A tibble with class `lsa`. 
 #' 
 #' @examples
-#' mod <- mrgsolve::house(delta = 0.1, end = 72)
+#' mod <- mrgsolve::house(delta = 0.1, end = 48)
 #'
 #' par <- "CL,VC,KA"
 #'
