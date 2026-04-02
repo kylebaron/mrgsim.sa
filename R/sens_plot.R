@@ -86,7 +86,7 @@ sens_grid_plot_vars <- function(pars, group = NULL, facet = NULL) {
 #' @param dv_name dependent variable names to plot; can be a comma-separated 
 #' string; if `NULL`, then the unique values of `dv_name` in `data` are used.
 #' @param p_name parameter names to plot; can be a comma-separates string. 
-#' @param logy if `TRUE`, y-axis is transformed to log scale
+#' @param logy if `TRUE`, y-axis is transformed to log scale.
 #' @param ncol passed to [ggplot2::facet_wrap()].
 #' @param lwd passed to [ggplot2::geom_line()].
 #' @param digits used to format numbers on the strips.

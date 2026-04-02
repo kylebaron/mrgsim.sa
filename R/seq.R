@@ -17,8 +17,8 @@ seq_geo <- function(from, to, n = 5, digits = NULL) {
   if(!is.numeric(to) | to <= 0) {
     abort("`to` must be numeric and positive.")
   }
-  if(!to > from) {
-    abort("`to` must be greater than `from`.")  
+  if(!(to > from)) {
+    abort("`to` must be greater than `from`.")
   }
   ans <- exp(seq(log(from), log(to), length.out = n))
   if(is.numeric(digits)) ans <- signif(ans, digits = digits)
@@ -34,17 +34,18 @@ geo_seq_ <- function(point, n = 5) { #nocov start
 
 #' Generate a sequence by fold increase and decrease from a point
 #' 
-#' @inheritParams seq_geo
 #' @param point a numeric vector of length 1.
 #' @param n number of elements in the sequence.
-#' @param factor an integer vector of length 1 or 2; if length 1, 
+#' @param factor a numeric vector of length 1 or 2; if length 1,
 #' values will be recycled to length 2; the first number used to divide
-#' `point` to generate the minimum value in the sequence; the second 
-#' number is used to multiply `point` to generate the 
+#' `point` to generate the minimum value in the sequence; the second
+#' number is used to multiply `point` to generate the
 #' maximum value in the sequence.
 #' @param geo if `TRUE`, [seq_geo()] is used to generate
-#' the sequence; otherwise, [seq_even()] is used to generate 
+#' the sequence; otherwise, [seq_even()] is used to generate
 #' the sequence.
+#' @param digits number of significant digits in the answer; if `NULL` (the
+#' default) all digits are retained.
 #' 
 #' @examples
 #' seq_fct(10)
@@ -55,7 +56,9 @@ geo_seq_ <- function(point, n = 5) { #nocov start
 #' 
 #' @export
 seq_fct <- function(point, n = 5, factor = c(3,3), geo = TRUE, digits = NULL) {
-  assert_that(length(point)==1)
+  if(length(point) != 1) {
+    abort("`point` must be a numeric vector of length 1.")
+  }
   if(length(factor)==1) factor <- c(factor, factor)
   point <- c(point / factor[1], point * factor[2])
   if(geo) {
@@ -68,11 +71,12 @@ seq_fct <- function(point, n = 5, factor = c(3,3), geo = TRUE, digits = NULL) {
 }
 
 #' Generate evenly spaced sequence
-#' 
-#' @inheritParams seq_geo
+#'
 #' @param from passed to [base::seq()].
 #' @param to passed to [base::seq()].
 #' @param n passed to [base::seq()] as `length.out`.
+#' @param digits number of significant digits in the answer; if `NULL` (the
+#' default) all digits are retained.
 #' 
 #' @examples
 #' seq_even(1, 10, 4)
@@ -95,13 +99,14 @@ even_seq_ <- function(point, n = 5) { #nocov start
 
 
 #' Generate a sequence based on coefficient of variation
-#' 
-#' @inheritParams seq_geo
+#'
 #' @param point reference parameter value.
 #' @param cv coefficient of variation.
 #' @param n number of values to simulate in the sequence.
 #' @param nsd number of standard deviations defining the range of simulated
 #' parameter values.
+#' @param digits number of significant digits in the answer; if `NULL` (the
+#' default) all digits are retained.
 #' 
 #' @examples
 #' seq_cv(10)

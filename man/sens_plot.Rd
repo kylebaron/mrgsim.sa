@@ -52,7 +52,7 @@ string; if \code{NULL}, then the unique values of \code{dv_name} in \code{data} 
 
 \item{p_name}{parameter names to plot; can be a comma-separates string.}
 
-\item{logy}{if \code{TRUE}, y-axis is transformed to log scale}
+\item{logy}{if \code{TRUE}, y-axis is transformed to log scale.}
 
 \item{ncol}{passed to \code{\link[ggplot2:facet_wrap]{ggplot2::facet_wrap()}}.}
 

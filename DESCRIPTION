@@ -9,7 +9,7 @@ Description: Perform sensitivity analysis on ordinary differential equation
     sequences of parameters as well as local sensitivity analysis. Functions 
     are provided for creating inputs, simulating scenarios and plotting outputs.
 License: GPL (>= 2)
-URL: https://github.com/kylebaron/mrgsim.sa
+URL: https://github.com/kylebaron/mrgsim.sa, https://kylebaron.github.io/mrgsim.sa/
 BugReports: https://github.com/kylebaron/mrgsim.sa/issues
 Suggests: 
     testthat,

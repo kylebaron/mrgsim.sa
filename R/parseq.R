@@ -16,8 +16,8 @@ clear_args <- function(mod) {
 }
 
 #' Generate a sequence of parameters
-#' 
-#' @param mod a model object.
+#'
+#' @param mod mrgsolve model object.
 #' @param ... unquoted parameter names.
 #' @param .n number of parameters to simulate between the minimum
 #' and maximum parameter values.
@@ -67,7 +67,7 @@ parseq_fct <- function(mod, ..., .n = 5, .factor = 2, .geo = TRUE,
     }
   }
   point <- as.list(param(mod))[sel]
-  pars <- lapply(point, seq_fct, n = .n, factor = .factor, geo = .geo)
+  pars <- lapply(point, seq_fct, n = .n, factor = .factor, geo = .geo, digits = .digits)
   mod <- save_sens_values(mod, pars)
   mod
 }
@@ -79,8 +79,6 @@ parseq_factor <- parseq_fct
 #' Generate a sequence of parameters based on CV
 #'
 #' @inheritParams parseq_fct
-#' @param mod a model object.
-#' @param ... model parameter names.
 #' @param .cv a coefficient of variation used to determine 
 #' range of test parameters.
 #' @param .n number of parameters to simulate in the sequence.
@@ -118,7 +116,7 @@ parseq_cv <- function(mod, ..., .cv = 30, .n = 5, .nsd = 2, .digits = NULL) {
     if(exists("select", mod@args)) {
       sel <- mod@args[["select"]]      
     } else {
-      abort("Parameter names must be passed or selected.")
+      abort("Parameter names must be passed via `...` or selected.")
     }
   }
   point <- as.list(param(mod))[sel]
@@ -144,7 +142,6 @@ parseq_cv <- function(mod, ..., .cv = 30, .n = 5, .nsd = 2, .digits = NULL) {
 #' 
 #' @details
 #' Parameter value vectors passed via `...` will be sorted prior to simulation.
-#' 
 #' 
 #' @examples
 #' mod <- mrgsolve::house()
