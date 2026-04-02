@@ -28,7 +28,7 @@ dvalue <- function(sim,ref,scale) {
 #' A tibble with class `lsa`. 
 #' 
 #' @examples
-#' mod <- mrgsolve::house(delta=0.1)
+#' mod <- mrgsolve::house(delta = 0.1, end = 72)
 #'
 #' par <- "CL,VC,KA"
 #'
@@ -36,9 +36,9 @@ dvalue <- function(sim,ref,scale) {
 #'
 #' dose <- ev(amt = 100)
 #'
-#' fun <- function(mod, ...) mrgsolve::mrgsim_e(mod, dose, output="df")
+#' fun <- function(mod, ...) mrgsolve::mrgsim_e(mod, dose, output = "df")
 #'
-#' out <- lsa(mod, par, var, fun)
+#' out <- lsa(mod, par, var, events = dose)
 #'
 #' head(out)
 #'
@@ -119,10 +119,13 @@ lsa_plot <- function(x, ...) {
 
 #' Plot a lsa object
 #'
-#' @inheritParams sens_plot
 #' @param x output from [lsa()].
 #' @param y not used.
-#' @param pal please use the `palette` argument instead.
+#' @param palette a discrete color scale object, such as one returned by
+#' [ggplot2::scale_color_brewer()] or [ggplot2::scale_color_manual()]. When
+#' `NULL` (default), a palette is chosen automatically based on the number of
+#' parameters.
+#' @param pal `r lifecycle::badge("deprecated")`; please use `palette` instead.
 #' @param ... not used.
 #' 
 #' @return 
@@ -138,7 +141,8 @@ plot.lsa <- function(x, y = NULL, palette = NULL, pal = NULL, ...) {
     abort("Couldn't find a time column.")
   }
   if(!missing(pal)) {
-    abort("please pass a discrete scale object via `palette` instead.")  
+    lifecycle::deprecate_warn("0.3.0", "lsa_plot(pal=)", "lsa_plot(palette=)")
+    palette <- pal
   }
   x[["vera__plot__time"]] <- x[[tcol]]
   x[["dv_name"]] <- factor(x[["dv_name"]], levels = unique(x[["dv_name"]]))

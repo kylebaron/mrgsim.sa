@@ -32,7 +32,7 @@ A tibble with class \code{lsa}.
 Perform local sensitivity analysis
 }
 \examples{
-mod <- mrgsolve::house(delta=0.1)
+mod <- mrgsolve::house(delta = 0.1, end = 72)
 
 par <- "CL,VC,KA"
 
@@ -40,9 +40,9 @@ var <- "CP"
 
 dose <- ev(amt = 100)
 
-fun <- function(mod, ...) mrgsolve::mrgsim_e(mod, dose, output="df")
+fun <- function(mod, ...) mrgsolve::mrgsim_e(mod, dose, output = "df")
 
-out <- lsa(mod, par, var, fun)
+out <- lsa(mod, par, var, events = dose)
 
 head(out)
 

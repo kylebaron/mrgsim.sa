@@ -11,12 +11,12 @@
 
 \item{y}{not used.}
 
-\item{palette}{a discrete color scale; like what you get from calling
-\code{\link[ggplot2:scale_colour_discrete]{ggplot2::scale_color_discrete()}}. For \code{sens_each}, this is only applied
-when \code{grid = TRUE}; it is ignored for all other layouts, which use a
-continuous viridis color scale.}
+\item{palette}{a discrete color scale object, such as one returned by
+\code{\link[ggplot2:scale_brewer]{ggplot2::scale_color_brewer()}} or \code{\link[ggplot2:scale_manual]{ggplot2::scale_color_manual()}}. When
+\code{NULL} (default), a palette is chosen automatically based on the number of
+parameters.}
 
-\item{pal}{please use the \code{palette} argument instead.}
+\item{pal}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{palette} instead.}
 
 \item{...}{not used.}
 }

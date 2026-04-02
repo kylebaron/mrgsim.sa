@@ -27,9 +27,10 @@ Imports:
   tidyr,
   methods,
   tibble, 
-  patchwork, 
-  glue, 
-  lattice
+  patchwork,
+  glue,
+  lattice,
+  lifecycle
 Encoding: UTF-8
 Language: en-US
 Depends: mrgsolve
