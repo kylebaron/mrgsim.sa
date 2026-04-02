@@ -24,10 +24,14 @@ re_id <- function(x) {
 #' @param mod an mrgsolve model object.
 #' @param ... unquoted parameter names.
 #' 
+#' @return
+#' The model object with the selected parameters stored for use by
+#' [parseq_fct()], [parseq_cv()], [parseq_range()], or [parseq_manual()].
+#'
 #' @examples
 #' mod <- mrgsolve::house()
 #' select_par(mod, CL, VC)
-#' 
+#'
 #' @export
 select_par <- function(mod, ...) {
   assert_that(inherits(mod, "mrgmod"))

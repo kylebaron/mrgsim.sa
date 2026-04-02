@@ -9,7 +9,7 @@
 #' [mrgsolve::mread()]).
 #' @param idata included only to prevent users from passing through; the 
 #' function will create an `idata_set` if appropriate.
-#' @param ... passed to [mrgsolve::mrgsim_d()].
+#' @param ... passed to [mrgsolve::mrgsim()].
 #' @param data a simulation input data set (see [mrgsolve::data_set()]).
 #' 
 #' @examples

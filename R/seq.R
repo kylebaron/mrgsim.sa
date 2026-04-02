@@ -100,7 +100,7 @@ even_seq_ <- function(point, n = 5) { #nocov start
 #' @param point reference parameter value.
 #' @param cv coefficient of variation.
 #' @param n number of values to simulate in the sequence.
-#' @param nsd number of standard deviations defining the range of simulated \
+#' @param nsd number of standard deviations defining the range of simulated
 #' parameter values.
 #' 
 #' @examples

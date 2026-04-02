@@ -177,7 +177,7 @@ d_mrgsim_ <- function(x, mod, data, ...) {
 
 #' Coerce sens_each output to data frame
 #' 
-#' @param x a `sense_each` object.
+#' @param x a `sens_each` object.
 #' @param row.names not used.
 #' @param optional not used.
 #' @param ... not used.

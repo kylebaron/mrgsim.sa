@@ -77,8 +77,8 @@ parseq_fct <- function(mod, ..., .n = 5, .factor = 2, .geo = TRUE,
 parseq_factor <- parseq_fct
 
 #' Generate a sequence of parameters based on CV
-#' 
-#' @inheritParams parseq_factor
+#'
+#' @inheritParams parseq_fct
 #' @param mod a model object.
 #' @param ... model parameter names.
 #' @param .cv a coefficient of variation used to determine 
@@ -182,11 +182,11 @@ parseq_manual <- function(mod, ...) {
 }
 
 #' Simulation helper to generate a sequence of parameters from a range
-#' 
-#' @inheritParams parseq_factor
+#'
+#' @inheritParams parseq_fct
 #' @param mod mrgsolve model object.
-#' @param ... named  parameter range vectors )minimum and maximum) for model 
-#' parameters; each vector must have length 2 and names must correspond to 
+#' @param ... named parameter range vectors (minimum and maximum) for model
+#' parameters; each vector must have length 2 and names must correspond to
 #' model parameters.
 #' @param .n number of values to simulate for each parameter sequence; passed
 #' to [seq_geo()] as `n`.

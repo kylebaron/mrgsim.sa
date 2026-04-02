@@ -17,7 +17,7 @@ dvalue <- function(sim,ref,scale) {
 #' Perform local sensitivity analysis
 #'
 #' @param mod a mrgsolve model object.
-#' @param fun generating simulated for sensitivity analysis (see details).
+#' @param fun a function for generating simulated output for sensitivity analysis (see details).
 #' @param par parameter names as character vector or comma-separated string.
 #' @param var output names (compartment or capture) as character vector
 #' or comma-separated string.

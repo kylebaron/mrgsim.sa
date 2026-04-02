@@ -17,7 +17,7 @@ lsa_plot(x, ...)
 \item{var}{output names (compartment or capture) as character vector
 or comma-separated string.}
 
-\item{fun}{generating simulated for sensitivity analysis (see details).}
+\item{fun}{a function for generating simulated output for sensitivity analysis (see details).}
 
 \item{eps}{parameter change value for sensitivity analysis.}
 

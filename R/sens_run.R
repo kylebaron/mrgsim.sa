@@ -27,6 +27,10 @@
 #'   sargs = list(events = dose)
 #' )
 #' 
+#' @return
+#' A tibble-like object with class `sens_each` or `sens_grid`, depending on
+#' the value of `vary`.
+#'
 #' @md
 #' @export
 sens_run <- function(mod, 
