@@ -28,7 +28,7 @@ dvalue <- function(sim,ref,scale) {
 #' A tibble with class `lsa`. 
 #' 
 #' @examples
-#' mod <- mrgsolve::house(delta=0.1)
+#' mod <- mrgsolve::house(delta = 0.1, end = 48)
 #'
 #' par <- "CL,VC,KA"
 #'
@@ -36,9 +36,9 @@ dvalue <- function(sim,ref,scale) {
 #'
 #' dose <- ev(amt = 100)
 #'
-#' fun <- function(mod, ...) mrgsolve::mrgsim_e(mod, dose, output="df")
+#' fun <- function(mod, ...) mrgsolve::mrgsim_e(mod, dose, output = "df")
 #'
-#' out <- lsa(mod, par, var, fun)
+#' out <- lsa(mod, par, var, events = dose)
 #'
 #' head(out)
 #'
@@ -121,8 +121,11 @@ lsa_plot <- function(x, ...) {
 #'
 #' @param x output from [lsa()].
 #' @param y not used.
-#' @param pal a color palette passed to [ggplot2::scale_color_brewer()]; use 
-#' `NULL` to use default ggplot color scale.
+#' @param palette a discrete color scale object, such as one returned by
+#' [ggplot2::scale_color_brewer()] or [ggplot2::scale_color_manual()]. When
+#' `NULL` (default), a palette is chosen automatically based on the number of
+#' parameters.
+#' @param pal `r lifecycle::badge("deprecated")`; please use `palette` instead.
 #' @param ... not used.
 #' 
 #' @return 
@@ -131,27 +134,36 @@ lsa_plot <- function(x, ...) {
 #' @method plot lsa
 #' @keywords internal
 #' @export
-plot.lsa <- function(x, y = NULL, pal = NULL, ...) {
-  stopifnot(requireNamespace("ggplot2"))
+plot.lsa <- function(x, y = NULL, palette = NULL, pal = NULL, ...) {
   tcol <- "time"
   if("TIME" %in% names(x)) tcol <- "TIME"
   if(!exists(tcol, x)) {
     abort("Couldn't find a time column.")
   }
+  if(!missing(pal)) {
+    lifecycle::deprecate_warn("0.3.0", "lsa_plot(pal=)", "lsa_plot(palette=)")
+    palette <- pal
+  }
   x[["vera__plot__time"]] <- x[[tcol]]
   x[["dv_name"]] <- factor(x[["dv_name"]], levels = unique(x[["dv_name"]]))
   x[["parameter"]] <- factor(x[["p_name"]], levels = unique(x[["p_name"]]))
+  if(is.null(palette)) {
+    ncol <- length(unique(x[["parameter"]]))
+    palette <- pick_palette(ncol, "parameter")
+  }
+  ggx <- sym("vera__plot__time")
+  ggy <- sym("sens")
+  ggcol <- sym("parameter")
   ans <- 
-    ggplot(x,aes_string("vera__plot__time","sens",col="parameter")) +
-    geom_line(lwd=1) +
+    ggplot(x, aes(!!ggx, !!ggy, col = !!ggcol)) +
+    geom_line(lwd = 1) +
     theme_bw() +
-    theme(legend.position="top") +
+    theme(legend.position = "top") +
     xlab("Time") +
     ylab("Sensitivity") +
-    facet_wrap(~dv_name)
-  if(is.character(pal)) {
-    ans <- ans + scale_color_brewer(palette = pal)  
-  } 
+    facet_wrap(~dv_name) + 
+    palette
+  
   ans
 }
 

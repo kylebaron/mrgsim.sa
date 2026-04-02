@@ -38,3 +38,18 @@ test_that("lsa plot", {
   ans <- lsa_plot(out)
   expect_is(ans, "gg")
 })
+
+test_that("lsa plot - pal is deprecated", {
+  out <- lsa(mod, par = "CL", var = "CP")
+  expect_warning(
+    lsa_plot(out, pal = ggplot2::scale_color_brewer()),
+    regex = "`pal` argument of `lsa_plot\\(\\)` is deprecated"
+  )
+})
+
+test_that("lsa plot - custom palette", {
+  out <- lsa(mod, par = "CL,VC", var = "CP")
+  pal <- ggplot2::scale_color_brewer(palette = "Set1")
+  ans <- lsa_plot(out, palette = pal)
+  expect_is(ans, "gg")
+})
