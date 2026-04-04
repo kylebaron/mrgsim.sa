@@ -1,7 +1,6 @@
 # Get started
 
 ``` r
-
 library(dplyr)
 library(mrgsim.sa)
 library(patchwork)
@@ -24,14 +23,12 @@ mrgsolve package. Here, we’ll use the example `house` model provided by
 mrgsolve
 
 ``` r
-
 mod <- house(outvars = "CP,RESP")
 ```
 
 This model has parameters
 
 ``` r
-
 param(mod)
 ```
 
@@ -49,7 +46,6 @@ param(mod)
 and outputs
 
 ``` r
-
 outvars(mod)
 ```
 
@@ -67,7 +63,6 @@ parameters, and look a total of 5 values between those extremes. Use the
 function after selecting the parameters you want to vary
 
 ``` r
-
 out <- 
   mod %>% 
   ev(amt = 100) %>% 
@@ -79,7 +74,6 @@ The “base” value for each parameter is whatever is currently in the
 model; in this case it is
 
 ``` r
-
 param(mod)[c("CL", "VC")]
 ```
 
@@ -100,7 +94,6 @@ function call above tells you to vary `CL` and `VC` one at a time.
 The output is a tibble in long format, with class `sens_each`
 
 ``` r
-
 out
 ```
 
@@ -120,7 +113,6 @@ out
     .  [38;5;246m# ℹ 9,670 more rows [39m
 
 ``` r
-
 class(out)
 ```
 
@@ -129,7 +121,6 @@ class(out)
 Taking inventory of this output
 
 ``` r
-
 count(out, p_name, dv_name)
 ```
 
@@ -146,7 +137,6 @@ We pass this output object to
 and name the variable we want to plot
 
 ``` r
-
 sens_plot(out, "RESP")
 ```
 
@@ -167,7 +157,6 @@ For example, to vary `CL` by 60% coefficient of variation, plotting 5
 values between -2 and 2 sd and looking at `CP` output
 
 ``` r
-
 mod %>% 
   ev(amt = 100) %>% 
   parseq_cv(CL, .cv = 50, .nsd = 2) %>% 
@@ -180,7 +169,6 @@ mod %>%
 Or we can look at how `VC` influences approach to steady state
 
 ``` r
-
 out <- 
   mod %>% 
   ev(amt = 100, ii = 24, addl = 10) %>%
@@ -196,7 +184,6 @@ sens_plot(out, "CP")
 We can also look at multiple outputs on the same plot
 
 ``` r
-
 out <- 
   mod %>% 
   ev(amt = 100) %>%
@@ -207,7 +194,6 @@ out <-
 The `facet_wrap` layout puts parameters in rows and outputs in columns
 
 ``` r
-
 sens_plot(out, layout = "facet_wrap")
 ```
 
@@ -216,7 +202,6 @@ sens_plot(out, layout = "facet_wrap")
 The `facet_grid` layout puts outputs in rows and parameters in columns
 
 ``` r
-
 sens_plot(out, layout = "facet_grid")
 ```
 
@@ -226,7 +211,6 @@ You can also plot this in “grid” format, where the actual parameter
 values are shown in the legend
 
 ``` r
-
 sens_plot(out, dv_name = "CP", grid = TRUE)
 ```
 
@@ -235,7 +219,6 @@ sens_plot(out, dv_name = "CP", grid = TRUE)
 Or look at multiple outputs
 
 ``` r
-
 out %>% 
   select_sens(dv_name = "RESP,CP") %>% 
   sens_plot(grid = TRUE) %>% 
@@ -247,7 +230,6 @@ out %>%
 Try a different palette
 
 ``` r
-
 sens_plot(
   out, 
   "CP", 

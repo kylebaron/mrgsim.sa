@@ -16,7 +16,7 @@ denest(x, keep_id = FALSE)
 
 - keep_id:
 
-  if `FALSE` then the `ID` column is removed .
+  if `FALSE` then the `ID` column is removed.
 
 ## Value
 

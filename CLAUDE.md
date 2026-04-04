@@ -90,7 +90,6 @@ accepts `method=` (“factor”, “cv”, “range”, “manual”) and `vary=
 ### Typical workflow
 
 ``` r
-
 mod %>%
   select_par(CL, VC) %>%     # tidyselect on model parameters
   parseq_fct(.n = 8) %>%     # attach sequences (factor method)

@@ -36,7 +36,7 @@ select_par(mod, CL, VC)
 #> 
 #> --------------  source: housemodel.cpp  --------------
 #> 
-#>   project: /Users/kyleb/ren...solve/project
+#>   project: /home/runner/wor...solve/project
 #>   shared object: mrgsolve 
 #> 
 #>   time:          start: 0 end: 120 delta: 0.25

@@ -12,11 +12,11 @@ parseq_cv(mod, ..., .cv = 30, .n = 5, .nsd = 2, .digits = NULL)
 
 - mod:
 
-  a model object.
+  mrgsolve model object.
 
 - ...:
 
-  model parameter names.
+  unquoted parameter names.
 
 - .cv:
 

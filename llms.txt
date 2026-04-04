@@ -4,17 +4,15 @@ A simple, clean workflow for sensitivity analysis with mrgsolve.
 
 ------------------------------------------------------------------------
 
-\
+  
 
 ``` r
-
 library(mrgsim.sa)
 ```
 
 Models in mrgsolve have “parameters” associated with them.
 
 ``` r
-
 mod <- modlib("pk1", end = 48, delta = 0.1)
 
 param(mod)
@@ -42,7 +40,6 @@ of parameter values. In this example, we vary `CL` and `V`, each one at
 a time.
 
 ``` r
-
 out <- 
   mod %>% 
   ev(amt = 100) %>% 
@@ -64,7 +61,6 @@ the “reference”.
 The simulated data is returned in a long format
 
 ``` r
-
 out
 ```
 
@@ -86,7 +82,6 @@ method. You can plot with a more quantitative color scale and legend
 using `grid = TRUE`.
 
 ``` r
-
 sens_plot(out, "CP", grid = TRUE)
 ```
 
@@ -99,7 +94,6 @@ over ten years at different “burst” size, or the number of HIV particles
 released when one cell lyses.
 
 ``` r
-
 mod <- mread("hiv", "inst/example")
 
 mod %>% 
@@ -116,7 +110,6 @@ mod %>%
 The model is rifampicin PBPK.
 
 ``` r
-
 mod <- mread("inst/example/rifampicin.cpp", delta = 0.1)
 ```
 
@@ -125,7 +118,6 @@ mod <- mread("inst/example/rifampicin.cpp", delta = 0.1)
 ```
 
 ``` r
-
 sims <- 
   mod %>% 
   ev(amt = 600) %>% 
@@ -152,7 +144,6 @@ here, which generates lower and upper bounds for the range using 50%
 coefficient of variation.
 
 ``` r
-
 out <- 
   mod %>% 
   update(outvars = "Ccentral") %>%
@@ -177,7 +168,6 @@ out
 ```
 
 ``` r
-
 sens_plot(out, "Ccentral")
 ```
 
@@ -194,7 +184,6 @@ the output changes for a unit change in the parameter. The “sensitivity”
 is plotted over time.
 
 ``` r
-
 mod <- modlib("pk2", delta = 0.1, end = 48)
 
 doses <- ev(amt = 100)
@@ -217,7 +206,6 @@ out
 ```
 
 ``` r
-
 lsa_plot(out)
 ```
 

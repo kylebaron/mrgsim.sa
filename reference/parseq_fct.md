@@ -14,7 +14,7 @@ parseq_factor(mod, ..., .n = 5, .factor = 2, .geo = TRUE, .digits = NULL)
 
 - mod:
 
-  a model object.
+  mrgsolve model object.
 
 - ...:
 

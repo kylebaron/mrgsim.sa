@@ -2,6 +2,8 @@
 
 ## mrgsim.sa 0.3.0
 
+CRAN release: 2026-04-02
+
 - Add `palette` argument to
   [`sens_plot()`](https://kylebaron.github.io/mrgsim.sa/reference/sens_plot.md)
   for both `sens_each` and `sens_grid` output, allowing users to pass a

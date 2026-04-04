@@ -67,7 +67,7 @@ sens_plot(
 
 - logy:
 
-  if `TRUE`, y-axis is transformed to log scale
+  if `TRUE`, y-axis is transformed to log scale.
 
 - ncol:
 
