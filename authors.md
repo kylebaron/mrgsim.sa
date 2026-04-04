@@ -7,7 +7,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/kylebaron/mrgsim.sa/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/kylebaron/mrgsim.sa/blob/0.3.0/DESCRIPTION)
 
 Baron K (2026). *mrgsim.sa: Sensitivity Analysis with 'mrgsolve'*. R
 package version 0.3.0, <https://github.com/kylebaron/mrgsim.sa>.
