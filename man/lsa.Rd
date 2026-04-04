@@ -17,7 +17,7 @@ lsa_plot(x, ...)
 \item{var}{output names (compartment or capture) as character vector
 or comma-separated string.}
 
-\item{fun}{generating simulated for sensitivity analysis (see details).}
+\item{fun}{a function for generating simulated output for sensitivity analysis (see details).}
 
 \item{eps}{parameter change value for sensitivity analysis.}
 
@@ -32,7 +32,7 @@ A tibble with class \code{lsa}.
 Perform local sensitivity analysis
 }
 \examples{
-mod <- mrgsolve::house(delta=0.1)
+mod <- mrgsolve::house(delta = 0.1, end = 48)
 
 par <- "CL,VC,KA"
 
@@ -40,9 +40,9 @@ var <- "CP"
 
 dose <- ev(amt = 100)
 
-fun <- function(mod, ...) mrgsolve::mrgsim_e(mod, dose, output="df")
+fun <- function(mod, ...) mrgsolve::mrgsim_e(mod, dose, output = "df")
 
-out <- lsa(mod, par, var, fun)
+out <- lsa(mod, par, var, events = dose)
 
 head(out)
 

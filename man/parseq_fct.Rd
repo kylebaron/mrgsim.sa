@@ -10,7 +10,7 @@ parseq_fct(mod, ..., .n = 5, .factor = 2, .geo = TRUE, .digits = NULL)
 parseq_factor(mod, ..., .n = 5, .factor = 2, .geo = TRUE, .digits = NULL)
 }
 \arguments{
-\item{mod}{a model object.}
+\item{mod}{mrgsolve model object.}
 
 \item{...}{unquoted parameter names.}
 

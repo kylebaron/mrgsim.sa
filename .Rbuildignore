@@ -14,3 +14,5 @@ inst/covr
 ^\.github$
 ^_pkgdown\.yml$
 CLAUDE\.md
+^docs$
+^pkgdown$

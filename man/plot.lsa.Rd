@@ -4,15 +4,19 @@
 \alias{plot.lsa}
 \title{Plot a lsa object}
 \usage{
-\method{plot}{lsa}(x, y = NULL, pal = NULL, ...)
+\method{plot}{lsa}(x, y = NULL, palette = NULL, pal = NULL, ...)
 }
 \arguments{
 \item{x}{output from \code{\link[=lsa]{lsa()}}.}
 
 \item{y}{not used.}
 
-\item{pal}{a color palette passed to \code{\link[ggplot2:scale_brewer]{ggplot2::scale_color_brewer()}}; use
-\code{NULL} to use default ggplot color scale.}
+\item{palette}{a discrete color scale object, such as one returned by
+\code{\link[ggplot2:scale_brewer]{ggplot2::scale_color_brewer()}} or \code{\link[ggplot2:scale_manual]{ggplot2::scale_color_manual()}}. When
+\code{NULL} (default), a palette is chosen automatically based on the number of
+parameters.}
+
+\item{pal}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}; please use \code{palette} instead.}
 
 \item{...}{not used.}
 }

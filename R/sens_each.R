@@ -177,7 +177,7 @@ d_mrgsim_ <- function(x, mod, data, ...) {
 
 #' Coerce sens_each output to data frame
 #' 
-#' @param x a `sense_each` object.
+#' @param x a `sens_each` object.
 #' @param row.names not used.
 #' @param optional not used.
 #' @param ... not used.
@@ -202,7 +202,7 @@ as_tibble.sens_each <- function(x, row.names = NULL, optional = FALSE,
 #' Unnest a sens_each object
 #' 
 #' @param x a sens_each object.
-#' @param keep_id if `FALSE` then the `ID` column is removed .
+#' @param keep_id if `FALSE` then the `ID` column is removed.
 #' @return
 #' `x` is returned after unnesting and possible modification.
 #' @keywords internal

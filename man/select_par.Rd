@@ -11,6 +11,10 @@ select_par(mod, ...)
 
 \item{...}{unquoted parameter names.}
 }
+\value{
+The model object with the selected parameters stored for use by
+\code{\link[=parseq_fct]{parseq_fct()}}, \code{\link[=parseq_cv]{parseq_cv()}}, \code{\link[=parseq_range]{parseq_range()}}, or \code{\link[=parseq_manual]{parseq_manual()}}.
+}
 \description{
 Identify parameters in a model for sensitivity analysis
 }

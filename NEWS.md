@@ -1,4 +1,28 @@
-# mrgsim.sa (development version)
+# mrgsim.sa 0.3.0
+
+- Add `palette` argument to `sens_plot()` for both `sens_each` and `sens_grid`
+  output, allowing users to pass a  discrete color scale (e.g., from
+  ggplot2 or ggsci). The default palette uses lattice/trellis colors for small
+  numbers of levels and `hcl.colors(palette = "Dark 2")` for larger sets (#13).
+
+- Add `group` and `facet` arguments to `sens_plot()` for `sens_grid()` output
+  to control which sensitivity variable is used for within-panel color grouping
+  and which variable(s) appear in the facet strips.
+
+- Add `xlab` and `ylab` arguments to `sens_plot()` for `sens_grid()` output
+  (#15).
+
+- `ylab` can now be a vector; the length must match the length of `dv_name`
+  when multiple dependent variables are requested (#15).
+
+- Add `palette` argument to `lsa_plot()` allowing users to pass a discrete 
+  color scale; the `pal` argument is deprecated; use `palette` instead.
+
+## Bugs Fixed
+
+- Fixed bug where sensitivity parameters were carried into the
+  simulated output when running `sens_grid()` and causing a naming
+  conflict (#14).
 
 # mrgsim.sa 0.2.0
 

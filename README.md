@@ -10,13 +10,11 @@ A simple, clean workflow for sensitivity analysis with mrgsolve.
 library(mrgsim.sa)
 ```
 
-``` r
-mod <- mread("pk1", modlib(), end = 48, delta = 0.1)
-```
-
-    . Building pk1 ... done.
+Models in mrgsolve have “parameters” associated with them.
 
 ``` r
+mod <- modlib("pk1", end = 48, delta = 0.1)
+
 param(mod)
 ```
 
@@ -26,18 +24,25 @@ param(mod)
     .  CL   1     | V    20   
     .  KA   1     | .    .
 
+Parameters are name-value pairs that are usually involved in controlling
+how the system advances in time. Parameters could be clearances (`CL`),
+rate constants (`k`), pharmacodynamic parameters (`EC50`) or even
+covariates (`WT` … weight). mrgsim.sa does one-at-a-time sensitivity
+analysis on parameters in your model.
+
 ## PK model sensitivity analysis by factor
 
 The nominal (in model) parameter value is divided and multiplied by a
 factor, generating minimum and maximum bounds for simulating a sequence
-of parameter values
+of parameter values. In this example, we vary `CL` and `V`, each one at
+a time.
 
 ``` r
 out <- 
   mod %>% 
   ev(amt = 100) %>% 
   select_par(CL, V) %>% 
-  parseq_fct(.n=8) %>% 
+  parseq_fct(.n = 5) %>% 
   sens_each() 
 
 sens_plot(out, "CP")
@@ -45,13 +50,19 @@ sens_plot(out, "CP")
 
 ![](man/figures/README-unnamed-chunk-4-1.png)<!-- -->
 
+In this sensitivity analysis, `CL` is varied at the value of `V` in the
+model parameter list and `V` is varied at the value of `CL` in the model
+parameter list. The black dashed line indicates the model prediction
+based on `CL` and `V` both as they are in the parameter list; this is
+the “reference”.
+
 The simulated data is returned in a long format
 
 ``` r
 out
 ```
 
-    . # A tibble: 23,232 × 7
+    . # A tibble: 14,520 × 7
     .    case  time p_name p_value dv_name dv_value ref_value
     . * <int> <dbl> <chr>    <dbl> <chr>      <dbl>     <dbl>
     . 1     1     0 CL         0.5 EV             0         0
@@ -59,9 +70,12 @@ out
     . 3     1     0 CL         0.5 CENT           0         0
     . 4     1     0 CL         0.5 CENT           0         0
     . 5     1     0 CL         0.5 CP             0         0
-    . # ℹ 23,227 more rows
+    . # ℹ 14,515 more rows
 
-And you can plot with more informative color scale and legend
+The previous plot focused on relative changes in the PK profile for
+“lower” and “higher” values of `CL` and `V` according to the `parseq_`
+method. You can plot with a more quantitative color scale and legend
+using `grid = TRUE`.
 
 ``` r
 sens_plot(out, "CP", grid = TRUE)
@@ -71,17 +85,13 @@ sens_plot(out, "CP", grid = TRUE)
 
 ## HIV viral dynamic model
 
-We look at latent infected cell pool development over ten years at
-different “burst” size, or the number of HIV particles released when one
-cell lyses.
+In another example, we look at latent infected cell pool development
+over ten years at different “burst” size, or the number of HIV particles
+released when one cell lyses.
 
 ``` r
 mod <- mread("hiv", "inst/example")
-```
 
-    . Building hiv ... done.
-
-``` r
 mod %>% 
   update(end = 365*10) %>%
   parseq_range(N = c(900,1500), .n = 10) %>%
@@ -96,46 +106,47 @@ mod %>%
 The model is rifampicin PBPK.
 
 ``` r
-mod <- mread("inst/example/rifampicin.cpp") %>% update(delta = 0.1)
+mod <- mread("inst/example/rifampicin.cpp", delta = 0.1)
 ```
 
     . Building rifampicin_cpp ... done.
 
 ``` r
-mod %>% 
+sims <- 
+  mod %>% 
   ev(amt = 600) %>% 
   parseq_manual(
     SFKp = seq_fct(.$SFKp, n = 20), 
     Kp_muscle = seq_even(0.001, 0.1, n = 6)
-  ) %>% 
-  sens_each() %>% 
-  sens_plot("Ccentral")
+  ) %>% sens_each() 
+
+sens_plot(sims, "Ccentral")
 ```
 
 ![](man/figures/README-unnamed-chunk-8-1.png)<!-- -->
 
 # Simulate a grid
 
-To this point, we have always used `sens_each` so that each value for
+To this point, we have always used `sens_each()` so that each value for
 each parameter is simulated one at a time. Now, simulate the grid or all
-combinations.
+combinations of the sensitivity parameters.
 
-We use `parseq_cv` here, which generates lower and upper bounds for the
-range using 50% coefficient of variation.
+We use `parseq_cv()` here, which generates lower and upper bounds for
+the range using 50% coefficient of variation.
 
 ``` r
 out <- 
   mod %>% 
   update(outvars = "Ccentral") %>%
   ev(amt = 600) %>% 
-  parseq_cv(fBCLint_all_kg, .n = 7) %>% 
+  parseq_cv(fBCLint_all_kg, .n = 5) %>% 
   parseq_cv(SFKp, Kp_muscle, .n = 3) %>% 
   sens_grid(recsort = 3) 
 
 out
 ```
 
-    . # A tibble: 15,372 × 8
+    . # A tibble: 10,980 × 8
     .    case fBCLint_all_kg  SFKp Kp_muscle  time dv_name  dv_value ref_value
     . * <int>          <dbl> <dbl>     <dbl> <dbl> <chr>       <dbl>     <dbl>
     . 1     1          0.138  3.65    0.0520   0   Ccentral     0         0   
@@ -143,31 +154,35 @@ out
     . 3     1          0.138  3.65    0.0520   0   Ccentral     0         0   
     . 4     1          0.138  3.65    0.0520   0   Ccentral     0         0   
     . 5     1          0.138  3.65    0.0520   0.1 Ccentral     3.66      3.14
-    . # ℹ 15,367 more rows
+    . # ℹ 10,975 more rows
 
 ``` r
-out %>% sens_plot("Ccentral")
+sens_plot(out, "Ccentral")
 ```
 
 ![](man/figures/README-unnamed-chunk-9-1.png)<!-- -->
 
+The output is more complicated because all the selected parameters have
+varying “sensitivity” values.
+
 # Local sensitivity analysis
 
-``` r
-mod <- modlib("pk2", delta = 0.1, end = 72)
-```
+In local sensitivity analysis, we vary each sensitivity parameter a very
+small amount around the parameter list (model) value and see how much
+the output changes for a unit change in the parameter. The “sensitivity”
+is plotted over time.
 
-    . Building pk2 ... done.
-
 ``` r
+mod <- modlib("pk2", delta = 0.1, end = 48)
+
 doses <- ev(amt = 100)
 
-out <- lsa(mod, var = "CP", par = "CL,V2,Q", events = doses)
+out <- lsa(mod, var = "CP", par = "CL,V2,Q,V3", events = doses)
 
 out
 ```
 
-    . # A tibble: 2,166 × 5
+    . # A tibble: 1,928 × 5
     .    time dv_name dv_value p_name     sens
     .   <dbl> <chr>      <dbl> <chr>     <dbl>
     . 1   0   CP         0     CL      0      
@@ -175,10 +190,10 @@ out
     . 3   0.1 CP         0.472 CL     -0.00254
     . 4   0.2 CP         0.893 CL     -0.00514
     . 5   0.3 CP         1.27  CL     -0.00782
-    . # ℹ 2,161 more rows
+    . # ℹ 1,923 more rows
 
 ``` r
-lsa_plot(out, pal = NULL)
+lsa_plot(out)
 ```
 
 ![](man/figures/README-unnamed-chunk-10-1.png)<!-- -->

@@ -19,10 +19,11 @@ vignette: >
 library(dplyr)
 library(mrgsim.sa)
 library(patchwork)
+library(ggplot2)
 ```
 
 ```{r, include = FALSE}
-knitr::opts_chunk$set(fig.height = 4, comment = ".")
+knitr::opts_chunk$set(fig.height = 4, comment = ".", fig.align = "center")
 ```
 
 
@@ -103,7 +104,7 @@ count(out, p_name, dv_name)
 We pass this output object to `sens_plot()` and name the variable we want 
 to plot
 
-```{r}
+```{r, fig.height = 4, fig.width = 7}
 sens_plot(out, "RESP")
 ```
 
@@ -128,7 +129,7 @@ mod %>%
 
 Or we can look at how `VC` influences approach to steady state
 
-```{r, fig.height = 4}
+```{r, fig.height = 4, fig.width = 7}
 out <- 
   mod %>% 
   ev(amt = 100, ii = 24, addl = 10) %>%
@@ -146,35 +147,47 @@ We can also look at multiple outputs on the same plot
 out <- 
   mod %>% 
   ev(amt = 100) %>%
-  parseq_fct(CL, KA, .n = 3) %>% 
-  sens_each(end = 36)
+  parseq_fct(CL, KA, .n = 4) %>% 
+  sens_each(end = 96)
 ```
 
 
 The `facet_wrap` layout puts parameters in rows and outputs in columns
 
-```{r, fig.height = 5}
+```{r, fig.height = 6, fig.width = 7}
 sens_plot(out, layout = "facet_wrap")
 ```
 
 The `facet_grid` layout puts outputs in rows and parameters in columns
 
-```{r, fig.height = 5}
+```{r, fig.height = 6, fig.width = 7}
 sens_plot(out, layout = "facet_grid")
 ```
 
 You can also plot this in "grid" format, where the actual parameter values 
 are shown in the legend
 
-```{r}
+```{r, fig.height = 4, fig.width = 7}
 sens_plot(out, dv_name = "CP", grid = TRUE)
 ```
 
 Or look at multiple outputs
 
-```{r, fig.height = 6}
+```{r, fig.height = 6, fig.width = 7}
 out %>% 
   select_sens(dv_name = "RESP,CP") %>% 
   sens_plot(grid = TRUE) %>% 
   patchwork::wrap_plots(ncol = 1)
 ```
+
+Try a different palette
+
+```{r, fig.height = 4, fig.width = 7, eval = requireNamespace("ggsci")}
+sens_plot(
+  out, 
+  "CP", 
+  grid = TRUE,
+  palette = ggsci::scale_color_atlassian()
+)
+```
+

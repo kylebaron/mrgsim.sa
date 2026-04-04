@@ -21,6 +21,7 @@ sens_plot(data, ...)
   ylab = NULL,
   layout = c("default", "facet_grid", "facet_wrap", "list"),
   grid = FALSE,
+  palette = NULL,
   ...
 )
 
@@ -34,6 +35,9 @@ sens_plot(data, ...)
   plot_ref = TRUE,
   xlab = "time",
   ylab = dv_name,
+  group = NULL,
+  facet = NULL,
+  palette = NULL,
   ...
 )
 }
@@ -48,7 +52,7 @@ string; if \code{NULL}, then the unique values of \code{dv_name} in \code{data} 
 
 \item{p_name}{parameter names to plot; can be a comma-separates string.}
 
-\item{logy}{if \code{TRUE}, y-axis is transformed to log scale}
+\item{logy}{if \code{TRUE}, y-axis is transformed to log scale.}
 
 \item{ncol}{passed to \code{\link[ggplot2:facet_wrap]{ggplot2::facet_wrap()}}.}
 
@@ -69,6 +73,19 @@ multiple dependent variables; see \code{Details}.}
 \item{grid}{if \code{TRUE}, plots from the \code{sens_each} method
 will be arranged on a page with \code{\link[patchwork:wrap_plots]{patchwork::wrap_plots()}}; see the \code{ncol}
 argument.}
+
+\item{palette}{a discrete color scale; like what you get from calling
+\code{\link[ggplot2:scale_colour_discrete]{ggplot2::scale_color_discrete()}}. For \code{sens_each}, this is only applied
+when \code{grid = TRUE}; it is ignored for all other layouts, which use a
+continuous viridis color scale.}
+
+\item{group}{sensitivity variable for within-panel grouping; defaults to the
+first sensitivity variable.}
+
+\item{facet}{sensitivity variable for faceting when 3 sensitivity variables
+are being plotted; the \code{facet} variable will run left to right and the other
+variable will run up and down; this argument is ignored / not needed when
+there are fewer than 3 sensitivity variables.}
 }
 \value{
 A \code{ggplot} object when one \code{dv_name} is specified or a list of \code{ggplot}
@@ -100,8 +117,32 @@ mod <- mrgsolve::house()
 
 dose <- mrgsolve::ev(amt = 100)
 
-out <- sens_run(mod, sargs = list(events = dose),  par = "CL,VC") 
+out <- sens_run(
+  mod, 
+  sargs = list(events = dose),  
+  par = "CL,VC"
+) 
 
-sens_plot(out, dv_name = "CP")
+sens_plot(out, "CP")
+
+out <- sens_run(
+  mod, 
+  sargs = list(events = dose), 
+  par = "CL,VC", 
+  vary  = "grid", 
+  .n = 3
+)
+
+sens_plot(out, "CP")
+
+sens_plot(out, "CP", group = "VC")
+
+if(requireNamespace("ggsci")) {
+
+  color <- ggsci::scale_color_atlassian()
+  
+  sens_plot(out, "CP", palette = color)
+
+}
 
 }

@@ -23,7 +23,7 @@ sens_grid_data(mod, data, idata = NULL, ...)
 \item{idata}{included only to prevent users from passing through; the
 function will create an \code{idata_set} if appropriate.}
 
-\item{...}{passed to \code{\link[mrgsolve:mrgsim_variants]{mrgsolve::mrgsim_d()}}.}
+\item{...}{passed to \code{\link[mrgsolve:mrgsim]{mrgsolve::mrgsim()}}.}
 
 \item{data}{a simulation input data set (see \code{\link[mrgsolve:data_set]{mrgsolve::data_set()}}).}
 }

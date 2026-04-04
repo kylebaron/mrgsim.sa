@@ -7,9 +7,9 @@
 parseq_cv(mod, ..., .cv = 30, .n = 5, .nsd = 2, .digits = NULL)
 }
 \arguments{
-\item{mod}{a model object.}
+\item{mod}{mrgsolve model object.}
 
-\item{...}{model parameter names.}
+\item{...}{unquoted parameter names.}
 
 \item{.cv}{a coefficient of variation used to determine
 range of test parameters.}

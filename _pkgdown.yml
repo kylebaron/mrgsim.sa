@@ -1,7 +1,5 @@
+url: https://kylebaron.github.io/mrgsim.sa/
 template:
   bootstrap: 5
 title: mrgsolve
-# navbar:
-#   right:
-#   - icon: fa-github fa-lg
 

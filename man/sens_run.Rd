@@ -35,6 +35,10 @@ all combinations of parameters.}
 \item{sargs}{a named list of arguments passed to \code{\link[=sens_each]{sens_each()}} or
 \code{\link[=sens_grid]{sens_grid()}} and eventually to \code{\link[mrgsolve:mrgsim]{mrgsolve::mrgsim()}}.}
 }
+\value{
+A tibble-like object with class \code{sens_each} or \code{sens_grid}, depending on
+the value of \code{vary}.
+}
 \description{
 Run ad-hoc parameter sensitivity analyses with mrgsolve
 }
